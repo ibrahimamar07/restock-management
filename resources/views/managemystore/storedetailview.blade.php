@@ -1,3 +1,4 @@
+{{-- ibrahim amar alfanani 5026231195 --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -147,7 +148,7 @@
 
         <div class="px-3">
             <div class="store-header">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect fill='%23555555' width='120' height='120'/%3E%3C/svg%3E" alt="Store" class="store-img">
+                <img src="img\storeimage.png" alt="Store" class="store-img">
                 <div class="store-info">
                     <h1>IS Store</h1>
                     <p><i class="bi bi-geo-alt-fill"></i> Departemen Sistem Informasi, ITS</p>

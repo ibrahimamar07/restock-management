@@ -14,5 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return view('managemystore.mystoreview');
+});
+Route::get('/store/add', function () {
+    return view('managemystore.additemstoreview');
+});
+
+Route::get('/store/setup', function () {
+    return view('managemystore.setupstoreview');
+});
+Route::get('/store/edit', function () {
     return view('managemystore.editstoreview');
+});
+Route::get('/store/detail', function () {
+    return view('managemystore.storedetailview');
 });

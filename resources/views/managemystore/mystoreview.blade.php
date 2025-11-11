@@ -1,3 +1,4 @@
+{{-- ibrahim amar alfanani 5026231195 --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,8 +127,8 @@
             <h1 class="main-title">My Store</h1>
             <p class="subtitle">This is where you set up your store for the restockers to see</p>
 
-            <a href="#" class="store-card">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect fill='%23cccccc' width='60' height='60'/%3E%3C/svg%3E" alt="Store" class="store-img">
+            <a href="" class="store-card">
+                <img src="img\storeimage.png" alt="Store" class="store-img">
                 <div class="store-info flex-grow-1">
                     <h3>IS Store</h3>
                     <p><i class="bi bi-geo-alt-fill"></i> Departemen Sistem Informasi, ITS</p>

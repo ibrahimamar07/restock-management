@@ -1,3 +1,4 @@
+{{-- ibrahim amar alfanani 5026231195 --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,7 +108,7 @@
             <h1 class="main-title">Let's set up your store!</h1>
 
             <div class="store-img-container">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Crect fill='%23555555' width='180' height='180'/%3E%3C/svg%3E" alt="Store Image">
+                <img src="img\storeimage2.png" alt="Store Image">
             </div>
 
             <div class="mb-3">
