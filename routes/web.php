@@ -29,3 +29,6 @@ Route::get('/store/edit', function () {
 Route::get('/store/detail', function () {
     return view('managemystore.storedetailview');
 });
+Route::get('/store/browse', function () {
+    return view('managemystore.browsestoreview.storelistview');
+});
