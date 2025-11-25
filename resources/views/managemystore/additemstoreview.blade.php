@@ -1,4 +1,5 @@
 {{-- ibrahim amar alfanani 5026231195 --}}
+{{-- resources/views/additemstoreview.blade.php --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,131 +8,12 @@
     <title>Add Items</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
-        body {
-            background: linear-gradient(180deg, #1a2847 0%, #0d1829 100%);
-            min-height: 100vh;
-            color: white;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-        .status-bar {
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .back-btn {
-            width: 40px;
-            height: 40px;
-            border: 2px solid #5dd9e8;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #5dd9e8;
-            text-decoration: none;
-            font-size: 20px;
-        }
-        .main-title {
-            font-size: 40px;
-            font-weight: 700;
-            color: #5dd9e8;
-            line-height: 1.2;
-            margin-top: 20px;
-            margin-bottom: 30px;
-        }
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: white;
-        }
-        .item-card {
-            background: #c8e9ed;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 15px;
-            position: relative;
-        }
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-        .item-info h3 {
-            font-size: 24px;
-            font-weight: 700;
-            margin: 0;
-            color: #1a7a8a;
-        }
-        .item-info p {
-            margin: 0;
-            font-size: 14px;
-            color: #1a7a8a;
-        }
-        .item-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .edit-btn {
-            background: #9b9fc9;
-            border: none;
-            border-radius: 10px;
-            padding: 8px 15px;
-            font-size: 14px;
-            font-weight: 600;
-            color: white;
-        }
-        .checkbox-custom {
-            width: 30px;
-            height: 30px;
-            border: 3px solid #1a7a8a;
-            border-radius: 5px;
-            background: white;
-            cursor: pointer;
-        }
-        .add-item-btn {
-            background: transparent;
-            border: none;
-            width: 100%;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .add-icon {
-            width: 60px;
-            height: 60px;
-            border: 4px solid #0d1829;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            color: #0d1829;
-            background: transparent;
-        }
-        .finish-btn {
-            background: #1a7a8a;
-            border: none;
-            border-radius: 50px;
-            padding: 18px;
-            font-size: 18px;
-            font-weight: 700;
-            color: white;
-            width: 100%;
-            margin-top: 30px;
-        }
-        .finish-btn:hover {
-            background: #156873;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('managemystore_css/additemstoreview.css') }}">
 </head>
 <body>
     <div class="container">
-
         <div class="px-3 py-3">
-            <a href="#" class="back-btn">
+            <a href="{{ route('stores.show', $store->idStore) }}" class="back-btn">
                 <i class="bi bi-chevron-left"></i>
             </a>
         </div>
@@ -139,25 +21,32 @@
         <div class="px-3">
             <h1 class="main-title">Now let's add some items you want to get restocked!</h1>
 
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+
             <p class="section-title">Add Item</p>
 
             <div class="item-card">
-                <div class="item-header">
-                    <div class="item-info">
-                        <h3>Beng-beng</h3>
-                        <p>Price: Rp. 2.000,00</p>
-                    </div>
-                    <div class="item-actions">
-                        <button class="edit-btn">Edit</button>
-                        <div class="checkbox-custom"></div>
-                    </div>
-                </div>
-                <button class="add-item-btn">
-                    <div class="add-icon">+</div>
-                </button>
+                <form action="{{ route('items.store', $store->idStore) }}" method="POST">
+                    @csrf
+                    <input type="text" name="itemName" class="form-control" placeholder="Item Name (e.g., Beng-beng)" required>
+                    @error('itemName')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                    
+                    <input type="number" name="itemPrice" class="form-control" placeholder="Price (e.g., 2000)" required>
+                    @error('itemPrice')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                    
+                    <button type="submit" class="add-item-btn">
+                        <div class="add-icon">+</div>
+                    </button>
+                </form>
             </div>
 
-            <button class="finish-btn">Finish</button>
+            <a href="{{ route('stores.show', $store->idStore) }}" class="finish-btn" style="text-align: center; display: block; text-decoration: none;">Finish</a>
         </div>
     </div>
 
