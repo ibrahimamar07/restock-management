@@ -13,6 +13,8 @@ use App\Http\Requests\Store\UpdateRequest;
 use App\Services\StoreImageService; 
 
 class StoreController extends Controller
+
+//kalau mau ubah controller ini lihat dulu validasi di StoreRequest dan UpdateRequest jangan tambah validasi langsung disini!!!
 {
     protected $imageService;
 
@@ -24,17 +26,15 @@ class StoreController extends Controller
     
    
     private function getUserId()
-    {
-        //buat testing sementara
-        return Auth::check() ? Auth::id() : 1; 
-        
+    {  
+        return Auth::id();  
     }
 
     // Display list of user's stores
     public function index()
     {
         $userId = $this->getUserId();
-        $stores = Store::where('idUser', $userId)->get();
+        $stores = Store::where('idUser', $userId)->paginate(10);
         return view('managemystore.mystoreview', compact('stores'));
     }
 
@@ -72,10 +72,9 @@ class StoreController extends Controller
      */
     public function show(Store $store) 
     {
-        if ($store->idUser !== $this->getUserId()) {
-            abort(403, 'Unauthorized action.');
-        }
-        return view('managemystore.storedetailview', compact('store'));
+         $this->authorize('manage', $store);
+         $items = $store->items()->paginate(10);
+        return view('managemystore.storedetailview', compact('store', 'items'));
     }
 
     /**
@@ -85,26 +84,22 @@ class StoreController extends Controller
     public function edit(Store $store)
     {
         
-        if ($store->idUser !== $this->getUserId()) {
-            abort(403, 'Unauthorized action.');
-        }
+        $this->authorize('manage', $store);
         
         return view('managemystore.editstoreview', compact('store'));
     }
 
     /**
-     * Update store (Menggunakan Route Model Binding dan Form Request)
+     * Update store ( Route Model Binding dan Form Request)
      * @param StoreUpdateRequest $request
      * @param Store $store
      */
     public function update(UpdateRequest $request, Store $store)
     {
-        if ($store->idUser !== $this->getUserId()) {
-            abort(403, 'Unauthorized action.');
-        }
+         $this->authorize('manage', $store);
 
         $data = $request->validated();
-        $imageName = $store->storePic; // Gunakan nama gambar lama secara default
+        $imageName = $store->storePic; 
 
         // 2. Logika Pengunggahan dan Penghapusan Gambar Baru
         if ($request->hasFile('storePic')) {
@@ -131,9 +126,7 @@ class StoreController extends Controller
      */
     public function destroy(Store $store)
     {
-        if ($store->idUser !== $this->getUserId()) {
-            abort(403, 'Unauthorized action.');
-        }
+        $this->authorize('manage', $store);
         
         // 2. Hapus Gambar  Sebelum Menghapus Record Database 
         $this->imageService->deleteImage($store->storePic);

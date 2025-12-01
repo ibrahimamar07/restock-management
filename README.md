@@ -10,7 +10,7 @@
 
 | Name                        | NRP        | username github     |
 | --------------------------- | ---------- | ------------------- |
-| Muhammad Kevin Checa Satrio | 5026221083 |
+| Muhammad Kevin Checa Satrio | 5026221083 | KevinSatrio         |
 | Nathaniel Lado Hadi Winata  | 5026231019 | nathaniellhw        |
 | Felix Prajna Santoso        | 5026231027 | felixprajna-santoso |
 | Komang Alit Pujangga        | 5026231115 | mangalit            |

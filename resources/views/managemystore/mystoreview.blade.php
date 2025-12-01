@@ -13,7 +13,7 @@
 <body>
     <div class="container">
         <div class="px-3 py-3">
-            <a href="#" class="back-btn">
+            <a href="{{ route('home') }}" class="back-btn">
                 <i class="bi bi-chevron-left"></i>
             </a>
         </div>

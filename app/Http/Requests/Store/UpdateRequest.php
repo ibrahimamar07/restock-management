@@ -29,4 +29,12 @@ class UpdateRequest extends FormRequest
             'storePic' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'storeName.required' => 'Nama Store wajib diisi.',
+            'storeAddress.required' => 'Alamat wajib diisi.',
+        ];
+    }
 }

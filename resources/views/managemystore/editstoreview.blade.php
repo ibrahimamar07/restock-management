@@ -29,7 +29,7 @@
                     <img id="storeImagePreview" src="#" alt="Store Image Preview" style="display: none;">
                     </label>
         
-                     <input type="file" name="storePic" id="storePicInput" class="form-control d-none" accept="image/*" required>
+                     <input type="file" name="storePic" id="storePicInput" class="form-control d-none" accept="image/*">
         
                 @error('storePic')
                     <small class="text-danger d-block mt-2">{{ $message }}</small>

@@ -28,38 +28,98 @@
                 <div class="store-info">
                     <h1>{{ $store->storeName }}</h1>
                     <p><i class="bi bi-geo-alt-fill"></i> {{ $store->storeAddress }}</p>
-                    <a href="{{ route('stores.edit', $store->idStore) }}" class="edit-btn">Edit</a>
+                        <a href="{{ route('stores.edit', $store->idStore) }}" class="edit-btn">Edit Store</a>
                 </div>
             </div>
+            
+            <h2 class="mt-4 mb-3" style="color: #5dd9e8;">Daftar Item</h2>
 
-            @foreach($store->items as $item)
+            @foreach($items as $item)
             <div class="item-card">
                 <div class="item-header">
                     <div class="item-info">
                         <h3>{{ $item->itemName }}</h3>
                         <p>Price: Rp. {{ number_format($item->itemPrice, 0, ',', '.') }}</p>
                     </div>
+                   
                     <div class="item-actions">
+                        
+                        {{-- Tombol Edit Item (Membuka Modal) --}}
+                        <button type="button" class="edit-item-btn" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#editItemModal"
+                            data-item-id="{{ $item->idItem }}"
+                            data-item-name="{{ $item->itemName }}"
+                            data-item-price="{{ $item->itemPrice }}"
+                            data-update-url="{{ route('items.update', $item->idItem) }}">
+                            Edit
+                        </button>
+                        
+                        {{-- Form Delete Item --}}
                         <form action="{{ route('items.destroy', $item->idItem) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="delete-item-btn" onclick="return confirm('Are you sure?')">Delete</button>
+                            <button type="submit" class="delete-item-btn" onclick="return confirm('Apakah Anda yakin ingin menghapus item {{ $item->itemName }}?')">Delete</button>
                         </form>
                     </div>
+                   
                 </div>
             </div>
             @endforeach
 
-            <div class="item-card">
-                <a href="{{ route('items.create', $store->idStore) }}" class="add-item-btn">
-                    <div class="add-icon">
-                        <span style="margin-bottom: 10px;">+</span>
+           
+            <div class="item-card" style="display: flex; justify-content: center; align-items: center; border: 2px dashed #5a5d8a; background: #1a2847;">
+                <a href="{{ route('items.create', $store->idStore) }}" class="add-item-btn" style="color: #5dd9e8; font-weight: bold;">
+                    <div class="add-icon" style="border-color: #5dd9e8; color: #5dd9e8;">
+                        <i class="bi bi-plus-lg"></i>
                     </div>
+                    
                 </a>
+            </div>
+           
+        </div>
+    </div>
+
+    
+    {{-- MODAL EDIT ITEM --}}
+    <div class="modal fade" id="editItemModal" tabindex="-1" aria-labelledby="editItemModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editItemModalLabel">Edit Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{-- Form action akan diisi oleh JavaScript saat modal dibuka --}}
+                <form id="editItemForm" method="POST">
+                    @csrf
+                    @method('PUT') 
+                    
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="edit_itemName" class="form-label">Nama Item</label>
+                            <input type="text" class="form-control @error('itemName') is-invalid @enderror" id="edit_itemName" name="itemName" required>
+                            @error('itemName')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_itemPrice" class="form-label">Harga Item (Rp)</label>
+                            <input type="number" class="form-control @error('itemPrice') is-invalid @enderror" id="edit_itemPrice" name="itemPrice" required min="0">
+                            @error('itemPrice')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="{{ asset('managemystore_js/storedetailview.js') }}"></script>
 </body>
 </html>

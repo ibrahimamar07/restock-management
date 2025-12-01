@@ -8,99 +8,69 @@ use App\Models\Item;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Item\ItemStoreRequest;
+use App\Http\Requests\Item\ItemUpdateRequest;
 
-class itemController extends Controller
+class ItemController extends Controller
 {
-    // Show add items form
-    public function create($storeId)
-    {
-        $store = Store::findOrFail($storeId);
-        
-        // Check if user owns this store (skip untuk testing)
-        // $userId = 1; // Hardcode untuk testing
-        // if ($store->idUser !== $userId) {
-        //     abort(403, 'Unauthorized action.');
-        // }
-       
 
-        $items = Item::where('idStore', $storeId)->get();
-        return view('managemystore.additemstoreview', compact('store', 'items'));
+    /**
+     * Tampilkan form tambah item dan daftar item (Daftar Item Toko).
+     * @param Store $store Menggunakan Route Model Binding
+     */
+    public function create(Store $store) 
+    {
+        // 1. Otorisasi: Pastikan pengguna yang login adalah pemilik toko ini.
+        $this->authorize('manage', $store);
+        
+        return view('managemystore.additemstoreview', compact('store'));
     }
 
-    // Store new item
-    public function store(Request $request, $storeId)
+    /**
+     * Simpan item baru ke toko.
+     * @param ItemStoreRequest $request Menggunakan Form Request untuk validasi
+     * @param Store $store Menggunakan Route Model Binding
+     */
+    public function store(ItemStoreRequest $request, Store $store)
     {
-        $store = Store::findOrFail($storeId);
+        // 1. Otorisasi: Pastikan pengguna yang login adalah pemilik toko ini.
+        $this->authorize('manage', $store);
+
+        // 2. Validasi sudah dilakukan oleh ItemStoreRequest, gunakan validated()
         
-        // Check if user owns this store (skip untuk testing)
-        // $userId = 1; // Hardcode untuk testing
-        // if ($store->idUser !== $userId) {
-        //     abort(403, 'Unauthorized action.');
-        // }
-
-        $request->validate([
-            'itemName' => 'required|string|max:255',
-            'itemPrice' => 'required|integer|min:0'
-        ]);
-
-        Item::create([
-            'idStore' => $storeId,
-            'itemName' => $request->itemName,
-            'itemPrice' => $request->itemPrice
-        ]);
+        // 3. Simpan Item menggunakan relasi store
+        $store->items()->create($request->validated());
 
         return redirect()->back()->with('success', 'Item added successfully!');
     }
 
-    // Show edit item form (you can create a modal or separate page)
-    // public function edit($id)
-    // {
-    //     $item = Item::with('store')->findOrFail($id);
-        
-    //     // Check if user owns this store (skip untuk testing)
-    //     // $userId = 1; // Hardcode untuk testing
-    //     // if ($item->store->idUser !== $userId) {
-    //     //     abort(403, 'Unauthorized action.');
-    //     // }
-
-    //     return view('managemystore.edititemview', compact('item'));
-    // }
-
-    // Update item
-    public function update(Request $request, $id)
+    /**
+     * Update item yang sudah ada.
+     * @param ItemStoreRequest $request Menggunakan Form Request untuk validasi
+     * @param Item $item Menggunakan Route Model Binding
+     */
+    public function update(ItemUpdateRequest $request, Item $item)
     {
-        $item = Item::with('store')->findOrFail($id);
-        
-        // Check if user owns this store (skip untuk testing)
-        // $userId = 1; // Hardcode untuk testing
-        // if ($item->store->idUser !== $userId) {
-        //     abort(403, 'Unauthorized action.');
-        // }
+        // 1. Otorisasi: Pastikan pengguna yang login adalah pemilik toko dari item ini.
+        // Item memiliki relasi ke Store, sehingga saya cek kepemilikan di Store.
+        $this->authorize('manage', $item->store); 
 
-        $request->validate([
-            'itemName' => 'required|string|max:255',
-            'itemPrice' => 'required|integer|min:0'
-        ]);
+        // 2. Update data
+        $item->update($request->validated());
 
-        $item->update([
-            'itemName' => $request->itemName,
-            'itemPrice' => $request->itemPrice
-        ]);
-
+        // Redirect ke detail store
         return redirect()->route('stores.show', $item->idStore)->with('success', 'Item updated successfully!');
     }
 
-    // Delete item
-    public function destroy($id)
+    /**
+     * Hapus item.
+     * @param Item $item Menggunakan Route Model Binding
+     */
+    public function destroy(Item $item)
     {
-        $item = Item::with('store')->findOrFail($id);
+        // 1. Otorisasi: Pastikan pengguna yang login adalah pemilik toko dari item ini.
+        $this->authorize('manage', $item->store); 
         
-        // Check if user owns this store (skip untuk testing)
-        // $userId = 1; // Hardcode untuk testing
-        // if ($item->store->idUser !== $userId) {
-        //     abort(403, 'Unauthorized action.');
-        // }
-
         $storeId = $item->idStore;
         $item->delete();
 
