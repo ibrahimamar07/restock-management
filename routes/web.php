@@ -32,3 +32,50 @@ Route::get('/store/detail', function () {
 Route::get('/store/browse', function () {
     return view('managemystore.browsestoreview.storelistview');
 });
+
+// Muhammad Kevin Checa Satrio - 5026221083
+Route::get('/login', function () {
+    return view('Main.welcome');
+});
+
+Route::get('/register', function () {
+    return view('Main.register');
+});
+
+Route::get('/new-profile', function () {
+    return view('Main.create_profile');
+});
+
+Route::get('/new-method', function () {
+    return view('Main.create_payment_method');
+});
+
+Route::get('/payment-number', function () {
+    return view('Main.payment_number');
+});
+
+Route::get('/home', function () {
+    return view('Main.home');
+});
+
+Route::get('/onboarding', function () {
+    return view('Main.onboarding');
+});
+
+use App\Http\Controllers\UserController;
+
+Route::get('/register', function () {
+    return view('Main.register'); // <-- name of your Blade file
+})->name('register');
+
+Route::post('/register', [UserController::class, 'newUser'])->name('newUser');
+
+Route::post('/login', [UserController::class, 'login'])->name('login');
+
+Route::post('/new-profile', [UserController::class, 'saveProfile'])->name('saveProfile');
+
+Route::post('/new-method', [UserController::class, 'newUserPayment'])->name('savePayment');
+
+Route::post('/finalize-registration', [UserController::class, 'finalizeRegistration'])->name('finalizeRegistration');
+
+
