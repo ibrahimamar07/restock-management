@@ -33,6 +33,20 @@ Route::get('/store/browse', function () {
     return view('managemystore.browsestoreview.storelistview');
 });
 
+//Nathaniel Lado Hadi Winata - 5026231019
+Route::get('/store/invoice', function () {
+    return view('managemystore.invoiceview.createinvoice');
+});
+Route::get('/store/invoice', function () {
+    return view('managemystore.invoiceview.payinvoice');
+});
+Route::get('/store/invoice', function () {
+    return view('managemystore.invoiceview.viewinvoice');
+});
+Route::get('/store/invoice', function () {
+    return view('managemystore.invoiceview.viewinvoicedetail');
+});
+
 // Muhammad Kevin Checa Satrio - 5026221083
 Route::get('/login', function () {
     return view('Main.welcome');
@@ -77,5 +91,8 @@ Route::post('/new-profile', [UserController::class, 'saveProfile'])->name('saveP
 Route::post('/new-method', [UserController::class, 'newUserPayment'])->name('savePayment');
 
 Route::post('/finalize-registration', [UserController::class, 'finalizeRegistration'])->name('finalizeRegistration');
+
+
+
 
 
