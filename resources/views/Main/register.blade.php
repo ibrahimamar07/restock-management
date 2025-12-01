@@ -1,3 +1,4 @@
+<!-- Muhammad Kevin Checa Satrio - 5026221083 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,18 +24,26 @@
   <!-- Form Section -->
   <div class="form-section container">
 
-    <!-- Removed POST form — navigation only -->
-    <div>
-      <input type="email" name="email" class="form-control mb-3" placeholder="Email">
-      <input type="text" name="username" class="form-control mb-3" placeholder="Username">
-      <input type="password" name="password" class="form-control mb-2" placeholder="Password">
-
-      <div class="text-end mb-4">
-        <a href="#" class="text-light small" style="visibility:hidden">Forgot Password?</a>
+    @if (session('error'))
+      <div class="alert alert-danger">
+        {{ session('error') }}
       </div>
+    @endif
 
-      <a href="/new-profile" class="btn btn-login mb-4 d">Register</a>
+    <!-- Removed POST form — navigation only -->
+    <form action="{{ route('newUser') }}" method="POST">
+    @csrf
+
+    <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
+    <input type="text" name="username" class="form-control mb-3" placeholder="Username" required>
+    <input type="password" name="password" class="form-control mb-2" placeholder="Password" required>
+
+    <div class="text-end mb-4">
+        <a href="#" class="text-light small" style="visibility:hidden">Forgot Password?</a>
     </div>
+
+    <button type="submit" class="btn btn-login mb-4 d">Register</button>
+    </form>
 
     <div class="d-flex align-items-center mb-3">
       <hr class="flex-grow-1 text-light">

@@ -139,20 +139,6 @@ body {
   font-weight: 600;
 }
 
-.google-btn {
-  background-color: white;
-  border-radius: 30px;
-  height: 48px;
-  border: none;
-  width: 100%;
-  font-weight: 600;
-}
-
-.google-icon {
-  height: 22px;
-  margin-right: 8px;
-}
-
 a {
   text-decoration: none;
 }

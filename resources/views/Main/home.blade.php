@@ -1,3 +1,4 @@
+<!-- Muhammad Kevin Checa Satrio - 5026221083 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,11 +11,22 @@
 <body>
     <div class="page-container">
 
-        <!-- Header -->
+       <!-- Header -->
+    @php
+        $currentUser = \App\Models\User::find(session('user_id'));
+    @endphp
+
         <div class="header">
-            <img src="{{ asset('img/profile.jpg') }}" class="avatar" alt="Profile">
-            <h1 class="welcome">Hi, Carlos</h1>
+            <img 
+                src="{{ $currentUser && $currentUser->profilepic ? asset('storage/' . $currentUser->profilepic) : asset('img/profile.jpg') }}" 
+                class="avatar" 
+                alt="Profile"
+            >
+            <h1 class="welcome">
+                Hi, {{ $currentUser ? ($currentUser->nickname ?? $currentUser->username) : 'Guest' }}
+            </h1>
         </div>
+
 
         <!-- Menu -->
         <div class="menu-grid">

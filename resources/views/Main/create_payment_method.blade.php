@@ -1,3 +1,4 @@
+<!-- Muhammad Kevin Checa Satrio - 5026221083 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +36,7 @@
   </div>
 
   <!-- Payment Options -->
-  <div class="container mt-4">
+<div class="container mt-4">
 
     <!-- Gopay (selected) -->
     <div class="payment-card selected d-flex align-items-center justify-content-between mb-3">
@@ -50,7 +51,7 @@
         <i class="bi bi-check-lg checkmark"></i>
     </div>
 
-    <!-- ShopeePay -->
+    <!-- ShopeePay (dummy) -->
     <div class="payment-card d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
             <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/ShopeePay_logo.png" class="payment-logo">
@@ -63,12 +64,19 @@
         <i class="bi bi-check-lg checkmark"></i>
     </div>
 
-  </div>
+</div>
 
-  <!-- Continue Button -->
-  <div class="container mt-5">
-      <a href="/payment-number" class="btn btn-continue w-100">Continue</a>
-  </div>
+<!-- Continue Button (POST form) -->
+<div class="container mt-5">
+    <form action="{{ route('savePayment') }}" method="POST">
+        @csrf
+
+        <!-- Hardcoded since only GoPay works -->
+        <input type="hidden" name="payment_type" value="3">
+
+        <button type="submit" class="btn btn-continue w-100">Continue</button>
+    </form>
+</div>
 
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">

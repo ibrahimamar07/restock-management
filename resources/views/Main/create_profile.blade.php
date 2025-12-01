@@ -1,3 +1,4 @@
+<!-- Muhammad Kevin Checa Satrio - 5026221083 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,47 +68,65 @@
 <body>
 
   <!-- Top Section -->
-  <div class="container text-center py-5 top-section">
-      <!-- clickable wrapper triggers file picker -->
-      <label for="profileImageInput" class="profile-icon-wrapper mx-auto mb-3" title="Change profile picture">
-          <img id="profileImagePreview" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" class="img-fluid rounded-circle" alt="icon">
-          <span class="profile-add">+</span>
-      </label>
+<form action="{{ route('saveProfile') }}" method="POST" enctype="multipart/form-data">
+@csrf
 
-      <input id="profileImageInput" class="visually-hidden-input" type="file" accept="image/*">
+<div class="container text-center py-5 top-section">
 
-      <h2 class="title">
-        Create <span class="highlight">Profile</span>
-      </h2>
-  </div>
+    <!-- clickable wrapper triggers file picker -->
+    <label for="profileImageInput" class="profile-icon-wrapper mx-auto mb-3" title="Change profile picture">
+        <img id="profileImagePreview"
+             src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+             class="img-fluid rounded-circle"
+             alt="icon">
+        <span class="profile-add">+</span>
+    </label>
 
-  <!-- Form Section -->
-  <div class="container form-section">
+    <!-- IMPORTANT: name="profilepic" so Laravel receives it -->
+    <input id="profileImageInput"
+           name="profilepic"
+           class="visually-hidden-input"
+           type="file"
+           accept="image/*">
 
-      <label class="form-label text-light">Nickname</label>
-      <input type="text" class="form-control mb-3" placeholder="">
+    <h2 class="title">
+      Create <span class="highlight">Profile</span>
+    </h2>
+</div>
 
-      <label class="form-label text-light">Description</label>
-      <textarea class="form-control textarea mb-4" rows="5"></textarea>
+<!-- Form Section -->
+<div class="container form-section">
 
-      <a href="/new-method" class="btn btn-next w-100 text-center">Next</a>
+    <label class="form-label text-light">Nickname</label>
+    <input type="text"
+           name="nickname"
+           class="form-control mb-3"
+           placeholder=""
+           required>
 
-  </div>
+    <label class="form-label text-light">Description</label>
+    <textarea name="description"
+              class="form-control textarea mb-4"
+              rows="5"></textarea>
 
-  <script>
-    // preview selected image
-    document.getElementById('profileImageInput').addEventListener('change', function (e) {
-      const file = this.files && this.files[0];
-      if (!file) return;
-      if (!file.type.startsWith('image/')) return;
-      const img = document.getElementById('profileImagePreview');
-      const url = URL.createObjectURL(file);
-      img.src = url;
+    <button type="submit" class="btn btn-next w-100 text-center">Next</button>
 
-      // revoke object URL after image loads to free memory
-      img.onload = () => { URL.revokeObjectURL(url); };
-    });
-  </script>
+</div>
+</form>
+
+<script>
+  // preview selected image
+  document.getElementById('profileImageInput').addEventListener('change', function (e) {
+    const file = this.files && this.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+
+    const img = document.getElementById('profileImagePreview');
+    const url = URL.createObjectURL(file);
+    img.src = url;
+
+    img.onload = () => URL.revokeObjectURL(url);
+  });
+</script>
 
 </body>
 </html>

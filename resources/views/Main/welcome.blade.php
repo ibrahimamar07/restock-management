@@ -1,3 +1,4 @@
+<!-- Muhammad Kevin Checa Satrio - 5026221083 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +25,11 @@
 
   <!-- Form Section -->
   <div class="form-section container">
+    @if (session('error'))
+      <div class="alert alert-danger mb-3">
+        {{ session('error') }}
+      </div>
+    @endif
 
     <form method="POST" action="/login">
       @csrf
