@@ -1,0 +1,377 @@
+/*
+ * =================================================================
+ * PROFILE STYLES & LAYOUT
+ * =================================================================
+ */
+body {
+    /* Background & Layout */
+    background: linear-gradient(180deg, #1a2847 0%, #0d1829 100%);
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+
+    /* Typography & Color */
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+
+/*
+ * =================================================================
+ * HEADER & PROFILE INFO
+ * =================================================================
+ */
+.back-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #5dd9e8;
+    border-radius: 50%;
+    color: #5dd9e8;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.user-name {
+    font-size: 45px;
+    font-weight: 700;
+    margin: 0;
+    color: #5FC0EF;
+    line-height: 1.1;
+}
+
+.user-role {
+    font-size: 16px;
+    margin: 0;
+    color: #97E3D6; /* Warna teks yang lebih redup */
+}
+
+
+/*
+ * =================================================================
+ * MENU LIST
+ * =================================================================
+ */
+.profile-menu-list {
+    padding: 0 15px; /* Padding di kiri kanan untuk daftar menu */
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    margin: 0;
+
+    /* Warna latar belakang dan teks */
+    background-color: #D6F6FB;
+    color: #00687A;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+
+    /* Garis pemisah antar item, kecuali item paling bawah dan atas */
+    border-bottom: 2px solid #4a6396;
+}
+
+.menu-item:hover {
+    background-color: #4a6396;
+}
+.menu-item:hover span {
+    color :#D6F6FB;
+}
+
+
+/* Menghilangkan border bawah pada item terakhir */
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+/* Border radius untuk item paling atas */
+.top-rounded {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+/* Border radius untuk item paling bawah */
+.bottom-rounded {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* Gaya khusus untuk tombol Logout */
+.logout-item span {
+    color: #AF4545; /* Warna teks merah */
+}
+.logout-item:hover span {
+    color: #ff7777; /* Merah muda saat hover */
+}
+
+/* Ikon panah pada menu */
+.menu-item i {
+    font-size: 20px;
+    color: #00687A; /* Warna ikon panah yang lebih terang */
+}
+
+.menu-item:hover i {
+    color :#D6F6FB;
+}
+
+
+/*
+ * =================================================================
+ * EDIT PROFILE & CHANGE PASSWORD STYLES
+ * =================================================================
+ */
+
+/* Mengatur header agar gambar dan judul sejajar horizontal */
+.profile-edit-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.edit-title {
+    font-size: 42px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.1;
+
+    /* 🔑 TAMBAHAN UTAMA: Atur tata letak menjadi kolom */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Style untuk kata "Edit" (sesuai gambar: Putih) */
+.edit-text {
+    color: #5FC0EF; /* Warna Putih */
+}
+
+/* Style untuk kata "Profile" (sesuai gambar: Biru Muda/Cyan) */
+.profile-text {
+    color: #00687A; /* Warna biru muda */
+}
+
+/* Style untuk Label Input */
+.input-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: white; /* Label berwarna putih */
+    margin-bottom: 8px;
+}
+
+/* Style dasar untuk input (input type="text" dan textarea) */
+.custom-input {
+    /* Mengubah latar belakang dan border agar sesuai tema */
+    background-color: #D6F6FB; /* Warna latar belakang field yang sangat muda */
+    border: none;
+    border-radius: 12px;
+    padding: 12px 15px;
+
+    /* Typography */
+    font-size: 18px;
+    color: #000000; /* Warna teks di dalam input */
+    font-weight: 500;
+}
+
+.custom-input:focus {
+    /* Menghapus efek focus default Bootstrap dan menggantinya dengan shadow yang lebih halus */
+    background-color: #c8e9ed;
+    box-shadow: 0 0 0 3px rgba(93, 217, 232, 0.5); /* Shadow biru muda saat fokus */
+    border: none;
+}
+
+.textarea-input {
+    resize: none; /* Mencegah pengguna mengubah ukuran textarea */
+    min-height: 120px;
+}
+
+/* Style untuk Tombol Confirm */
+.confirm-btn {
+    /* Warna yang konsisten dengan tema biru/cyan */
+    background-color: #00687A;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 15px 0;
+    width: 100%; /* Membuat tombol selebar container */
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.confirm-btn:hover {
+    background-color: #4ac5d5;
+    color: #1a2847;
+}
+
+
+
+/*
+ * =================================================================
+ * PAYMENT METHODS STYLES
+ * =================================================================
+ */
+
+.page-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #5FC0EF; /* Warna biru muda */
+    margin: 0;
+    line-height: 1.1;
+}
+
+.payment-card {
+    /* Layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    /* Appearance */
+    background-color: #c8e9ed; /* Latar belakang card (sama dengan input field) */
+    border-radius: 12px;
+    padding: 15px 20px;
+}
+
+.payment-info {
+    flex-grow: 1;
+}
+
+.method-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000; /* Warna teks gelap */
+    margin: 0;
+    line-height: 1.2;
+}
+
+.method-number {
+    font-size: 14px;
+    color: #000000; /* Warna teks gelap */
+    margin: 0;
+    opacity: 0.8;
+}
+
+.check-icon {
+    font-size: 24px;
+    color: #00687A; /* Warna centang */
+}
+
+/* Style untuk Tombol Add New Payment Method */
+.add-payment-btn {
+    /* Style Reset */
+    background: #00687A;
+    border-radius: 50px;
+    border: none;
+    transition: background-color 0.2s;
+
+    /* Layout */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+
+    /* Sizing & Spacing */
+    padding: 15px;
+    width: 100%;
+
+    /* Typography & Color */
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 50px; /* Jarak dari card di atas */
+}
+
+.add-icon-lg {
+    font-size: 24px;
+    /* Warna ikon plus sama dengan tombol confirm */
+    color: #ffffff;
+}
+
+.add-payment-btn:hover {
+    background: #4ac5d5; /* Warna sedikit lebih terang saat di-hover */
+    color:#1a2847;
+}
+
+.add-payment-btn:hover .add-icon-lg{
+    color:#1a2847;
+}
+
+
+
+/*
+ * =================================================================
+ * LOGOUT MODAL STYLES
+ * =================================================================
+ */
+
+/* Latar belakang Modal Kustom */
+.custom-modal-content {
+    background-color: #53867D; /* Warna hijau kebiruan (sesuai gambar) */
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.modal-logout-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #000000; /* Warna gelap untuk judul */
+    margin-bottom: 5px;
+}
+
+.modal-logout-message {
+    font-size: 16px;
+    color: #292D32;
+    opacity: 0.8;
+    margin-bottom: 0;
+}
+
+/* Tombol Cancel (Warna Putih/Biru Muda) */
+.modal-cancel-btn {
+    background-color: #D6F6FB; /* Warna latar belakang field input */
+    color: #000000;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 10px 30px;
+    flex-grow: 1; /* Agar tombol memiliki lebar yang proporsional */
+    border: 1px solid #c8e9ed;
+    transition: background-color 0.2s;
+}
+
+.modal-cancel-btn:hover {
+    background-color: #b5e0e5;
+    color: #000000;
+}
+
+/* Tombol Logout (Warna Merah Bata) */
+.modal-logout-btn {
+    background-color: #af4545; /* Warna merah bata */
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 10px 30px;
+    flex-grow: 1; /* Agar tombol memiliki lebar yang proporsional */
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.modal-logout-btn:hover {
+    background-color: #923a3a; /* Merah yang sedikit lebih gelap saat hover */
+    color: white;
+}

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\userController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,10 @@ Route::get('/store/detail', function () {
 Route::get('/store/browse', function () {
     return view('managemystore.browsestoreview.storelistview');
 });
+
+
+//route profile
+Route::get('/profile', [userController::class, 'manageprofile']);
+Route::get('/profile/edit', [userController::class, 'editprofile']);
+Route::get('/profile/changepassword', [userController::class, 'changepassword']);
+Route::get('/profile/paymentmethods', [userController::class, 'paymentmethods']);
