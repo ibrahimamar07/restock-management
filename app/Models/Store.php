@@ -16,7 +16,7 @@ class Store extends Model
         'idUser',
         'storeName',
         'storeAddress',
-        'storeEpic',
+        'storePic',
     ];
 
     public function user()

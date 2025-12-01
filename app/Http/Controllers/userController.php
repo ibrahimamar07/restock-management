@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\UserPaymentType;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -45,35 +46,38 @@ public function newUser(Request $request)
 }
 
 
-
+//fungsi login nya tak ubah mas pakai auth bawaan laravel biar buat midleware gampang tinggal panggil auth aja
+//start modified fungsi login by ibrahim amar alfanani 5026231195
 public function login(Request $request)
-{
-    // Validate input
-    $request->validate([
-        'username' => 'required',
-        'password' => 'required'
-    ]);
+    {
+        // 1. Validate input
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required'
+        ]);
 
-    // Find user by username
-    $user = User::where('username', $request->username)->first();
-
-    // If username not found
-    if (!$user) {
-        return redirect()->back()->with('error', 'Username not found.');
+        // 2. baauat Kredensial
+        // Auth::attempt akan mencari user berdasarkan 'username' DAN mencocokkan 'password'
+        $credentials = [
+            'username' => $request->username,
+            'password' => $request->password,
+        ];
+        
+        //  proses autentikasi
+        if (Auth::attempt($credentials)) {
+            
+            // 3. Login Berhasil: Regenerasi Session ID 
+            $request->session()->regenerate();
+            
+            // 4. Redirect ke halaman yang home
+            return redirect()->intended('/home');
+        } 
+        
+        // 5. Login Gagal: Username atau Password salah
+        
+        return redirect()->back()->with('error', 'Username atau Password salah.');
     }
-
-    // Check password
-    if (!Hash::check($request->password, $user->password)) {
-        return redirect()->back()->with('error', 'Incorrect password.');
-    }
-
-    // Store session
-    Session::put('user_id', $user->idUser);
-    Session::put('username', $user->username);
-
-    // Redirect to home/dashboard
-    return redirect('/home');
-}
+//end modified fungsi login by ibrahim amar alfanani 5026231195
 
 public function saveProfile(Request $request)
 {
@@ -164,9 +168,15 @@ DB::transaction(function () use ($email, $username, $password, $nickname, $descr
     ]);
 });
 
+//ini juga tak ubah pakai auth laravel
+//start modified by ibrahim amar alfanani 5026231195
 // Now $user exists outside the closure
-Session::put('user_id', $user->idUser);
-Session::put('username', $user->username);
+Auth::login($user); 
+        $request->session()->regenerate();
+// Session::put('user_id', $user->idUser);
+// Session::put('username', $user->username);
+
+//end modified by ibrahim amar alfanani 5026231195
 
 // Clear registration session
 session()->forget([

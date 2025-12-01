@@ -1,0 +1,137 @@
+/* ibrahim amar alfanani 5026231195 */
+body {
+    background: linear-gradient(180deg, #1a2847 0%, #0d1829 100%);
+    min-height: 100vh;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.status-bar {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.back-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #5dd9e8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5dd9e8;
+    text-decoration: none;
+    font-size: 20px;
+}
+.store-img-container {
+    width: 180px;
+    height: 180px;
+    margin: 30px auto 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #2a4b6f;
+}
+.store-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.form-label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: white;
+}
+.form-control {
+    background: #c8e9ed;
+    border: none;
+    border-radius: 15px;
+    padding: 15px 20px;
+    font-size: 16px;
+    color: #0d1829;
+    font-weight: 600;
+}
+.form-control:focus {
+    background: #c8e9ed;
+    box-shadow: none;
+    border: none;
+}
+.form-control::placeholder {
+    color: #0d1829;
+}
+textarea.form-control {
+    min-height: 200px;
+    resize: none;
+}
+.finish-btn {
+    background: #1a7a8a;
+    border: none;
+    border-radius: 50px;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    width: 100%;
+    margin-top: 30px;
+}
+.finish-btn:hover {
+    background: #156873;
+}
+.delete-btn {
+    background: #dc3545;
+    border: none;
+    border-radius: 50px;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    width: 100%;
+    margin-top: 10px;
+}
+.store-image-placeholder {
+    /* Ukuran lingkaran */
+    width: 175px;
+    height: 175px;
+
+    /* Bentuk lingkaran */
+    border-radius: 50%;
+
+    /* Style border/background */
+    /* border: 2px solid #fff; Border putih */
+    background-color: #c8e9ed; /* Background gelap transparan */
+    cursor: pointer; /* Menunjukkan bahwa elemen dapat diklik */
+
+    /* Untuk memposisikan tanda plus dan gambar di tengah */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Penting untuk penempatan gambar preview */
+    overflow: hidden; /* Penting untuk memastikan gambar preview terpotong lingkaran */
+}
+
+/* Styling untuk Tanda Plus di tengah */
+.plus-sign {
+    font-size: 200px;
+    color: black; /* Warna putih */
+    font-weight: 300; /* Tipis */
+    line-height: 1;
+
+    margin-bottom: 50px;
+}
+
+/* Styling untuk Image Preview */
+#storeImagePreview {
+    /* Memastikan gambar mengisi seluruh area lingkaran */
+    width: 100%;
+    height: 100%;
+
+    /* Memastikan gambar tetap melingkar saat ditampilkan */
+    border-radius: 50%;
+
+    /* Object-fit untuk mencegah distorsi, mengisi lingkaran sepenuhnya */
+    object-fit: cover;
+
+    /* Posisikan di atas tanda plus/placeholder */
+    position: absolute;
+    top: 0;
+    left: 0;
+}

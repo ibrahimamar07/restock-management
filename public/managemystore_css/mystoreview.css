@@ -1,0 +1,105 @@
+/* ibrahim amar alfanani 5026231195 */
+body {
+    background: linear-gradient(180deg, #1a2847 0%, #0d1829 100%);
+    min-height: 100vh;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.status-bar {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.back-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #5dd9e8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5dd9e8;
+    text-decoration: none;
+    font-size: 20px;
+}
+.main-title {
+    font-size: 56px;
+    font-weight: 700;
+    color: #5dd9e8;
+    line-height: 1.1;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.subtitle {
+    font-size: 18px;
+    color: #7dd8e6;
+    margin-bottom: 40px;
+}
+.store-card {
+    background: #c8e9ed;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #0d1829;
+    margin-bottom: 30px;
+}
+.store-card:hover {
+    background: #b5e0e5;
+}
+.store-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+.store-info h3 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    color: #1a7a8a;
+}
+.store-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #1a7a8a;
+    display: flex;
+    align-items: center;
+}
+.store-info p i {
+    margin-right: 5px;
+}
+.arrow-icon {
+    margin-left: auto;
+    font-size: 24px;
+    color: #1a7a8a;
+}
+.divider {
+    border-top: 2px solid #2a4b6f;
+    margin: 30px 0;
+}
+.add-store-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    width: 100%;
+}
+.add-icon {
+    width: 40px;
+    height: 40px;
+    border: 3px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
