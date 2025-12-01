@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #0D1445; /* Dark navy background */
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+.page-container {
+    padding: 20px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.avatar {
+    /* changed: match create_profile avatar size and style */
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #FFF;
+    background-color: #F2F2F2;
+}
+
+.welcome {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    color: #7DD4E0; /* Light teal */
+}
+
+/* Menu Grid */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 35px;
+}
+
+/* changed: make card layout column so icon stays top and text anchors to bottom */
+.menu-card {
+    background: #D8F7FC;
+    padding: 16px;
+    border-radius: 20px;
+    text-align: center;
+    color: #006B78;
+    font-weight: 700;
+    font-size: 18px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* allow image to fill available width */
+    justify-content: flex-start;
+    min-height: 160px; /* a bit taller so image can grow */
+}
+
+/* ensure icon fills most of the card but leaves room for the text */
+.menu-icon {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 120px; /* prevents overlap with text */
+    object-fit: contain;
+    margin-bottom: 12px;
+}
+
+/* ensure the text is pushed to the bottom and wraps */
+.menu-card p {
+    margin: 0;
+    margin-top: auto; /* pushes text to the bottom of the card */
+    padding-bottom: 6px;
+    text-align: center;
+    word-break: break-word;
+    white-space: normal;
+}
+
+/* Recent Activities */
+.section-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.activities {
+    background: #D8F7FC;
+    color: #003B47;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.activity-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #7bb8c4;
+    padding: 10px 0;
+}
+
+.activity-row:last-child {
+    border-bottom: none;
+}
+
+.time {
+    color: #003B47;
+    font-size: 14px;
+}
