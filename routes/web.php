@@ -29,8 +29,19 @@ Route::get('/store/edit', function () {
 Route::get('/store/detail', function () {
     return view('managemystore.storedetailview');
 });
+
+// Felix Prajna Santoso - 5026231027
 Route::get('/store/browse', function () {
     return view('managemystore.browsestoreview.storelistview');
+});
+Route::get('/store/browse', function () {
+    return view('managemystore.browsestoreview.selectitemtorestockview');
+});
+Route::get('/store/browse', function () {
+    return view('managemystore.browsestoreview.landingpageview');
+});
+Route::get('/store/browse', function () {
+    return view('managemystore.browsestoreview.addproofofrestockview');
 });
 
 //Nathaniel Lado Hadi Winata - 5026231019
