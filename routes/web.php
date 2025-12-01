@@ -8,7 +8,7 @@ use App\Http\Controllers\UserController;
 
 // PUBLIC ROUTES (Guest Only - khusus tanpa login)
 
-
+//kevin checa satrio 5026221083
 Route::middleware('guest')->group(function () {
     // Onboarding
     Route::get('/', function () {
@@ -48,7 +48,7 @@ Route::middleware('guest')->group(function () {
 
 
 //  PROTECTED ROUTES (Auth Required - Harus Login)
-
+//ibrahim amar alfanani 5026231195
 Route::middleware('auth')->group(function () {
     
     // Home/Dashboard
@@ -78,4 +78,36 @@ Route::middleware('auth')->group(function () {
     Route::get('/items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
     Route::put('/items/{item}', [ItemController::class, 'update'])->name('items.update');
     Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
+
+
+
+
+    // Felix Prajna Santoso - 5026231027
+Route::get('/store/browse', function () {
+    return view('managemystore.browsestoreview.storelistview');
+});
+Route::get('/store/browse', function () {
+    return view('managemystore.browsestoreview.selectitemtorestockview');
+});
+Route::get('/store/browse', function () {
+    return view('managemystore.browsestoreview.landingpageview');
+});
+Route::get('/store/browse', function () {
+    return view('managemystore.browsestoreview.addproofofrestockview');
+});
+
+//Nathaniel Lado Hadi Winata - 5026231019
+Route::get('/store/invoice', function () {
+    return view('managemystore.invoiceview.createinvoice');
+});
+Route::get('/store/invoice', function () {
+    return view('managemystore.invoiceview.payinvoice');
+});
+Route::get('/store/invoice', function () {
+    return view('managemystore.invoiceview.viewinvoice');
+});
+Route::get('/store/invoice', function () {
+    return view('managemystore.invoiceview.viewinvoicedetail');
+});
+
 });
