@@ -10,13 +10,9 @@ use App\Http\Controllers\UserController;
 
 //kevin checa satrio 5026221083
 Route::middleware('guest')->group(function () {
-    // Onboarding
-    Route::get('/', function () {
-        return view('Main.onboarding');
-    })->name('onboarding');
     
     // Login
-    Route::get('/login', function () {
+    Route::get('/', function () {
         return view('Main.welcome');
     })->name('login');
     Route::post('/login', [UserController::class, 'login'])->name('login.store');
@@ -50,6 +46,11 @@ Route::middleware('guest')->group(function () {
 //  PROTECTED ROUTES (Auth Required - Harus Login)
 //ibrahim amar alfanani 5026231195
 Route::middleware('auth')->group(function () {
+
+    // Onboarding
+    Route::get('/onboarding', function () {
+        return view('Main.onboarding');
+    })->name('onboarding');
     
     // Home/Dashboard
     Route::get('/home', function () {

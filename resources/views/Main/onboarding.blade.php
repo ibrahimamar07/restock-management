@@ -20,9 +20,11 @@
 
         <div class="option-box">
 
-            <button class="option top">
-                I want to find people to restock my store
-            </button>
+            <a href="{{ route('stores.index') }}">
+                <button class="option top">
+                    I want to find people to restock my store
+                </button>
+            </a>
 
             <button class="option bottom">
                 I want to find stores that needs restocking
