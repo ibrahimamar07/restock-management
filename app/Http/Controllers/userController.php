@@ -185,7 +185,7 @@ session()->forget([
     'reg_payment_type'
 ]);
 
-return redirect('/home');
+return redirect('/onboarding');
 }
 
 }
