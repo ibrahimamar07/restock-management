@@ -1,0 +1,72 @@
+body {
+  background-color: #0A0F3C;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Back Button */
+.back-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 26px;
+  padding-left: 0;
+}
+
+/* Title */
+.payment-title {
+  font-size: 34px;
+  font-weight: 700;
+  color: #C9D3ED;
+  margin-top: 20px;
+}
+
+.payment-title .highlight {
+  color: #198A8B;
+}
+
+/* Payment Cards */
+.payment-card {
+  background-color: #DFF7FF;
+  border-radius: 16px;
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.payment-card.selected {
+  border: 3px solid #0098A0;
+}
+
+.payment-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.payment-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0A0F3C;
+}
+
+.payment-cost {
+  font-size: 13px;
+  margin-top: 3px;
+  color: #0A0F3C;
+  opacity: 0.85;
+}
+
+.checkmark {
+  font-size: 26px;
+  color: #0098A0;
+}
+
+/* Continue Button */
+.btn-continue {
+  background-color: #007384;
+  color: white;
+  height: 48px;
+  border-radius: 30px;
+  font-size: 17px;
+  font-weight: 600;
+}

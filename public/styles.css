@@ -1,0 +1,155 @@
+body {
+  background-color: #0A0F3C;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Replace existing .top-section rules with full-bleed + background + layout adjustments */
+.top-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 auto;           /* let top-section grow to fill available space above the form */
+  padding-top: 60px;
+  padding-left: 0; /* allow logo to touch edges (used by welcome) */
+  padding-right: 0;
+  padding-bottom: 80px;
+  background-color: var(--logo-bg, #EEEFEF);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  text-align: center;
+}
+
+/* Page-specific variant used by register.blade.php:
+   preserves the same top-section behavior but keeps horizontal padding */
+.top-section.register-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 auto;
+  padding-top: 60px;
+  padding-left: 20px; /* register page keeps horizontal breathing room */
+  padding-right: 20px;
+  padding-bottom: 80px;
+  background-color: #EEEFEF;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  text-align: center;
+}
+
+/* logo stays full-bleed */
+.logo-img {
+  display: block;
+  width: 100vw;
+  max-width: none;
+  height: auto;
+  object-fit: contain;
+  padding: 0;
+  margin-left: calc(-50vw + 50%);
+  box-sizing: border-box;
+}
+
+/* Ensure page layout pins form to bottom (moved from inline styles) */
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Override for the form container so it stays pinned and responsive */
+/* keep margin-top:auto so the form sits at the bottom of the viewport */
+.form-section.container {
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto; /* keep pinned to bottom */
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  margin-top: 0;
+}
+
+/* remove overlap: ensure .form-section does NOT pull up into the top-section */
+.form-section {
+  padding: 20px;
+  margin-top: 0; /* removed negative margin to avoid overlap */
+  background: transparent; /* keep existing look; change if you want visual separation */
+  z-index: 1;
+}
+
+/* optional: subtle separation so form doesn't visually merge into the logo background */
+.form-section.container > form,
+.form-section.container .btn-login {
+  position: relative;
+}
+
+/* preserve spacing responsivity */
+@media (min-width: 576px) {
+  .form-section.container { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+}
+
+.logo-icon {
+  font-size: 80px;
+  margin-bottom: 10px;
+  color: #0A0F3C;
+}
+
+.brand-title {
+  font-size: 38px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.brand-title .stock {
+  color: #007374;
+  font-weight: 700;
+}
+
+.form-section {
+  padding: 20px;
+  margin-top: 0; /* removed negative margin to avoid overlap */
+  background: transparent; /* keep existing look; change if you want visual separation */
+  z-index: 1;
+}
+
+.form-control {
+  background-color: #DFF7FF;
+  border: none;
+  height: 48px;
+  border-radius: 12px;
+}
+
+.btn-login {
+  background-color: #007384;
+  color: white;
+  width: 100%;
+  border-radius: 30px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+a {
+  text-decoration: none;
+}
+
+.register-text {
+  font-size: 14px;
+  color: #D5D5D5;
+}
+
+.register-text a {
+  color: #00AAB8;
+  font-weight: 500;
+}
+

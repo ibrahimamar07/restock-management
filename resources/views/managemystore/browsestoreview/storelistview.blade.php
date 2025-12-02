@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
         body {
-            background: linear-gradient(180deg, #1a2847 0%, #0d1829 100%);
+            background: linear-gradient(180deg, #111749 0%, #111749 100%);
             min-height: 100vh;
             color: white;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
