@@ -178,4 +178,220 @@ session()->forget([
 return redirect('/home');
 }
 
+
+//Komang Alit Pujangga - 5026231115
+//profilepage
+public function manageprofile()
+{
+    // Ambil ID pengguna dari Session yang disimpan saat login
+    $userId = Session::get('user_id');
+
+    // Cari data pengguna berdasarkan ID. Gunakan find() karena idUser adalah Primary Key
+    $user = User::find($userId);
+
+    // Cek jika pengguna tidak ditemukan (misal, session kedaluwarsa)
+    if (!$user) {
+        // Arahkan kembali ke login jika tidak ada data user
+        return redirect('/login')->with('error', 'Sesi Anda telah berakhir. Silakan login kembali.');
+    }
+
+    // Kirim objek $user ke view
+    return view('manageprofile.profilepageview', [
+        'user' => $user
+    ]);
 }
+
+//editprofilepage
+public function editProfile()
+{
+    $userId = Session::get('user_id');
+    $user = User::find($userId);
+
+    if (!$user) {
+        // Redirect jika sesi tidak valid
+        return redirect('/login')->with('error', 'Sesi Anda telah berakhir. Silakan login kembali.');
+    }
+
+    // Mengirim objek $user ke view editprofileview
+    return view('manageprofile.editprofileview', compact('user'));
+}
+
+//editprofilepage
+public function updateProfile(Request $request)
+{
+    // 1. Validasi Input
+    $request->validate([
+        'nickname' => 'nullable|string|max:100',
+        'description' => 'nullable|string',
+        'profilepic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Maks 2MB, hanya format gambar
+    ]);
+
+    // 2. Ambil Data User
+    $userId = Session::get('user_id');
+    $user = User::find($userId);
+
+    if (!$user) {
+        return redirect('/profile')->with('error', 'Gagal memperbarui profil.');
+    }
+
+    // 3. Handle File Upload (Profile Picture)
+    if ($request->hasFile('profilepic')) {
+        // Hapus foto lama jika ada
+        if ($user->profilepic && Storage::disk('public')->exists($user->profilepic)) {
+            Storage::disk('public')->delete($user->profilepic);
+        }
+
+        // Simpan file baru ke folder 'profile_pics' di storage/app/public
+        $path = $request->file('profilepic')->store('profile_pics', 'public');
+        $user->profilepic = $path;
+    }
+
+    // 4. Update data lainnya
+    $user->nickname = $request->nickname;
+    $user->description = $request->description;
+
+    // 5. Simpan ke database
+    $user->save();
+
+    // 6. Redirect kembali ke halaman profil
+    return redirect('/profile')->with('success', 'Profil berhasil diperbarui!');
+}
+
+//changepassword
+public function changePasswordView()
+{
+    // Cek apakah user sedang login
+    if (!Session::has('user_id')) {
+        return redirect('/login')->with('error', 'Silakan login kembali.');
+    }
+
+    // Hanya menampilkan view
+    return view('manageprofile.changepasswordview');
+}
+
+//changepassword
+public function updatePassword(Request $request)
+{
+    // 1. Validasi Input
+    $request->validate([
+        'oldPassword' => 'required',
+        'newPassword' => 'required|min:6',
+        'confirmPassword' => 'required|same:newPassword',
+    ], [
+        'confirmPassword.same' => 'Konfirmasi Password Baru tidak cocok.',
+    ]);
+
+    // 2. Ambil Data User yang Sedang Login
+    $userId = Session::get('user_id');
+    $user = User::find($userId);
+
+    if (!$user) {
+        return redirect('/login')->with('error', 'Sesi tidak valid.');
+    }
+
+    // 3. Verifikasi Password Lama
+    if (!Hash::check($request->oldPassword, $user->password)) {
+        // Redirect dengan error jika password lama salah
+        return redirect()->back()->with('error', 'Password lama yang Anda masukkan salah.');
+    }
+
+    // 4. Update Password Baru
+    $user->password = Hash::make($request->newPassword);
+    $user->save();
+
+    // 5. Redirect ke halaman profile dengan pesan sukses
+    return redirect('/profile')->with('success', 'Password berhasil diperbarui!');
+}
+
+//paymentmethodsmenu
+public function paymentMethodsView()
+{
+    if (!Session::has('user_id')) {
+        return redirect('/login')->with('error', 'Silakan login kembali.');
+    }
+
+    $userId = Session::get('user_id');
+
+    $paymentMethods = DB::table('user_payment_types')
+        ->join('payment_types', 'user_payment_types.idPaymentType', '=', 'payment_types.idPaymentType')
+        ->where('user_payment_types.idUser', $userId)
+        // TAMBAHKAN is_default dalam select
+        ->select('payment_types.paymentName', 'user_payment_types.paymentDetails', 'user_payment_types.idUserPaymentType', 'user_payment_types.is_default')
+        ->get();
+
+    return view('manageprofile.paymentmethodsmenuview', [
+        'paymentMethods' => $paymentMethods
+    ]);
+}
+
+//paymentmethodsmenu
+public function setDefaultPaymentMethod(Request $request)
+{
+    // 1. Validasi Input
+    $request->validate([
+        'idUserPaymentType' => 'required|exists:user_payment_types,idUserPaymentType',
+    ]);
+
+    $userId = Session::get('user_id');
+    $selectedId = $request->idUserPaymentType;
+
+    DB::transaction(function () use ($userId, $selectedId) {
+        // 2. Set semua metode pembayaran user menjadi BUKAN default
+        UserPaymentType::where('idUser', $userId)
+                       ->update(['is_default' => 0]);
+
+        // 3. Set metode pembayaran yang dipilih menjadi DEFAULT (1)
+        UserPaymentType::where('idUserPaymentType', $selectedId)
+                       ->where('idUser', $userId) // pastikan user hanya bisa mengubah miliknya
+                       ->update(['is_default' => 1]);
+    });
+
+    return redirect()->route('paymentMethodsView')->with('success', 'Metode pembayaran default berhasil diubah!');
+}
+
+//newpaymentmethod
+public function addNewPaymentView()
+{
+    if (!Session::has('user_id')) {
+        return redirect('/login')->with('error', 'Silakan login kembali.');
+    }
+
+    // Ambil semua tipe pembayaran dari database (ID 1, 2, 3, 4, dst.)
+    $availablePaymentTypes = DB::table('payment_types')
+                               ->select('idPaymentType', 'paymentName')
+                               ->get();
+
+    // Menggunakan view baru: newpaymentmethod.blade.php
+    return view('manageprofile.newpaymentmethod', [
+        'availablePaymentTypes' => $availablePaymentTypes // Kirim data
+    ]);
+}
+
+//storepaymentmethods
+public function storePaymentMethod(Request $request)
+{
+    if (!Session::has('user_id')) {
+        return redirect('/login')->with('error', 'Sesi tidak valid.');
+    }
+
+    $request->validate([
+        'idPaymentType' => 'required|integer', // Sesuaikan validasi dengan DB
+        'paymentDetails' => 'required|string|max:255',
+    ]);
+
+    $userId = Session::get('user_id');
+
+    // Simpan ke database
+    UserPaymentType::create([
+        'idUser' => $userId,
+        'idPaymentType' => $request->idPaymentType,
+        'paymentDetails' => $request->paymentDetails,
+    ]);
+
+    return redirect()->route('paymentMethodsView')->with('success', 'Metode pembayaran berhasil ditambahkan!');
+}
+
+}//controller
+
+
+

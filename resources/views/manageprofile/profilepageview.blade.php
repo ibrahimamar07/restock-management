@@ -14,18 +14,33 @@
     <div class="container profile-container">
 
         <div class="px-3 pt-4 pb-3">
-            <a href="#" class="back-btn">
+            <a href="/home" class="back-btn">
                 <i class="bi bi-chevron-left"></i>
             </a>
         </div>
-
-        <div class="px-3 profile-header mb-5">
-            <img src="img/avatardefault.png" alt="Carlos Sainz" class="profile-img">
-            <div class="profile-info">
-                <h1 class="user-name">Carlos</h1>
-                <p class="user-role">Owner of IS Store</p>
+        @if (session('success'))
+            <div class="alert alert-success mt-3 px-3">
+                {{ session('success') }}
             </div>
-        </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger mt-3 px-3">
+                {{ session('error') }}
+            </div>
+        @endif
+
+            <div class="px-3 profile-header mb-5">
+                <img src="{{ $user->profilepic ? asset('storage/' . $user->profilepic) : asset('img/avatardefault.png') }}"
+                    alt="{{ $user->nickname ?? $user->username }}"
+                    class="profile-img">
+
+                <div class="profile-info">
+                    <h1 class="user-name">{{ $user->nickname ?? $user->username }}</h1>
+
+                    <p class="user-role">{{ $user->description ?? 'Belum ada deskripsi.' }}</p>
+                </div>
+            </div>
 
         <div class="profile-menu-list">
             <a href="/profile/edit" class="menu-item top-rounded">
@@ -75,7 +90,7 @@
             const logoutButton = document.getElementById('confirmLogoutBtn');
 
             // 2. Tentukan route atau URL tujuan
-            const logoutRoute = '/'; // ⬅️ GANTI DENGAN ROUTE LOGOUT ANDA YANG BENAR
+            const logoutRoute = '/login'; // ⬅️ GANTI DENGAN ROUTE LOGOUT ANDA YANG BENAR
 
             if (logoutButton) {
                 // 3. Tambahkan event listener untuk mendeteksi klik

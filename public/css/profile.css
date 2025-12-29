@@ -312,6 +312,39 @@ body {
     color:#1a2847;
 }
 
+.payment-card {
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+}
+.payment-card:hover {
+    background-color: #f8f9fa; /* Efek hover untuk kartu yang belum terpilih */
+}
+.payment-card.default-selected {
+    border-color: #0d6efd; /* Warna border biru untuk yang default/terpilih */
+    background-color: #e9f5ff; /* Background lebih terang untuk yang default/terpilih */
+}
+.payment-card.default-selected .check-icon {
+    color: #0d6efd; /* Icon centang berwarna biru */
+    display: block;
+}
+.payment-card .check-icon {
+    color: #ccc;
+}
+.default-label {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #0d6efd;
+    background-color: #cce5ff;
+    padding: 2px 8px;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
 
 
 /*

@@ -17,9 +17,9 @@
     @endphp
 
         <div class="header">
-            <img 
-                src="{{ $currentUser && $currentUser->profilepic ? asset('storage/' . $currentUser->profilepic) : asset('img/profile.jpg') }}" 
-                class="avatar" 
+            <img
+                src="{{ $currentUser && $currentUser->profilepic ? asset('storage/' . $currentUser->profilepic) : asset('img/profile.jpg') }}"
+                class="avatar"
                 alt="Profile"
             >
             <h1 class="welcome">
@@ -46,10 +46,10 @@
                 <p>My Store</p>
             </a>
 
-            <div class="menu-card">
+            <a href="{{ url('/profile') }}" class="menu-card" role="button" aria-label="Profile" style="text-decoration: none;">
                 <img src="{{ asset('img/User_Circle.png') }}" class="menu-icon" alt="Profile">
                 <p>Profile</p>
-            </div>
+            </a>
         </div>
 
         <!-- Recent Activities -->

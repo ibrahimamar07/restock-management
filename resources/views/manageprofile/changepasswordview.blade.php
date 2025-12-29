@@ -18,26 +18,39 @@
             </a>
         </div>
 
-        <form class="px-3 mt-5 change-password-form">
+            <form class="px-3 mt-5 change-password-form" method="POST" action="{{ route('updatePassword') }}">
+                @csrf
 
-            <div class="mb-4">
-                <label for="oldPassword" class="form-label input-label">Old Password</label>
-                <input type="password" class="form-control custom-input" id="oldPassword" required>
-            </div>
+                @if (session('error'))
+                    <div class="alert alert-danger mb-3">{{ session('error') }}</div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger mb-3">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-            <div class="mb-4">
-                <label for="newPassword" class="form-label input-label">New Password</label>
-                <input type="password" class="form-control custom-input" id="newPassword" required>
-            </div>
+                <div class="mb-4">
+                    <label for="oldPassword" class="form-label input-label">Old Password</label>
+                    <input type="password" class="form-control custom-input" id="oldPassword" name="oldPassword" required>
+                </div>
 
-            <div class="mb-5">
-                <label for="confirmPassword" class="form-label input-label">New Password Confirmation</label>
-                <input type="password" class="form-control custom-input" id="confirmPassword" required>
-            </div>
+                <div class="mb-4">
+                    <label for="newPassword" class="form-label input-label">New Password</label>
+                    <input type="password" class="form-control custom-input" id="newPassword" name="newPassword" required>
+                </div>
 
-            <button type="submit" class="btn confirm-btn">Confirm</button>
-        </form>
+                <div class="mb-5">
+                    <label for="confirmPassword" class="form-label input-label">New Password Confirmation</label>
+                    <input type="password" class="form-control custom-input" id="confirmPassword" name="confirmPassword" required>
+                </div>
 
+                <button type="submit" class="btn confirm-btn">Confirm</button>
+            </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

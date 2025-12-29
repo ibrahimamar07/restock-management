@@ -82,19 +82,29 @@ Route::post('/finalize-registration', [UserController::class, 'finalizeRegistrat
 
 
 //Komang Alit Pujangga - 5026231115
-Route::get('/profile', function () {
-    return view('manageprofile.profilepageview');
-});
+Route::get('/profile', [UserController::class, 'manageprofile']);
 
-Route::get('/profile/edit', function () {
-    return view('manageprofile.editprofileview');
-});
+// Rute GET untuk menampilkan form edit (memanggil UserController)
+Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('editProfile');
 
-Route::get('/profile/changepassword', function () {
-    return view('manageprofile.changepasswordview');
-});
+// TAMBAH: Rute POST untuk menyimpan perubahan (termasuk upload foto)
+Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('updateProfile');
 
-Route::get('/profile/paymentmethods', function () {
-    return view('manageprofile.paymentmethodsmenuview');
-});
+// Rute GET untuk menampilkan form change password (memanggil UserController)
+Route::get('/profile/changepassword', [UserController::class, 'changePasswordView'])->name('changePasswordView');
+
+// TAMBAH: Rute POST untuk memproses perubahan password
+Route::post('/profile/updatepassword', [UserController::class, 'updatePassword'])->name('updatePassword');
+
+// Rute untuk menampilkan daftar payment methods (sudah ada)
+Route::get('/profile/paymentmethods', [UserController::class, 'paymentMethodsView'])->name('paymentMethodsView');
+
+// TAMBAHKAN: Rute POST untuk mengatur metode pembayaran default
+Route::post('/profile/paymentmethods/default', [UserController::class, 'setDefaultPaymentMethod'])->name('setDefaultPaymentMethod');
+
+// TAMBAH: Rute GET untuk menampilkan form tambah payment method baru (menggunakan view baru)
+Route::get('/profile/paymentmethods/new', [UserController::class, 'addNewPaymentView'])->name('addPaymentMethodView');
+
+// TAMBAH: Rute POST untuk menyimpan payment method baru (untuk user yang sudah login)
+Route::post('/profile/paymentmethods/store', [UserController::class, 'storePaymentMethod'])->name('storePaymentMethod');
 
