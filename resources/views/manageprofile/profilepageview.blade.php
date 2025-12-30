@@ -90,7 +90,7 @@
             const logoutButton = document.getElementById('confirmLogoutBtn');
 
             // 2. Tentukan route atau URL tujuan
-            const logoutRoute = '/login'; // ⬅️ GANTI DENGAN ROUTE LOGOUT ANDA YANG BENAR
+            const logoutRoute = '/'; // ⬅️ GANTI DENGAN ROUTE LOGOUT ANDA YANG BENAR
 
             if (logoutButton) {
                 // 3. Tambahkan event listener untuk mendeteksi klik

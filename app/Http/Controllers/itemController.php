@@ -18,7 +18,7 @@ class ItemController extends Controller
      * Tampilkan form tambah item dan daftar item (Daftar Item Toko).
      * @param Store $store Menggunakan Route Model Binding
      */
-    public function create(Store $store) 
+    public function createItemView(Store $store) 
     {
         // 1. Otorisasi: Pastikan pengguna yang login adalah pemilik toko ini.
         $this->authorize('manage', $store);
@@ -31,7 +31,7 @@ class ItemController extends Controller
      * @param ItemStoreRequest $request Menggunakan Form Request untuk validasi
      * @param Store $store Menggunakan Route Model Binding
      */
-    public function store(ItemStoreRequest $request, Store $store)
+    public function addItem(ItemStoreRequest $request, Store $store)
     {
         // 1. Otorisasi: Pastikan pengguna yang login adalah pemilik toko ini.
         $this->authorize('manage', $store);
@@ -49,7 +49,7 @@ class ItemController extends Controller
      * @param ItemStoreRequest $request Menggunakan Form Request untuk validasi
      * @param Item $item Menggunakan Route Model Binding
      */
-    public function update(ItemUpdateRequest $request, Item $item)
+    public function updateItem(ItemUpdateRequest $request, Item $item)
     {
         // 1. Otorisasi: Pastikan pengguna yang login adalah pemilik toko dari item ini.
         // Item memiliki relasi ke Store, sehingga saya cek kepemilikan di Store.
@@ -59,14 +59,14 @@ class ItemController extends Controller
         $item->update($request->validated());
 
         // Redirect ke detail store
-        return redirect()->route('stores.show', $item->idStore)->with('success', 'Item updated successfully!');
+        return redirect()->route('stores.showStore', $item->idStore)->with('success', 'Item updated successfully!');
     }
 
     /**
      * Hapus item.
      * @param Item $item Menggunakan Route Model Binding
      */
-    public function destroy(Item $item)
+    public function deleteItem(Item $item)
     {
         // 1. Otorisasi: Pastikan pengguna yang login adalah pemilik toko dari item ini.
         $this->authorize('manage', $item->store); 
@@ -74,6 +74,6 @@ class ItemController extends Controller
         $storeId = $item->idStore;
         $item->delete();
 
-        return redirect()->route('stores.show', $storeId)->with('success', 'Item deleted successfully!');
+        return redirect()->route('stores.showStore', $storeId)->with('success', 'Item deleted successfully!');
     }
 }

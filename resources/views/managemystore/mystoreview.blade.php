@@ -27,7 +27,7 @@
             @endif
 
             @forelse($stores as $store)
-            <a href="{{ route('stores.show', $store->idStore) }}" class="store-card">
+            <a href="{{ route('stores.showStore', $store->idStore) }}" class="store-card">
                 <img src="{{ asset('storage/storepic/' .$store->storePic) }}" alt="Storepic" class="store-img">
                 <div class="store-info flex-grow-1">
                     <h3>{{ $store->storeName }}</h3>
@@ -41,7 +41,7 @@
 
             <div class="divider"></div>
 
-            <a href="{{ route('stores.create') }}" class="add-store-btn">
+            <a href="{{ route('stores.createStoreView') }}" class="add-store-btn">
                 <div class="add-icon">
                   <span style="margin-bottom: 8px;">+</span>
                 </div>

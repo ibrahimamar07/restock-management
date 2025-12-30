@@ -8,13 +8,14 @@ use App\Http\Controllers\UserController;
 
 // PUBLIC ROUTES (Guest Only - khusus tanpa login)
 
-//kevin checa satrio 5026221083
-Route::middleware('guest')->group(function () {
 
+Route::middleware('guest')->group(function () {
+//kevin checa satrio 5026221083
     // Login
     Route::get('/', function () {
         return view('Main.welcome');
     })->name('login');
+
     Route::post('/login', [UserController::class, 'login'])->name('login.store');
 
     // Registration Step 1: Account
@@ -59,26 +60,26 @@ Route::middleware('auth')->group(function () {
 
 
     // List & Create
-    Route::get('/stores', [StoreController::class, 'index'])->name('stores.index');
-    Route::get('/stores/create', [StoreController::class, 'create'])->name('stores.create');
-    Route::post('/stores', [StoreController::class, 'store'])->name('stores.store');
+    Route::get('/stores', [StoreController::class, 'listStore'])->name('stores.listStore');
+    Route::get('/stores/create', [StoreController::class, 'createStoreView'])->name('stores.createStoreView');
+    Route::post('/stores', [StoreController::class, 'addStore'])->name('stores.addStore');
 
     // Show, Edit, Update, Delete
-    Route::get('/stores/{store}', [StoreController::class, 'show'])->name('stores.show');
-    Route::get('/stores/{store}/edit', [StoreController::class, 'edit'])->name('stores.edit');
-    Route::put('/stores/{store}', [StoreController::class, 'update'])->name('stores.update');
-    Route::delete('/stores/{store}', [StoreController::class, 'destroy'])->name('stores.destroy');
+    Route::get('/stores/{store}', [StoreController::class, 'showStore'])->name('stores.showStore');
+    Route::get('/stores/{store}/edit', [StoreController::class, 'editStoreView'])->name('stores.editStoreView');
+    Route::put('/stores/{store}', [StoreController::class, 'updateStore'])->name('stores.updateStore');
+    Route::delete('/stores/{store}', [StoreController::class, 'deleteStore'])->name('stores.deleteStore');
 
     // ITEM ROUTES (Nested & Standalone)
 
     // Create Item (Nested under Store)
-    Route::get('/stores/{store}/items/create', [ItemController::class, 'create'])->name('items.create');
-    Route::post('/stores/{store}/items', [ItemController::class, 'store'])->name('items.store');
+    Route::get('/stores/{store}/items/create', [ItemController::class, 'createItemView'])->name('items.createItemView');
+    Route::post('/stores/{store}/items', [ItemController::class, 'addItem'])->name('items.addItem');
 
     // Edit, Update, Delete Item (Standalone)
-    Route::get('/items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
-    Route::put('/items/{item}', [ItemController::class, 'update'])->name('items.update');
-    Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
+    Route::get('/items/{item}/edit', [ItemController::class, 'editItem'])->name('items.editItem');
+    Route::put('/items/{item}', [ItemController::class, 'updateItem'])->name('items.updateItem');
+    Route::delete('/items/{item}', [ItemController::class, 'deleteItem'])->name('items.deleteItem');
 
 
 
@@ -123,33 +124,9 @@ Route::middleware('auth')->group(function () {
         return view('Main.payment_number');
     });
 
-    Route::get('/home', function () {
-        return view('Main.home');
-    });
-
-    Route::get('/onboarding', function () {
-        return view('Main.onboarding');
-    });
-
-
-
-    Route::get('/register', function () {
-        return view('Main.register'); // <-- name of your Blade file
-    })->name('register');
-
-    Route::post('/register', [UserController::class, 'newUser'])->name('newUser');
-
-    Route::post('/login', [UserController::class, 'login'])->name('login');
-
-    Route::post('/new-profile', [UserController::class, 'saveProfile'])->name('saveProfile');
-
-    Route::post('/new-method', [UserController::class, 'newUserPayment'])->name('savePayment');
-
-    Route::post('/finalize-registration', [UserController::class, 'finalizeRegistration'])->name('finalizeRegistration');
-
 
     //Komang Alit Pujangga - 5026231115
-    Route::get('/profile', [UserController::class, 'manageprofile']);
+    Route::get('/profile', [UserController::class, 'manageprofile'])->name('profile');
 
     // Rute GET untuk menampilkan form edit (memanggil UserController)
     Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('editProfile');

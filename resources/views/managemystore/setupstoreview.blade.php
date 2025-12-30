@@ -13,7 +13,7 @@
 <body>
     <div class="container">
         <div class="px-3 py-3">
-            <a href="{{ route('stores.index') }}" class="back-btn">
+            <a href="{{ route('stores.listStore') }}" class="back-btn">
                 <i class="bi bi-chevron-left"></i>
             </a>
         </div>
@@ -21,7 +21,7 @@
         <div class="px-3">
             <h1 class="main-title">Let's set up your store!</h1>
 
-            <form action="{{ route('stores.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('stores.addStore') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="store-img-container">
                     <label for="storePicInput" class="store-image-placeholder" id="fileInputLabel">

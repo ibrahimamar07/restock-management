@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $store->storeName }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ asset('managemystore_css/storedetailview.css') }}">
@@ -13,7 +14,7 @@
 <body>
     <div class="container">
         <div class="px-3 py-3">
-            <a href="{{ route('stores.index') }}" class="back-btn">
+            <a href="{{ route('stores.listStore') }}" class="back-btn">
                 <i class="bi bi-chevron-left"></i>
             </a>
         </div>
@@ -28,7 +29,7 @@
                 <div class="store-info">
                     <h1>{{ $store->storeName }}</h1>
                     <p><i class="bi bi-geo-alt-fill"></i> {{ $store->storeAddress }}</p>
-                        <a href="{{ route('stores.edit', $store->idStore) }}" class="edit-btn">Edit Store</a>
+                        <a href="{{ route('stores.editStoreView', $store->idStore) }}" class="edit-btn">Edit Store</a>
                 </div>
             </div>
             
@@ -51,15 +52,18 @@
                             data-item-id="{{ $item->idItem }}"
                             data-item-name="{{ $item->itemName }}"
                             data-item-price="{{ $item->itemPrice }}"
-                            data-update-url="{{ route('items.update', $item->idItem) }}">
+                            data-update-url="{{ route('items.updateItem', $item->idItem) }}">
                             Edit
                         </button>
                         
                         {{-- Form Delete Item --}}
-                        <form action="{{ route('items.destroy', $item->idItem) }}" method="POST" style="display: inline;">
+                        <form id="delete-form-{{ $item->idItem }}"
+                             action="{{ route('items.deleteItem', $item->idItem) }}"
+                             method="POST" 
+                             style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="delete-item-btn" onclick="return confirm('Apakah Anda yakin ingin menghapus item {{ $item->itemName }}?')">Delete</button>
+                            <button type="submit" class="delete-item-btn" id="delete-item" onclick="konfirmasiHapus('delete-form-{{ $item->idItem }}')">Delete</button>
                         </form>
                     </div>
                    
@@ -69,7 +73,7 @@
 
            
             <div class="item-card" style="display: flex; justify-content: center; align-items: center; border: 2px dashed #5a5d8a; background: #1a2847;">
-                <a href="{{ route('items.create', $store->idStore) }}" class="add-item-btn" style="color: #5dd9e8; font-weight: bold;">
+                <a href="{{ route('items.createItemView', $store->idStore) }}" class="add-item-btn" style="color: #5dd9e8; font-weight: bold;">
                     <div class="add-icon" style="border-color: #5dd9e8; color: #5dd9e8;">
                         <i class="bi bi-plus-lg"></i>
                     </div>

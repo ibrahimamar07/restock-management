@@ -31,7 +31,7 @@
       </div>
     @endif
 
-    <form method="POST" action="/login">
+    <form  action={{ route('login.store') }} method="POST">
       @csrf
 
       <input type="text" name="username" class="form-control mb-3" placeholder="Username">
