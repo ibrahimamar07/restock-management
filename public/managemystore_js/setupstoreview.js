@@ -3,7 +3,7 @@ const fileInput = document.getElementById("storePicInput");
 const imagePreview = document.getElementById("storeImagePreview");
 const plusSign = document.getElementById("plusSign");
 
-// Tambahkan event listener untuk mendeteksi perubahan pada input file
+//  event listener untuk mendeteksi perubahan pada input file
 fileInput.addEventListener("change", function (event) {
     const file = event.target.files[0];
 

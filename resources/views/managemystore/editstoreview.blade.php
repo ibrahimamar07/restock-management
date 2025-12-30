@@ -13,12 +13,12 @@
 <body>
     <div class="container">
         <div class="px-3 py-3">
-            <a href="{{ route('stores.show', $store->idStore) }}" class="back-btn">
+            <a href="{{ route('stores.showStore', $store->idStore) }}" class="back-btn">
                 <i class="bi bi-chevron-left"></i>
             </a>
         </div>
 
-            <form action="{{ route('stores.update', $store->idStore) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('stores.updateStore', $store->idStore) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 
@@ -55,7 +55,7 @@
                 <button type="submit" class="finish-btn">Finish</button>
             </form>
 
-            <form action="{{ route('stores.destroy', $store->idStore) }}" method="POST">
+            <form action="{{ route('stores.deleteStore', $store->idStore) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this store?')">Delete Store</button>

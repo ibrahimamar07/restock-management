@@ -194,15 +194,18 @@ return redirect('/onboarding');
 public function manageprofile()
 {
     // Ambil ID pengguna dari Session yang disimpan saat login
-    $userId = Session::get('user_id');
+    // $userId = Session::get('user_id');
 
-    // Cari data pengguna berdasarkan ID. Gunakan find() karena idUser adalah Primary Key
-    $user = User::find($userId);
+    // // Cari data pengguna berdasarkan ID. Gunakan find() karena idUser adalah Primary Key
+    // $user = User::find($userId);
+
+    $user = Auth::user();
+
 
     // Cek jika pengguna tidak ditemukan (misal, session kedaluwarsa)
     if (!$user) {
         // Arahkan kembali ke login jika tidak ada data user
-        return redirect('/login')->with('error', 'Sesi Anda telah berakhir. Silakan login kembali.');
+        return redirect()->route('login')->with('error', 'Sesi Anda telah berakhir. Silakan login kembali.');
     }
 
     // Kirim objek $user ke view
@@ -214,12 +217,13 @@ public function manageprofile()
 //editprofilepage
 public function editProfile()
 {
-    $userId = Session::get('user_id');
-    $user = User::find($userId);
+    // $userId = Session::get('user_id');
+    // $user = User::find($userId);
+    $user = Auth::user();
 
     if (!$user) {
         // Redirect jika sesi tidak valid
-        return redirect('/login')->with('error', 'Sesi Anda telah berakhir. Silakan login kembali.');
+        return redirect()->route('login')->with('error', 'Sesi Anda telah berakhir. Silakan login kembali.');
     }
 
     // Mengirim objek $user ke view editprofileview
@@ -237,8 +241,9 @@ public function updateProfile(Request $request)
     ]);
 
     // 2. Ambil Data User
-    $userId = Session::get('user_id');
-    $user = User::find($userId);
+    // $userId = Session::get('user_id');
+    // $user = User::find($userId);
+    $user = Auth::user();
 
     if (!$user) {
         return redirect('/profile')->with('error', 'Gagal memperbarui profil.');
@@ -271,8 +276,8 @@ public function updateProfile(Request $request)
 public function changePasswordView()
 {
     // Cek apakah user sedang login
-    if (!Session::has('user_id')) {
-        return redirect('/login')->with('error', 'Silakan login kembali.');
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Silakan login kembali.');
     }
 
     // Hanya menampilkan view
@@ -292,11 +297,12 @@ public function updatePassword(Request $request)
     ]);
 
     // 2. Ambil Data User yang Sedang Login
-    $userId = Session::get('user_id');
-    $user = User::find($userId);
+    // $userId = Session::get('user_id');
+    // $user = User::find($userId);
+    $user = Auth::user();
 
     if (!$user) {
-        return redirect('/login')->with('error', 'Sesi tidak valid.');
+         return redirect()->route('login')->with('error', 'Sesi tidak valid.');
     }
 
     // 3. Verifikasi Password Lama
@@ -316,11 +322,12 @@ public function updatePassword(Request $request)
 //paymentmethodsmenu
 public function paymentMethodsView()
 {
-    if (!Session::has('user_id')) {
-        return redirect('/login')->with('error', 'Silakan login kembali.');
+    if (!Auth::check()) {
+         return redirect()->route('login')->with('error', 'Silakan login kembali.');
     }
 
-    $userId = Session::get('user_id');
+    // $userId = Session::get('user_id');
+    $userId = Auth::id();
 
     $paymentMethods = DB::table('user_payment_types')
         ->join('payment_types', 'user_payment_types.idPaymentType', '=', 'payment_types.idPaymentType')
@@ -342,7 +349,7 @@ public function setDefaultPaymentMethod(Request $request)
         'idUserPaymentType' => 'required|exists:user_payment_types,idUserPaymentType',
     ]);
 
-    $userId = Session::get('user_id');
+    $userId = Auth::id();
     $selectedId = $request->idUserPaymentType;
 
     DB::transaction(function () use ($userId, $selectedId) {
@@ -362,8 +369,8 @@ public function setDefaultPaymentMethod(Request $request)
 //newpaymentmethod
 public function addNewPaymentView()
 {
-    if (!Session::has('user_id')) {
-        return redirect('/login')->with('error', 'Silakan login kembali.');
+    if (!Auth::check()) {
+         return redirect()->route('login')->with('error', 'Silakan login kembali.');
     }
 
     // Ambil semua tipe pembayaran dari database (ID 1, 2, 3, 4, dst.)
@@ -380,8 +387,8 @@ public function addNewPaymentView()
 //storepaymentmethods
 public function storePaymentMethod(Request $request)
 {
-    if (!Session::has('user_id')) {
-        return redirect('/login')->with('error', 'Sesi tidak valid.');
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Sesi tidak valid.');
     }
 
     $request->validate([
@@ -389,7 +396,7 @@ public function storePaymentMethod(Request $request)
         'paymentDetails' => 'required|string|max:255',
     ]);
 
-    $userId = Session::get('user_id');
+    $userId = Auth::id();
 
     // Simpan ke database
     UserPaymentType::create([

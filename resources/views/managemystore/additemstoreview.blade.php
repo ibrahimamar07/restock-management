@@ -13,7 +13,7 @@
 <body>
     <div class="container">
         <div class="px-3 py-3">
-            <a href="{{ route('stores.show', $store->idStore) }}" class="back-btn">
+            <a href="{{ route('stores.showStore', $store->idStore) }}" class="back-btn">
                 <i class="bi bi-chevron-left"></i>
             </a>
         </div>
@@ -28,7 +28,7 @@
             <p class="section-title">Add Item</p>
 
             <div class="item-card">
-                <form action="{{ route('items.store', $store->idStore) }}" method="POST">
+                <form action="{{ route('items.addItem', $store->idStore) }}" method="POST">
                     @csrf
                     <input type="text" name="itemName" class="form-control" placeholder="Item Name (e.g., Beng-beng)" required>
                     @error('itemName')
@@ -46,7 +46,7 @@
                 </form>
             </div>
 
-            <a href="{{ route('stores.show', $store->idStore) }}" class="finish-btn" style="text-align: center; display: block; text-decoration: none;">Finish</a>
+            <a href="{{ route('stores.showStore', $store->idStore) }}" class="finish-btn" style="text-align: center; display: block; text-decoration: none;">Finish</a>
         </div>
     </div>
 

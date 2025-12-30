@@ -31,7 +31,7 @@ class StoreController extends Controller
     }
 
     // Display list of user's stores
-    public function index()
+    public function listStore()
     {
         $userId = $this->getUserId();
         $stores = Store::where('idUser', $userId)->paginate(10);
@@ -39,7 +39,7 @@ class StoreController extends Controller
     }
 
     // Show create store form
-    public function create()
+    public function createStoreView()
     {
         return view('managemystore.setupstoreview');
     }
@@ -48,7 +48,7 @@ class StoreController extends Controller
      * Store new store (Validasi dipindah ke StoreStoreRequest)
      * @param StoreStoreRequest $request
      */
-    public function store(StoreRequest $request) 
+    public function addStore(StoreRequest $request) 
     {
         // 1. Ambil semua data yang sudah divalidasi
         $data = $request->validated(); 
@@ -58,19 +58,19 @@ class StoreController extends Controller
         
         // 3. Siapkan data untuk dimasukkan ke database dengan penyederhanaan
         $data['idUser'] = $this->getUserId(); 
-        $data['storePic'] = $imageName; // Ganti object file dengan nama file string
+        $data['storePic'] = $imageName;
         
         // 4. Simpan Data ke Database menggunakan array $data lengkap
         Store::create($data);
 
-        return redirect()->route('stores.index')->with('success', 'Store created successfully!');
+        return redirect()->route('stores.listStore')->with('success', 'Store created successfully!');
     }
 
     /**
      * Show specific store with items (Menggunakan Route Model Binding)
      * @param Store $store
      */
-    public function show(Store $store) 
+    public function showStore(Store $store) 
     {
          $this->authorize('manage', $store);
          $items = $store->items()->paginate(10);
@@ -81,7 +81,7 @@ class StoreController extends Controller
      * Show edit store form (Menggunakan Route Model Binding)
      * @param Store $store
      */
-    public function edit(Store $store)
+    public function editStoreView(Store $store)
     {
         
         $this->authorize('manage', $store);
@@ -94,7 +94,7 @@ class StoreController extends Controller
      * @param StoreUpdateRequest $request
      * @param Store $store
      */
-    public function update(UpdateRequest $request, Store $store)
+    public function updateStore(UpdateRequest $request, Store $store)
     {
          $this->authorize('manage', $store);
 
@@ -117,14 +117,14 @@ class StoreController extends Controller
 
         $store->update($data);
 
-        return redirect()->route('stores.show', $store->idStore)->with('success', 'Store updated successfully!');
+        return redirect()->route('stores.showStore', $store->idStore)->with('success', 'Store updated successfully!');
     }
 
     /**
      * Delete store (Menggunakan Route Model Binding)
      * @param Store $store
      */
-    public function destroy(Store $store)
+    public function deleteStore(Store $store)
     {
         $this->authorize('manage', $store);
         
@@ -133,6 +133,6 @@ class StoreController extends Controller
 
         $store->delete();
 
-        return redirect()->route('stores.index')->with('success', 'Store deleted successfully!');
+        return redirect()->route('stores.listStore')->with('success', 'Store deleted successfully!');
     }
 }
