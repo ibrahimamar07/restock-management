@@ -4,10 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\InvoiceController;
 
 // PUBLIC ROUTES (Guest Only - khusus tanpa login)
-
 
 Route::middleware('guest')->group(function () {
 //kevin checa satrio 5026221083
@@ -43,7 +42,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/finalize-registration', [UserController::class, 'finalizeRegistration'])->name('finalizeRegistration');
 });
 
-
 //  PROTECTED ROUTES (Auth Required - Harus Login)
 //ibrahim amar alfanani 5026231195
 Route::middleware('auth')->group(function () {
@@ -58,7 +56,7 @@ Route::middleware('auth')->group(function () {
         return view('Main.home');
     })->name('home');
 
-
+    // STORE ROUTES
     // List & Create
     Route::get('/stores', [StoreController::class, 'listStore'])->name('stores.listStore');
     Route::get('/stores/create', [StoreController::class, 'createStoreView'])->name('stores.createStoreView');
@@ -71,7 +69,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/stores/{store}', [StoreController::class, 'deleteStore'])->name('stores.deleteStore');
 
     // ITEM ROUTES (Nested & Standalone)
-
     // Create Item (Nested under Store)
     Route::get('/stores/{store}/items/create', [ItemController::class, 'createItemView'])->name('items.createItemView');
     Route::post('/stores/{store}/items', [ItemController::class, 'addItem'])->name('items.addItem');
@@ -81,8 +78,28 @@ Route::middleware('auth')->group(function () {
     Route::put('/items/{item}', [ItemController::class, 'updateItem'])->name('items.updateItem');
     Route::delete('/items/{item}', [ItemController::class, 'deleteItem'])->name('items.deleteItem');
 
-
-
+    // INVOICE ROUTES
+    // Nathaniel Lado Hadi Winata - 5026231019
+    
+    // List all invoices (incoming & outgoing)
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    
+    // Show specific invoice detail
+    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
+    
+    // Create invoice from cart
+    Route::get('/carts/{cart}/create-invoice', [InvoiceController::class, 'createInvoiceView'])->name('invoices.createInvoiceView');
+    Route::post('/carts/{cart}/create-invoice', [InvoiceController::class, 'createInvoice'])->name('invoices.createInvoice');
+    
+    // Pay invoice
+    Route::get('/invoices/{invoice}/pay', [InvoiceController::class, 'payInvoiceView'])->name('invoices.payInvoiceView');
+    Route::post('/invoices/{invoice}/pay', [InvoiceController::class, 'processPayment'])->name('invoices.processPayment');
+    
+    // Payment confirmation
+    Route::get('/invoices/{invoice}/confirmation', [InvoiceController::class, 'paymentConfirmation'])->name('invoices.paymentConfirmation');
+    
+    // Cancel invoice
+    Route::delete('/invoices/{invoice}', [InvoiceController::class, 'cancelInvoice'])->name('invoices.cancel');
 
     // Felix Prajna Santoso - 5026231027
     Route::get('/store/browse', function () {
@@ -98,20 +115,6 @@ Route::middleware('auth')->group(function () {
         return view('managemystore.browsestoreview.addproofofrestockview');
     });
 
-    //Nathaniel Lado Hadi Winata - 5026231019
-    Route::get('/store/invoice', function () {
-        return view('managemystore.invoiceview.createinvoice');
-    });
-    Route::get('/store/invoice', function () {
-        return view('managemystore.invoiceview.payinvoice');
-    });
-    Route::get('/store/invoice', function () {
-        return view('managemystore.invoiceview.viewinvoice');
-    });
-    Route::get('/store/invoice', function () {
-        return view('managemystore.invoiceview.viewinvoicedetail');
-    });
-
     Route::get('/new-profile', function () {
         return view('Main.create_profile');
     });
@@ -123,7 +126,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/payment-number', function () {
         return view('Main.payment_number');
     });
-
 
     //Komang Alit Pujangga - 5026231115
     Route::get('/profile', [UserController::class, 'manageprofile'])->name('profile');

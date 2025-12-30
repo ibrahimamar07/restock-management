@@ -1,498 +1,345 @@
-{{-- nathaniel lado hadi winata 5026231019 --}}
-{{-- VIEW INVOICE DETAIL --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Detail</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <title>Invoice #{{ $invoice->idInvoice }} - Restock Management</title>
     <style>
-        body {
-            background: linear-gradient(180deg, #1a2847 0%, #0d1829 100%);
-            min-height: 100vh;
-            color: white;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            padding-bottom: 100px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .back-btn {
-            width: 40px;
-            height: 40px;
-            border: 2px solid #5dd9e8;
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1f3a 0%, #2d3561 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .back-button {
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #5dd9e8;
+            cursor: pointer;
+            transition: all 0.3s ease;
             text-decoration: none;
-            font-size: 20px;
-            transition: all 0.3s;
+            color: #7dd3fc;
         }
 
-        .back-btn:hover {
-            background: #5dd9e8;
-            color: #0d1829;
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
         }
 
-        .invoice-header {
-            padding: 20px;
-        }
-
-        .invoice-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .invoice-number {
-            font-size: 28px;
+        .title {
+            font-size: 36px;
             font-weight: 700;
-            color: white;
+            color: #7dd3fc;
+            flex: 1;
+            text-align: center;
+            margin-right: 48px;
         }
 
-        .invoice-status {
-            background: #FF9800;
-            color: white;
-            padding: 6px 16px;
+        .items-card {
+            background: rgba(125, 211, 252, 0.15);
             border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .invoice-status.paid {
-            background: #4CAF50;
-        }
-
-        .invoice-date {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .invoice-image-container {
-            padding: 0 20px;
+            padding: 20px;
             margin-bottom: 20px;
-        }
-
-        .invoice-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 20px;
-        }
-
-        .section-card {
-            background: #1e3a5f;
-            border-radius: 20px;
-            padding: 20px;
-            margin: 0 20px 15px;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 15px;
         }
 
         .item-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(125, 211, 252, 0.2);
         }
 
         .item-row:last-child {
             border-bottom: none;
         }
 
-        .item-info {
-            flex: 1;
+        .item-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2dd4bf;
         }
 
-        .item-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: white;
+        .item-price {
+            text-align: right;
+        }
+
+        .item-amount {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
             margin-bottom: 4px;
         }
 
         .item-quantity {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .item-price {
-            font-size: 16px;
-            font-weight: 700;
-            color: #5dd9e8;
-        }
-
-        .wallet-section {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .wallet-section:last-child {
-            border-bottom: none;
-        }
-
-        .wallet-icon {
-            width: 45px;
-            height: 45px;
-            background: #5dd9e8;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: #0d1829;
-            flex-shrink: 0;
-        }
-
-        .wallet-icon.restocking {
-            background: #FF9800;
-        }
-
-        .wallet-details {
-            flex: 1;
-        }
-
-        .wallet-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 2px;
-        }
-
-        .wallet-address {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .total-section {
-            background: linear-gradient(135deg, #1a7a8a 0%, #156873 100%);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 0 20px 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .total-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .total-row:last-child {
-            margin-bottom: 0;
             padding-top: 15px;
-            border-top: 2px solid rgba(255, 255, 255, 0.2);
+            margin-top: 10px;
+            border-top: 2px solid rgba(125, 211, 252, 0.3);
         }
 
         .total-label {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .total-value {
-            font-size: 14px;
+            font-size: 18px;
             font-weight: 600;
-            color: white;
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        .total-amount-label {
-            font-size: 16px;
+        .total-amount {
+            font-size: 22px;
             font-weight: 700;
-            color: white;
+            color: #7dd3fc;
         }
 
-        .total-amount-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: white;
+        .image-section {
+            margin-bottom: 20px;
+            border-radius: 20px;
+            overflow: hidden;
         }
 
-        .action-buttons {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, #0d1829 80%, transparent);
+        .image-section img {
+            width: 100%;
+            display: block;
+        }
+
+        .payment-section {
+            background: rgba(125, 211, 252, 0.1);
+            border-radius: 20px;
             padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .payment-method {
             display: flex;
-            gap: 10px;
+            align-items: center;
+            gap: 15px;
         }
 
-        .btn-secondary-action {
-            flex: 1;
-            background: transparent;
-            border: 2px solid #5dd9e8;
-            border-radius: 50px;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #5dd9e8;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-secondary-action:hover {
-            background: rgba(93, 217, 232, 0.1);
-        }
-
-        .btn-primary-action {
-            flex: 2;
-            background: #5dd9e8;
-            border: none;
-            border-radius: 50px;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #0d1829;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary-action:hover {
-            background: #4ac7d9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(93, 217, 232, 0.3);
-        }
-
-        .btn-primary-action:disabled {
-            background: #6b7280;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .success-badge {
-            background: rgba(76, 175, 80, 0.2);
-            border: 2px solid #4CAF50;
-            border-radius: 15px;
-            padding: 12px 20px;
+        .payment-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(45, 212, 191, 0.2);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin: 0 20px 20px;
-        }
-
-        .success-badge i {
             font-size: 24px;
-            color: #4CAF50;
         }
 
-        .success-badge-text {
-            font-size: 16px;
+        .payment-details h3 {
+            font-size: 18px;
+            color: #7dd3fc;
+            margin-bottom: 4px;
+        }
+
+        .payment-details p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .expand-icon {
+            margin-left: auto;
+            color: #7dd3fc;
+            font-size: 24px;
+        }
+
+        .pay-button {
+            width: 100%;
+            padding: 18px;
+            background: #2dd4bf;
+            color: #1a1f3a;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
             font-weight: 700;
-            color: #4CAF50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
         }
 
-        .success-timestamp {
+        .pay-button:hover {
+            background: #34e4ce;
+            transform: translateY(-2px);
+        }
+
+        .status-footer {
             text-align: center;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.5);
-            margin: -10px 20px 20px;
+            padding: 30px 20px;
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .status-footer.paid {
+            color: #2dd4bf;
+        }
+
+        .status-footer.pending {
+            color: #fb923c;
+        }
+
+        .status-icon-large {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .status-footer.paid .status-icon-large {
+            background: rgba(45, 212, 191, 0.2);
+        }
+
+        .status-footer.pending .status-icon-large {
+            background: rgba(251, 146, 60, 0.2);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .spinner {
+            animation: spin 1.5s linear infinite;
+        }
+
+        .cancel-button {
+            width: 100%;
+            padding: 18px;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 2px solid #ef4444;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .cancel-button:hover {
+            background: rgba(239, 68, 68, 0.3);
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="px-3 py-3">
-            <a href="#" class="back-btn" onclick="history.back(); return false;">
-                <i class="bi bi-chevron-left"></i>
+    <div class="container">
+        <div class="header">
+            <a href="{{ route('invoices.index') }}" class="back-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
             </a>
+            <h1 class="title">Invoice - #{{ $invoice->idInvoice }}</h1>
         </div>
 
-        <div class="invoice-header">
-            <div class="invoice-title">
-                <h1 class="invoice-number">Invoice - #IS002</h1>
-                <span class="invoice-status" id="invoiceStatus">Pending</span>
-            </div>
-            <p class="invoice-date">Date of Issue: 18 Apr 2025</p>
-        </div>
-
-        <div class="invoice-image-container">
-            <img src="https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=600&h=300&fit=crop" alt="Invoice Product" class="invoice-image">
-        </div>
-
-        <!-- Success Badge (only shown when paid) -->
-        <div class="success-badge" id="successBadge" style="display: none;">
-            <i class="bi bi-check-circle-fill"></i>
-            <span class="success-badge-text">Invoice has been successfully paid!</span>
-        </div>
-        <div class="success-timestamp" id="successTimestamp" style="display: none;">
-            18:55, 07 Apr 2025
-        </div>
-
-        <!-- Items Section -->
-        <div class="section-card">
-            <h2 class="section-title">Items</h2>
-
-            <div class="item-row">
-                <div class="item-info">
-                    <div class="item-name">Beng-beng</div>
-                    <div class="item-quantity">Qty: 10</div>
+        <!-- Items List -->
+        <div class="items-card">
+            @foreach($invoice->cart->cartItems as $cartItem)
+                <div class="item-row">
+                    <div class="item-name">{{ $cartItem->item->itemName }}</div>
+                    <div class="item-price">
+                        <div class="item-amount">Rp{{ number_format($cartItem->subTotal, 2, ',', '.') }}</div>
+                        <div class="item-quantity">x{{ $cartItem->quantity }}</div>
+                    </div>
                 </div>
-                <div class="item-price">Rp20.000,00</div>
-            </div>
-
-            <div class="item-row">
-                <div class="item-info">
-                    <div class="item-name">Ultramlik</div>
-                    <div class="item-quantity">Qty: 5</div>
-                </div>
-                <div class="item-price">Rp40.000,00</div>
-            </div>
-
-            <div class="item-row">
-                <div class="item-info">
-                    <div class="item-name">Air Putih</div>
-                    <div class="item-quantity">Qty: 15</div>
-                </div>
-                <div class="item-price">Rp45.000,00</div>
-            </div>
-
-            <div class="item-row">
-                <div class="item-info">
-                    <div class="item-name">Javana</div>
-                    <div class="item-quantity">Qty: 8</div>
-                </div>
-                <div class="item-price">Rp32.000,00</div>
-            </div>
-        </div>
-
-        <!-- Payment Method Section -->
-        <div class="section-card">
-            <h2 class="section-title">Payment Method</h2>
-
-            <div class="wallet-section">
-                <div class="wallet-icon">
-                    <i class="bi bi-wallet2"></i>
-                </div>
-                <div class="wallet-details">
-                    <div class="wallet-name">Gopay</div>
-                    <div class="wallet-address">+62xxxxx</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Restocking Wallet Section (only shown when paid) -->
-        <div class="section-card" id="restockingSection" style="display: none;">
-            <h2 class="section-title">Restocking Wallet</h2>
-
-            <div class="wallet-section">
-                <div class="wallet-icon restocking">
-                    <i class="bi bi-box-seam"></i>
-                </div>
-                <div class="wallet-details">
-                    <div class="wallet-name">Aldi Wardana</div>
-                    <div class="wallet-address">92xxxxxxx</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Total Section -->
-        <div class="total-section">
-            <div class="total-row">
-                <span class="total-label">Subtotal</span>
-                <span class="total-value">Rp137.000,00</span>
-            </div>
+            @endforeach
 
             <div class="total-row">
-                <span class="total-label">Tax (0%)</span>
-                <span class="total-value">Rp0,00</span>
-            </div>
-
-            <div class="total-row">
-                <span class="total-label">Discount</span>
-                <span class="total-value">-Rp22.000,00</span>
-            </div>
-
-            <div class="total-row">
-                <span class="total-amount-label">Total Amount</span>
-                <span class="total-amount-value">Rp115.000,00</span>
+                <div class="total-label">Total {{ $invoice->cart->cartItems->sum('quantity') }} produk</div>
+                <div class="total-amount">Rp{{ number_format($invoice->totalAmount, 2, ',', '.') }}</div>
             </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="action-buttons" id="actionButtons">
-            <button class="btn-secondary-action" onclick="downloadInvoice()">
-                <i class="bi bi-download"></i> Download
-            </button>
-            <button class="btn-primary-action" id="payButton" onclick="proceedToPayment()">
+        <!-- Restock Proof Image -->
+        @if($invoice->cart->restockProof)
+            <div class="image-section">
+                <img src="{{ asset('storage/restock_proof/' . $invoice->cart->restockProof) }}" alt="Restock Proof">
+            </div>
+        @endif
+
+        <!-- Status-based Display -->
+        @if($invoice->status === 'unpaid' && $isPayer)
+            <!-- Not Paid - Show Payment Button -->
+            <div class="payment-section">
+                <div class="payment-method">
+                    <div class="payment-icon">💳</div>
+                    <div class="payment-details">
+                        <h3>Payment Method</h3>
+                        <p>Select payment method</p>
+                    </div>
+                    <div class="expand-icon">▼</div>
+                </div>
+            </div>
+
+            <a href="{{ route('invoices.payInvoiceView', $invoice->idInvoice) }}" class="pay-button">
                 Pay Invoice
-            </button>
-        </div>
+            </a>
+
+            @if(!$isPayer)
+                <form action="{{ route('invoices.cancel', $invoice->idInvoice) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this invoice?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="cancel-button">Cancel Invoice</button>
+                </form>
+            @endif
+
+        @elseif($invoice->status === 'unpaid' && !$isPayer)
+            <!-- Pending - Waiting for Payment -->
+            <div class="status-footer pending">
+                <div class="status-icon-large spinner">⟳</div>
+                <span>Waiting for Payment from {{ $invoice->cart->store->storeName }}</span>
+            </div>
+
+            <form action="{{ route('invoices.cancel', $invoice->idInvoice) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this invoice?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="cancel-button">Cancel Invoice</button>
+            </form>
+
+        @elseif($invoice->status === 'paid')
+            <!-- Paid - Show Confirmation -->
+            <div class="status-footer paid">
+                <div class="status-icon-large">✓</div>
+                <span>Invoice Paid</span>
+            </div>
+        @endif
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Simulate invoice status (can be changed to test different states)
-        let invoiceStatus = 'pending'; // 'pending' or 'paid'
-
-        function initializePage() {
-            if (invoiceStatus === 'paid') {
-                showPaidState();
-            } else {
-                showPendingState();
-            }
-        }
-
-        function showPaidState() {
-            document.getElementById('invoiceStatus').textContent = 'Paid';
-            document.getElementById('invoiceStatus').classList.remove('pending');
-            document.getElementById('invoiceStatus').classList.add('paid');
-
-            document.getElementById('successBadge').style.display = 'flex';
-            document.getElementById('successTimestamp').style.display = 'block';
-            document.getElementById('restockingSection').style.display = 'block';
-
-            // Change action button
-            const actionButtons = document.getElementById('actionButtons');
-            actionButtons.innerHTML = `
-                <button class="btn-secondary-action" onclick="downloadInvoice()">
-                    <i class="bi bi-download"></i> Download
-                </button>
-                <button class="btn-secondary-action" onclick="shareInvoice()">
-                    <i class="bi bi-share"></i> Share
-                </button>
-            `;
-        }
-
-        function showPendingState() {
-            document.getElementById('invoiceStatus').textContent = 'Pending';
-            document.getElementById('invoiceStatus').classList.add('pending');
-        }
-
-        function proceedToPayment() {
-            console.log('Proceeding to payment...');
-            // In real implementation, redirect to payment page
-            // window.location.href = '/invoice/IS002/pay';
-            alert('Redirecting to payment page...');
-        }
-
-        function downloadInvoice() {
-            console.log('Downloading invoice...');
-            alert('Invoice download started...');
-            // In real implementation, trigger PDF download
-        }
-
-        function shareInvoice() {
-            console.log('Sharing invoice...');
-            alert('Share invoice dialog...');
-            // In real implementation, open share dialog
-        }
-
-        // Initialize page on load
-        initializePage();
-    </script>
 </body>
 </html>

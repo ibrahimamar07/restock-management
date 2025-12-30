@@ -35,10 +35,10 @@
                 <p>Browse Store</p>
             </div>
 
-            <div class="menu-card">
+            <a href="{{ route('invoices.index') }}" class="menu-card" role="button" aria-label="My Invoices" style="text-decoration: none;">
                 <img src="{{ asset('img/Files.png') }}" class="menu-icon" alt="My Invoices">
                 <p>My Invoices</p>
-            </div>
+            </a>
 
             <!-- changed: make entire card a link to "/" -->
             <a href="{{ route('stores.listStore') }}" class="menu-card" role="button" aria-label="My Store" style="text-decoration: none;">
