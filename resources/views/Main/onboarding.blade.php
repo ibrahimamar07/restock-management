@@ -20,15 +20,17 @@
 
         <div class="option-box">
 
-            <a href="{{ route('stores.index') }}">
+            <a href="{{ route('stores.listStore') }}">
                 <button class="option top">
                     I want to find people to restock my store
                 </button>
             </a>
 
-            <button class="option bottom">
-                I want to find stores that needs restocking
-            </button>
+            <a href="{{ url('/store/browse') }}">
+                <button class="option bottom">
+                    I want to find stores that needs restocking
+                </button>
+            </a>
 
         </div>
 
