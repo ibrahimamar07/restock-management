@@ -112,17 +112,6 @@ Route::middleware('auth')->group(function () {
         return view('managemystore.invoiceview.viewinvoicedetail');
     });
 
-    Route::get('/new-profile', function () {
-        return view('Main.create_profile');
-    });
-
-    Route::get('/new-method', function () {
-        return view('Main.create_payment_method');
-    });
-
-    Route::get('/payment-number', function () {
-        return view('Main.payment_number');
-    });
 
 
     //Komang Alit Pujangga - 5026231115
@@ -151,4 +140,6 @@ Route::middleware('auth')->group(function () {
 
     // TAMBAH: Rute POST untuk menyimpan payment method baru (untuk user yang sudah login)
     Route::post('/profile/paymentmethods/store', [UserController::class, 'storePaymentMethod'])->name('storePaymentMethod');
+
+    Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 });
