@@ -35,7 +35,7 @@
             
             <h1>{{ $store->name }}</h1>
 
-            <div class="items-list">
+            {{-- <div class="items-list">
                 @foreach($store->items as $item)
                     <div class="item-card">
                         <h4>{{ $item->name }}</h4>
@@ -46,7 +46,7 @@
                         </a>
                 </div>
                 @endforeach
-            </div>
+            </div> --}}
             <h2 class="mt-4 mb-3" style="color: #5dd9e8;">Daftar Item</h2>
 
             @foreach($items as $item)

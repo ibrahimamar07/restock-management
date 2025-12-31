@@ -41,7 +41,7 @@
             </a>
 
             <!-- changed: make entire card a link to "/" -->
-            <a href="{{ route('managemystore.browsestoreview.storelistview') }}" class="menu-card" role="button" aria-label="My Store" style="text-decoration: none;">
+            <a href="{{ route('stores.listStore') }}" class="menu-card" role="button" aria-label="My Store" style="text-decoration: none;">
                 <img src="{{ asset('img/Shopping_Bag_02.png') }}" class="menu-icon" alt="My Store">
                 <p>My Store</p>
             </a>

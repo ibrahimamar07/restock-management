@@ -107,10 +107,11 @@ Route::middleware('auth')->group(function () {
     // Felix Prajna Santoso - 5026231027
 
     // 1. Halaman List Toko
-    Route::get('/stores', [storeController::class, 'index'])->name('managemystore.browsestoreview.storelistview');
+    //buat yang baru dicontroler mu sendiri lix 
+    // Route::get('/stores', [storeController::class, 'index'])->name('stores.index');
 
-    // 2. Halaman Detail Toko (Menampilkan Item)
-    Route::get('/stores/{id}', [storeController::class, 'show'])->name('stores.show');
+    // // 2. Halaman Detail Toko (Menampilkan Item)
+    // Route::get('/stores/{id}', [storeController::class, 'show'])->name('stores.show');
 
     // 3. Halaman Pilih Item/Form Upload Bukti (Tergantung alur Anda, ini asumsi langsung ke upload)
     // Jika alurnya: Pilih Item -> Masuk ke Halaman Upload
