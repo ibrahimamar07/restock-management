@@ -11,25 +11,6 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Store\StoreRequest;
 use App\Http\Requests\Store\UpdateRequest;
 use App\Services\StoreImageService;
-use App\Models\Store; // Felix Prajna Santoso 5026231027 
-
-public function index()
-{
-    // Mengambil semua data toko
-    $stores = Store::all(); 
-    
-    // Mengirim data $stores ke view
-    return view('managemystore.browsestoreview.storelistview', compact('stores'));
-}
-
-public function show($id)
-{
-    // Ambil toko berdasarkan ID, beserta items-nya (Relasi harus ada di Model Store)
-    $store = Store::with('items')->findOrFail($id);
-
-    // Pastikan path view ini sesuai dengan folder Anda
-    return view('managemystore.browsestoreview.storedetailview', compact('store'));
-}
 
 class StoreController extends Controller
 
