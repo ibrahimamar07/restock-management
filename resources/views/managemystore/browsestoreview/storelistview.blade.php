@@ -14,11 +14,6 @@
             color: white;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
-        .status-bar {
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
         .header {
             padding: 20px;
             display: flex;
@@ -130,15 +125,13 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
-            <a href="#" class="back-btn">
+            <a href="{{ route('home') }}" class="back-btn">
                 <i class="bi bi-chevron-left"></i>
             </a>
             <h1 class="header-title">Stores</h1>
         </div>
 
-        <!-- Info Banner -->
         <div class="info-banner">
             <div class="info-icon">i</div>
             <div class="info-content">
@@ -147,56 +140,35 @@
             </div>
         </div>
 
-        <!-- Store List -->
         <div class="store-list">
-            <a href="#" class="store-card">
-                <div class="store-logo">
-                    <i class="bi bi-shop" style="color: #1a7a8a;"></i>
-                </div>
-                <div class="store-info">
-                    <h3 class="store-name">TC Store</h3>
-                    <p class="store-address">Jl. Teknik Kimia no.1A</p>
-                </div>
-                <i class="bi bi-chevron-right chevron-icon"></i>
-            </a>
+            @forelse($stores as $store)
+                <a href="{{ route('browse.detail', $store->idStore) }}" class="store-card">
+                    
+                    <div class="store-logo">
+                        @if($store->storePic)
+                            <img src="{{ asset('storage/' . $store->storePic) }}" alt="{{ $store->storeName }}">
+                        @else
+                            <i class="bi bi-shop" style="color: #1a7a8a;"></i>
+                        @endif
+                    </div>
+                    
+                    <div class="store-info">
+                        <h3 class="store-name">{{ $store->storeName }}</h3>
+                        <p class="store-address">{{ $store->storeAddress }}</p>
+                    </div>
 
-            <a href="#" class="store-card">
-                <div class="store-logo">
-                    <i class="bi bi-shop" style="color: #1a7a8a;"></i>
-                </div>
-                <div class="store-info">
-                    <h3 class="store-name">Kara Store</h3>
-                    <p class="store-address">Jl. Keputih Tegal Timur VII</p>
-                </div>
-                <i class="bi bi-chevron-right chevron-icon"></i>
-            </a>
-
-            <a href="#" class="store-card">
-                <div class="store-logo">
-                    <i class="bi bi-shop" style="color: #1a7a8a;"></i>
-                </div>
-                <div class="store-info">
-                    <h3 class="store-name">TC Store</h3>
-                    <p class="store-address">Jl. Teknik Kimia Permai no.1A</p>
-                </div>
-                <i class="bi bi-chevron-right chevron-icon"></i>
-            </a>
+                    <i class="bi bi-chevron-right chevron-icon"></i>
+                </a>
+            @empty
+                <p class="text-center">No stores available.</p>
+            @endforelse
+            
+            <div class="d-flex justify-content-center mt-4">
+                {{ $stores->links() }}
+            </div>
         </div>
     </div>
-        <div class="store-container">
-            @foreach($stores as $store)
-                <div class="store-card">
-                    <img src="{{ asset('storage/' . $store->image_path) }}" alt="Store Image">
-            
-                    <h3>{{ $store->name }}</h3>
-                    <p>{{ $store->location }}</p>
 
-                    <a href="{{ route('stores.show', $store->id) }}" class="btn-detail">
-                        View Detail
-                    </a>
-                </div>
-            @endforeach
-        </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
