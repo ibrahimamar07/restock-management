@@ -1,5 +1,6 @@
 <?php
 // ibrahim amar alfanani 5026231195
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,6 +25,7 @@ class Store extends Model
         return $this->belongsTo(User::class, 'idUser', 'idUser');
     }
 
+    // PERHATIKAN: Fungsi items cukup satu saja
     public function items()
     {
         return $this->hasMany(Item::class, 'idStore', 'idStore');
@@ -33,5 +35,4 @@ class Store extends Model
     {
         return $this->hasMany(Cart::class, 'idStore', 'idStore');
     }
-
 }

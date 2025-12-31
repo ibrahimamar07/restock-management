@@ -217,6 +217,28 @@
         </div>
     </div>
 
+        <div class="container">
+    <h2>Restock Item: {{ $item->itemName }}</h2>
+    
+    <form action="{{ route('restock.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        
+        <input type="hidden" name="idItem" value="{{ $item->idItem }}">
+        
+        <div class="mb-3">
+            <label>Quantity Restock</label>
+            <input type="number" name="quantity" class="form-control" required min="1">
+        </div>
+        
+        <div class="mb-3">
+            <label>Upload Proof (Image)</label>
+            <input type="file" name="proof_image" class="form-control" accept="image/*" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit Proof</button>
+    </form>
+</div>
+
     <!-- Hidden File Input -->
     <input type="file" id="fileInput" class="file-input" accept="image/*" multiple onchange="handleFileSelect(event)">
 
