@@ -1,7 +1,7 @@
 <?php
 // app/Http/Controllers/InvoiceController.php
 // Nathaniel Lado Hadi Winata - 5026231019
-// ibrahim amar alfanani 5026231195
+//ibrahim amar alfanani 5026231195
 
 namespace App\Http\Controllers;
 
@@ -66,7 +66,15 @@ class InvoiceController extends Controller
         // Determine if current user is the payer (store owner)
         $isPayer = ($invoice->idStoreOwner == $this->getUserId());
 
-        return view('managemystore.invoiceview.viewinvoicedetail', compact('invoice', 'isPayer'));
+        // Get payment methods if user is the payer and invoice is unpaid
+        $paymentMethods = collect();
+        if ($isPayer && $invoice->status === 'unpaid') {
+            $paymentMethods = UserPaymentType::with('paymentType')
+                ->where('idUser', $this->getUserId())
+                ->get();
+        }
+
+        return view('managemystore.invoiceview.viewinvoicedetail', compact('invoice', 'isPayer', 'paymentMethods'));
     }
 
     /**
@@ -81,7 +89,7 @@ class InvoiceController extends Controller
         }
 
         // Cart must have status 'converted_to_invoice' and not have invoice yet
-        if ($cart->status !== 'converted_to_invoice' || $cart->invoice) {
+        if ($cart->status == 'converted_to_invoice' || $cart->invoice) {
             abort(403, 'This cart cannot be converted to invoice.');
         }
 
@@ -104,7 +112,7 @@ class InvoiceController extends Controller
         }
 
         // Validate cart status
-        if ($cart->status !== 'converted_to_invoice' || $cart->invoice) {
+        if ($cart->status == 'converted_to_invoice' || $cart->invoice) {
             return redirect()->back()->with('error', 'This cart cannot be converted to invoice.');
         }
 
@@ -124,15 +132,39 @@ class InvoiceController extends Controller
                 'status' => 'unpaid',
             ]);
 
+             $cart->update([
+                'status' => 'converted_to_invoice',
+            ]);
+
             DB::commit();
 
-            return redirect()->route('invoices.show', $invoice->idInvoice)
+            // Redirect to invoice created confirmation page
+            return redirect()->route('invoices.createdConfirmation', $invoice->idInvoice)
                 ->with('success', 'Invoice created successfully!');
 
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Failed to create invoice: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Show invoice created confirmation page
+     * @param Invoice $invoice
+     */
+    public function invoiceCreatedConfirmation(Invoice $invoice)
+    {
+        // Authorization menggunakan Policy
+        $this->authorize('view', $invoice);
+
+        // Load relationships
+        $invoice->load([
+            'cart.store',
+            'restocker.userPaymentTypes.paymentType',
+            'storeOwner.userPaymentTypes.paymentType'
+        ]);
+
+        return view('managemystore.invoiceview.invoicecreatedconfirmation', compact('invoice'));
     }
 
     /**
@@ -216,11 +248,11 @@ class InvoiceController extends Controller
         // Authorization menggunakan Policy
         $this->authorize('view', $invoice);
 
-        // Load relationships
+        // Load relationships including restocker's payment methods
         $invoice->load([
             'cart.cartItems.item',
             'payments.userPaymentType.paymentType',
-            'restocker',
+            'restocker.userPaymentTypes.paymentType',
             'storeOwner'
         ]);
 

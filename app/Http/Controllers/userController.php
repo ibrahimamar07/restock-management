@@ -408,6 +408,15 @@ public function storePaymentMethod(Request $request)
     return redirect()->route('paymentMethodsView')->with('success', 'Metode pembayaran berhasil ditambahkan!');
 }
 
+//logout
+public function logout(Request $request)
+{
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('login');
+}
 }//controller
 
 

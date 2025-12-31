@@ -138,10 +138,16 @@
             margin-bottom: 20px;
         }
 
-        .payment-method {
+        .payment-method-trigger {
             display: flex;
             align-items: center;
             gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method-trigger:hover {
+            opacity: 0.8;
         }
 
         .payment-icon {
@@ -166,10 +172,113 @@
             color: rgba(255, 255, 255, 0.6);
         }
 
+        #selectedMethodText {
+            transition: all 0.3s ease;
+        }
+
         .expand-icon {
             margin-left: auto;
             color: #7dd3fc;
             font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .payment-methods-dropdown {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(125, 211, 252, 0.2);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .payment-option {
+            background: rgba(125, 211, 252, 0.05);
+            border: 2px solid rgba(125, 211, 252, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .payment-option:hover {
+            background: rgba(125, 211, 252, 0.1);
+            border-color: rgba(125, 211, 252, 0.4);
+        }
+
+        .payment-option.selected {
+            background: rgba(45, 212, 191, 0.15);
+            border-color: #2dd4bf;
+        }
+
+        .payment-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(125, 211, 252, 0.5);
+            border-radius: 50%;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .payment-option.selected .payment-radio {
+            border-color: #2dd4bf;
+        }
+
+        .payment-option.selected .payment-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: #2dd4bf;
+            border-radius: 50%;
+        }
+
+        .payment-icon-small {
+            width: 40px;
+            height: 40px;
+            background: rgba(45, 212, 191, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .payment-info-dropdown {
+            flex: 1;
+        }
+
+        .payment-name-small {
+            font-size: 15px;
+            font-weight: 600;
+            color: #7dd3fc;
+            margin-bottom: 3px;
+        }
+
+        .payment-details-small {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .pay-button {
@@ -190,6 +299,43 @@
 
         .pay-button:hover {
             background: #34e4ce;
+            transform: translateY(-2px);
+        }
+
+        .pay-button:disabled {
+            background: rgba(45, 212, 191, 0.3);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .no-payment-section {
+            background: rgba(251, 146, 60, 0.1);
+            border: 1px solid rgba(251, 146, 60, 0.3);
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .no-payment-section p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .add-method-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #fb923c;
+            color: #1a1f3a;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .add-method-button:hover {
+            background: #fdba74;
             transform: translateY(-2px);
         }
 
@@ -296,29 +442,66 @@
 
         <!-- Status-based Display -->
         @if($invoice->status === 'unpaid' && $isPayer)
-            <!-- Not Paid - Show Payment Button -->
-            <div class="payment-section">
-                <div class="payment-method">
-                    <div class="payment-icon">💳</div>
-                    <div class="payment-details">
-                        <h3>Payment Method</h3>
-                        <p>Select payment method</p>
+            <!-- Not Paid - Show Payment Method Selection -->
+            @if($paymentMethods->count() > 0)
+                <form action="{{ route('invoices.processPayment', $invoice->idInvoice) }}" method="POST" id="paymentForm">
+                    @csrf
+                    
+                    <div class="payment-section" id="paymentMethodSelector">
+                        <div class="payment-method-trigger" onclick="togglePaymentMethods()">
+                            <div class="payment-icon">💳</div>
+                            <div class="payment-details">
+                                <h3>Payment Method</h3>
+                                <p id="selectedMethodText">Select payment method</p>
+                            </div>
+                            <div class="expand-icon" id="expandIcon">▼</div>
+                        </div>
+
+                        <div class="payment-methods-dropdown" id="paymentMethodsDropdown" style="display: none;">
+                            @foreach($paymentMethods as $method)
+                                <label class="payment-option" data-method="{{ $method->idUserPaymentType }}">
+                                    <div class="payment-radio"></div>
+                                    <div class="payment-icon-small">
+                                        @if($method->paymentType->paymentName === 'Gopay')
+                                            💳
+                                        @elseif($method->paymentType->paymentName === 'Bank Transfer')
+                                            🏦
+                                        @elseif($method->paymentType->paymentName === 'E-Wallet')
+                                            👛
+                                        @else
+                                            💰
+                                        @endif
+                                    </div>
+                                    <div class="payment-info-dropdown">
+                                        <div class="payment-name-small">{{ $method->paymentType->paymentName }}</div>
+                                        <div class="payment-details-small">{{ $method->paymentDetails }}</div>
+                                    </div>
+                                    <input type="radio" name="idUserPaymentType" value="{{ $method->idUserPaymentType }}" style="display: none;" required 
+                                           data-name="{{ $method->paymentType->paymentName }}" 
+                                           data-details="{{ $method->paymentDetails }}">
+                                </label>
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="expand-icon">▼</div>
-                </div>
-            </div>
 
-            <a href="{{ route('invoices.payInvoiceView', $invoice->idInvoice) }}" class="pay-button">
-                Pay Invoice
-            </a>
+                    <button type="submit" class="pay-button" id="payButton">
+                        Pay Invoice
+                    </button>
+                </form>
 
-            @if(!$isPayer)
                 <form action="{{ route('invoices.cancel', $invoice->idInvoice) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this invoice?')">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="cancel-button">Cancel Invoice</button>
                 </form>
+            @else
+                <div class="no-payment-section">
+                    <p>You don't have any payment methods set up yet.</p>
+                    <a href="{{ route('addPaymentMethodView') }}" class="add-method-button">Add Payment Method</a>
+                </div>
             @endif
+
+        @elseif($invoice->status === 'unpaid' && !$isPayer)
 
         @elseif($invoice->status === 'unpaid' && !$isPayer)
             <!-- Pending - Waiting for Payment -->
@@ -341,5 +524,74 @@
             </div>
         @endif
     </div>
+    <script>
+        // Toggle payment methods dropdown
+        function togglePaymentMethods() {
+            const dropdown = document.getElementById('paymentMethodsDropdown');
+            const icon = document.getElementById('expandIcon');
+            
+            if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+                dropdown.style.display = 'block';
+                icon.classList.add('rotated');
+            } else {
+                dropdown.style.display = 'none';
+                icon.classList.remove('rotated');
+            }
+        }
+
+        // Payment method selection
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selected class from all options
+                document.querySelectorAll('.payment-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                
+                // Check the radio button
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+                
+                // Update selected method text
+                const methodName = radio.getAttribute('data-name');
+                const methodDetails = radio.getAttribute('data-details');
+                document.getElementById('selectedMethodText').textContent = methodName + ' - ' + methodDetails;
+                
+                // Close dropdown after selection
+                document.getElementById('paymentMethodsDropdown').style.display = 'none';
+                document.getElementById('expandIcon').classList.remove('rotated');
+                
+                // Enable pay button
+                document.getElementById('payButton').disabled = false;
+            });
+        });
+
+        // Form submission
+        document.getElementById('paymentForm')?.addEventListener('submit', function(e) {
+            const selected = document.querySelector('input[name="idUserPaymentType"]:checked');
+            if (!selected) {
+                e.preventDefault();
+                alert('Please select a payment method');
+                return false;
+            }
+            
+            // Show loading state
+            const payButton = document.getElementById('payButton');
+            payButton.disabled = true;
+            payButton.textContent = 'Processing...';
+            
+            return confirm('Are you sure you want to pay this invoice?');
+        });
+
+        // Disable pay button initially
+        window.addEventListener('DOMContentLoaded', function() {
+            const payButton = document.getElementById('payButton');
+            if (payButton) {
+                payButton.disabled = true;
+            }
+        });
+    </script>
 </body>
 </html>

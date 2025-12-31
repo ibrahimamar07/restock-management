@@ -8,9 +8,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/profile.css">
-
 </head>
 <body>
+
+    <!-- Hidden logout form (submits POST to route named 'logout') -->
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+        @csrf
+    </form>
+
     <div class="container profile-container">
 
         <div class="px-3 pt-4 pb-3">
@@ -18,6 +23,7 @@
                 <i class="bi bi-chevron-left"></i>
             </a>
         </div>
+
         @if (session('success'))
             <div class="alert alert-success mt-3 px-3">
                 {{ session('success') }}
@@ -30,17 +36,16 @@
             </div>
         @endif
 
-            <div class="px-3 profile-header mb-5">
-                <img src="{{ $user->profilepic ? asset('storage/' . $user->profilepic) : asset('img/avatardefault.png') }}"
-                    alt="{{ $user->nickname ?? $user->username }}"
-                    class="profile-img">
+        <div class="px-3 profile-header mb-5">
+            <img src="{{ $user->profilepic ? asset('storage/' . $user->profilepic) : asset('img/avatardefault.png') }}"
+                alt="{{ $user->nickname ?? $user->username }}"
+                class="profile-img">
 
-                <div class="profile-info">
-                    <h1 class="user-name">{{ $user->nickname ?? $user->username }}</h1>
-
-                    <p class="user-role">{{ $user->description ?? 'Belum ada deskripsi.' }}</p>
-                </div>
+            <div class="profile-info">
+                <h1 class="user-name">{{ $user->nickname ?? $user->username }}</h1>
+                <p class="user-role">{{ $user->description ?? 'Belum ada deskripsi.' }}</p>
             </div>
+        </div>
 
         <div class="profile-menu-list">
             <a href="/profile/edit" class="menu-item top-rounded">
@@ -86,25 +91,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. Dapatkan elemen tombol konfirmasi logout
             const logoutButton = document.getElementById('confirmLogoutBtn');
-
-            // 2. Tentukan route atau URL tujuan
-            const logoutRoute = '/'; // ⬅️ GANTI DENGAN ROUTE LOGOUT ANDA YANG BENAR
-
             if (logoutButton) {
-                // 3. Tambahkan event listener untuk mendeteksi klik
                 logoutButton.addEventListener('click', function() {
-                    // 4. Lakukan redirect ke route logout
-                    window.location.href = logoutRoute;
-
-                    // Opsional: Jika Anda menggunakan framework seperti Laravel,
-                    // Anda mungkin perlu mengirim form POST request di sini.
-                    // Untuk redirect sederhana, window.location.href sudah cukup.
+                    // Submit the hidden logout form (POST + CSRF) to perform server-side logout
+                    const form = document.getElementById('logout-form');
+                    if (form) form.submit();
                 });
             }
         });
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

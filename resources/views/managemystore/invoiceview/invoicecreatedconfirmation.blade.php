@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Confirmation</title>
+    <title>Invoice Created Successfully</title>
     <style>
         * {
             margin: 0;
@@ -59,10 +59,12 @@
         }
 
         h1 {
-            font-size: 32px;
+            font-size: 28px;
             color: #7dd3fc;
             margin-bottom: 15px;
             animation: fadeIn 0.5s ease 0.2s both;
+            line-height: 1.4;
+            padding: 0 20px;
         }
 
         .timestamp {
@@ -110,7 +112,7 @@
             align-items: center;
             padding: 15px 0;
             border-bottom: 1px solid rgba(125, 211, 252, 0.2);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .ref-label {
@@ -136,17 +138,13 @@
             color: #7dd3fc;
             margin-bottom: 15px;
             font-weight: 600;
+            text-align: left;
         }
 
         .wallet-info {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 15px 0;
-        }
-
-        .wallet-info:first-child {
-            border-bottom: 1px solid rgba(125, 211, 252, 0.2);
         }
 
         .avatar {
@@ -159,6 +157,13 @@
             justify-content: center;
             font-size: 20px;
             flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .wallet-details {
@@ -214,8 +219,8 @@
             </svg>
         </div>
 
-        <h1>Invoice has been successfully paid!</h1>
-        {{-- <p class="timestamp">{{ $invoice->payments->first()->paymentDate->format('H:i, d F Y') }}</p> --}}
+        <h1>Invoice successfully made and has been sent to the store owner. We'll let you know once it's been paid!</h1>
+        <p class="timestamp">{{ $invoice->invoiceDate->format('H:i, d F Y') }}</p>
 
         <div class="details-card">
             <div class="amount-label">Total Amount</div>
@@ -223,17 +228,27 @@
 
             <div class="ref-number">
                 <span class="ref-label">Ref No.</span>
-                <span class="ref-value">#IS{{ str_pad($invoice->idInvoice, 4, '0', STR_PAD_LEFT) }}</span>
+                <span class="ref-value">#{{ $invoice->cart->store->storeName }}{{ str_pad($invoice->idInvoice, 4, '0', STR_PAD_LEFT) }}</span>
             </div>
 
             <div class="wallet-section">
-                <div class="wallet-title">Source Wallet</div>
+                <div class="wallet-title">Invoice Destination</div>
                 <div class="wallet-info">
-                    <div class="avatar">👤</div>
+                    <div class="avatar">
+                        @if($invoice->storeOwner->profilepic)
+                            <img src="{{ asset('storage/' . $invoice->storeOwner->profilepic) }}" alt="{{ $invoice->storeOwner->username }}">
+                        @else
+                            👤
+                        @endif
+                    </div>
                     <div class="wallet-details">
-                        <div class="wallet-name">{{ $invoice->storeOwner->username }}</div>
-                        <div class="wallet-provider">{{ $invoice->payments->first()->userPaymentType->paymentType->paymentName }}</div>
-                        <div class="wallet-number">{{ $invoice->payments->first()->userPaymentType->paymentDetails }}</div>
+                        <div class="wallet-name">{{ $invoice->storeOwner->username }} - Owner of {{ $invoice->cart->store->storeName }}</div>
+                        @if($invoice->storeOwner->userPaymentTypes->count() > 0)
+                            <div class="wallet-provider">{{ $invoice->storeOwner->userPaymentTypes->first()->paymentType->paymentName }}</div>
+                            <div class="wallet-number">{{ $invoice->storeOwner->userPaymentTypes->first()->paymentDetails }}</div>
+                        @else
+                            <div class="wallet-provider">{{ $invoice->storeOwner->email }}</div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -241,7 +256,13 @@
             <div class="wallet-section">
                 <div class="wallet-title">Receiving Wallet</div>
                 <div class="wallet-info">
-                    <div class="avatar">👤</div>
+                    <div class="avatar">
+                        @if($invoice->restocker->profilepic)
+                            <img src="{{ asset('storage/' . $invoice->restocker->profilepic) }}" alt="{{ $invoice->restocker->username }}">
+                        @else
+                            👤
+                        @endif
+                    </div>
                     <div class="wallet-details">
                         <div class="wallet-name">{{ $invoice->restocker->username }}</div>
                         @if($invoice->restocker->userPaymentTypes->count() > 0)
@@ -249,7 +270,7 @@
                             <div class="wallet-number">{{ $invoice->restocker->userPaymentTypes->first()->paymentDetails }}</div>
                         @else
                             <div class="wallet-provider">Payment Method</div>
-                            <div class="wallet-number">Payment received</div>
+                            <div class="wallet-number">Will receive payment</div>
                         @endif
                     </div>
                 </div>

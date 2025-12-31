@@ -91,8 +91,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/carts/{cart}/create-invoice', [InvoiceController::class, 'createInvoiceView'])->name('invoices.createInvoiceView');
     Route::post('/carts/{cart}/create-invoice', [InvoiceController::class, 'createInvoice'])->name('invoices.createInvoice');
     
-    // Pay invoice
-    Route::get('/invoices/{invoice}/pay', [InvoiceController::class, 'payInvoiceView'])->name('invoices.payInvoiceView');
+    // Invoice created confirmation
+    Route::get('/invoices/{invoice}/created', [InvoiceController::class, 'invoiceCreatedConfirmation'])->name('invoices.createdConfirmation');
+    
+    // Process payment (called directly from invoice detail)
     Route::post('/invoices/{invoice}/pay', [InvoiceController::class, 'processPayment'])->name('invoices.processPayment');
     
     // Payment confirmation
@@ -153,4 +155,6 @@ Route::middleware('auth')->group(function () {
 
     // TAMBAH: Rute POST untuk menyimpan payment method baru (untuk user yang sudah login)
     Route::post('/profile/paymentmethods/store', [UserController::class, 'storePaymentMethod'])->name('storePaymentMethod');
+    //logout
+     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 });
