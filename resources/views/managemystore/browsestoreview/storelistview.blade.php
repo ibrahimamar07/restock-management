@@ -183,7 +183,20 @@
             </a>
         </div>
     </div>
+        <div class="store-container">
+            @foreach($stores as $store)
+                <div class="store-card">
+                    <img src="{{ asset('storage/' . $store->image_path) }}" alt="Store Image">
+            
+                    <h3>{{ $store->name }}</h3>
+                    <p>{{ $store->location }}</p>
 
+                    <a href="{{ route('stores.show', $store->id) }}" class="btn-detail">
+                        View Detail
+                    </a>
+                </div>
+            @endforeach
+        </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

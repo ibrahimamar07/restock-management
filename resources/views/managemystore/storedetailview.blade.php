@@ -33,6 +33,20 @@
                 </div>
             </div>
             
+            <h1>{{ $store->name }}</h1>
+
+            <div class="items-list">
+                @foreach($store->items as $item)
+                    <div class="item-card">
+                        <h4>{{ $item->name }}</h4>
+                        <p>Stok Saat Ini: {{ $item->quantity }}</p>
+            
+                        <a href="{{ route('restock.create', $item->id) }}" class="btn-restock">
+                            Select to Restock
+                        </a>
+                </div>
+                @endforeach
+            </div>
             <h2 class="mt-4 mb-3" style="color: #5dd9e8;">Daftar Item</h2>
 
             @foreach($items as $item)

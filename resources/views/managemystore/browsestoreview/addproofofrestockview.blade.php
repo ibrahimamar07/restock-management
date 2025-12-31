@@ -164,6 +164,22 @@
             </button>
         </div>
 
+    <h2>Restock Item: {{ $item->name }}</h2>
+
+    <form action="{{ route('restock.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+    
+        <input type="hidden" name="item_id" value="{{ $item->id }}">
+
+        <label>Jumlah Restock:</label>
+        <input type="number" name="quantity" required>
+
+        <label>Upload Bukti (Gambar):</label>
+        <input type="file" name="proof_image" accept="image/*" required>
+
+        <button type="submit">Submit Proof</button>
+    </form>
+    
         <!-- Content -->
         <div class="content-container">
             <!-- Camera Preview / Uploaded Images -->

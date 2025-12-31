@@ -5,6 +5,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\restockController;
 
 // PUBLIC ROUTES (Guest Only - khusus tanpa login)
 
@@ -104,19 +105,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/invoices/{invoice}', [InvoiceController::class, 'cancelInvoice'])->name('invoices.cancel');
 
     // Felix Prajna Santoso - 5026231027
-    Route::get('/store/browse', function () {
-        return view('managemystore.browsestoreview.storelistview');
-    });
-    Route::get('/store/browse', function () {
-        return view('managemystore.browsestoreview.selectitemtorestockview');
-    });
-    Route::get('/store/browse', function () {
-        return view('managemystore.browsestoreview.landingpageview');
-    });
-    Route::get('/store/browse', function () {
-        return view('managemystore.browsestoreview.addproofofrestockview');
-    });
-
     Route::get('/new-profile', function () {
         return view('Main.create_profile');
     });
@@ -128,6 +116,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/payment-number', function () {
         return view('Main.payment_number');
     });
+
+    // 1. Halaman List Toko
+    Route::get('/stores', [storeController::class, 'index'])->name('stores.index');
+
+    // 2. Halaman Detail Toko (Menampilkan Item)
+    Route::get('/stores/{id}', [storeController::class, 'show'])->name('stores.show');
+
+    // 3. Halaman Pilih Item/Form Upload Bukti (Tergantung alur Anda, ini asumsi langsung ke upload)
+    // Jika alurnya: Pilih Item -> Masuk ke Halaman Upload
+    Route::get('/restock/create/{itemId}', [restockController::class, 'create'])->name('restock.create');
+
+    // 4. Proses Simpan Data & Upload Gambar (Action dari Form)
+    Route::post('/restock/store', [restockController::class, 'store'])->name('restock.store');
+
 
     //Komang Alit Pujangga - 5026231115
     Route::get('/profile', [UserController::class, 'manageprofile'])->name('profile');
