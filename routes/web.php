@@ -105,17 +105,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/invoices/{invoice}', [InvoiceController::class, 'cancelInvoice'])->name('invoices.cancel');
 
     // Felix Prajna Santoso - 5026231027
-    Route::get('/new-profile', function () {
-        return view('Main.create_profile');
-    });
-
-    Route::get('/new-method', function () {
-        return view('Main.create_payment_method');
-    });
-
-    Route::get('/payment-number', function () {
-        return view('Main.payment_number');
-    });
 
     // 1. Halaman List Toko
     Route::get('/stores', [storeController::class, 'index'])->name('stores.index');

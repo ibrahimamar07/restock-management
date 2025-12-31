@@ -53,7 +53,7 @@
 
     <p class="text-center register-text">
       Already have an account?
-      <a href="/login">Login</a>
+      <a href="/">Login</a>
     </p>
 
   </div>
