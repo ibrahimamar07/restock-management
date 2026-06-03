@@ -36,6 +36,11 @@ COPY docker/nginx.conf /etc/nginx/sites-available/default
 # Copy supervisor config
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+RUN php artisan config:clear
+RUN php artisan route:clear
+RUN php artisan view:clear
+RUN php artisan cache:clear
+
 EXPOSE 80
 
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
