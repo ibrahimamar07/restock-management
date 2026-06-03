@@ -52,7 +52,7 @@
 
     <p class="text-center register-text">
       Don’t have an account?
-      <a href="/register">Register</a>
+      <a href="/register">Register ppp</a>
     </p>
 
   </div>
