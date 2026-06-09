@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Invoice;
+use App\Models\Store;
+use App\Policies\InvoicePolicy;
+use App\Policies\StorePolicy;
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
