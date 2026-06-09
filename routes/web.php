@@ -17,24 +17,38 @@ use App\Http\Controllers\RestockSubmissionController;
 
 // --- PUBLIC ROUTES (Guest) ---
 Route::middleware('guest')->group(function () {
-    Route::get('/', function () { return view('Main.welcome'); })->name('login');
+    Route::get('/', function () {
+        return view('Main.welcome');
+    })->name('login');
     Route::post('/login', [UserController::class, 'login'])->name('login.store');
-    Route::get('/register', function () { return view('Main.register'); })->name('register');
+    Route::get('/register', function () {
+        return view('Main.register');
+    })->name('register');
     Route::post('/register', [UserController::class, 'newUser'])->name('newUser');
-    Route::get('/new-profile', function () { return view('Main.create_profile'); })->name('profile.create');
+    Route::get('/new-profile', function () {
+        return view('Main.create_profile');
+    })->name('profile.create');
     Route::post('/new-profile', [UserController::class, 'saveProfile'])->name('saveProfile');
-    Route::get('/new-method', function () { return view('Main.create_payment_method'); })->name('payment.method');
+    Route::get('/new-method', function () {
+        return view('Main.create_payment_method');
+    })->name('payment.method');
     Route::post('/new-method', [UserController::class, 'newUserPayment'])->name('savePayment');
-    Route::get('/payment-number', function () { return view('Main.payment_number'); })->name('payment.number');
+    Route::get('/payment-number', function () {
+        return view('Main.payment_number');
+    })->name('payment.number');
     Route::post('/finalize-registration', [UserController::class, 'finalizeRegistration'])->name('finalizeRegistration');
 });
 
 // --- PROTECTED ROUTES (Auth Required) ---
 Route::middleware('auth')->group(function () {
 
-    Route::get('/onboarding', function () { return view('Main.onboarding'); })->name('onboarding');
-    Route::get('/home', function () { return view('Main.home'); })->name('home');
-    
+    Route::get('/onboarding', function () {
+        return view('Main.onboarding');
+    })->name('onboarding');
+    Route::get('/home', function () {
+        return view('Main.home');
+    })->name('home');
+
     // List Toko
     Route::get('/stores/browse', [BrowseStoreController::class, 'index'])
         ->name('browse.index');
@@ -92,7 +106,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/paymentmethods/default', [UserController::class, 'setDefaultPaymentMethod'])->name('setDefaultPaymentMethod');
     Route::get('/profile/paymentmethods/new', [UserController::class, 'addNewPaymentView'])->name('addPaymentMethodView');
     Route::post('/profile/paymentmethods/store', [UserController::class, 'storePaymentMethod'])->name('storePaymentMethod');
-    
+
     // Logout
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 });

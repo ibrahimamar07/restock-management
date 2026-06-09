@@ -1,4 +1,5 @@
 <?php
+
 // app/Http/Controllers/InvoiceController.php
 // Nathaniel Lado Hadi Winata - 5026231019
 //ibrahim amar alfanani 5026231195
@@ -134,14 +135,13 @@ class InvoiceController extends Controller
 
              $cart->update([
                 'status' => 'converted_to_invoice',
-            ]);
+             ]);
 
             DB::commit();
 
             // Redirect to invoice created confirmation page
             return redirect()->route('invoices.createdConfirmation', $invoice->idInvoice)
                 ->with('success', 'Invoice created successfully!');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Failed to create invoice: ' . $e->getMessage());
@@ -232,7 +232,6 @@ class InvoiceController extends Controller
 
             return redirect()->route('invoices.paymentConfirmation', $invoice->idInvoice)
                 ->with('success', 'Payment successful!');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Payment failed: ' . $e->getMessage());
@@ -273,7 +272,6 @@ class InvoiceController extends Controller
 
             return redirect()->route('invoices.index')
                 ->with('success', 'Invoice cancelled successfully.');
-
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to cancel invoice: ' . $e->getMessage());
         }

@@ -1,4 +1,5 @@
 <?php
+
 // ibrahim amar alfanani 5026231195
 namespace App\Services;
 
@@ -18,8 +19,8 @@ class StoreImageService
     public function saveImage(UploadedFile $file): string
     {
         // 1. Buat nama file unik
-        $imageName = time() . '_' . uniqid() . '.' . $file->extension(); 
-        
+        $imageName = time() . '_' . uniqid() . '.' . $file->extension();
+
         // 2. Simpan file ke storage/app/public/storepic/
         $file->storeAs($this->folder, $imageName, $this->disk);
 
@@ -35,7 +36,7 @@ class StoreImageService
     {
         if ($imageName) {
             $path = $this->folder . '/' . $imageName;
-            
+
             // Cek apakah file ada sebelum menghapus untuk menghindari error
             if (Storage::disk($this->disk)->exists($path)) {
                 return Storage::disk($this->disk)->delete($path);

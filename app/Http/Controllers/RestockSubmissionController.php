@@ -10,7 +10,7 @@ class RestockSubmissionController extends Controller
     public function create($idItem)
     {
         $item = Item::where('idItem', $idItem)->firstOrFail();
-        
+
         // Pastikan nama view ini sesuai dengan file yang Anda punya
         return view('managemystore.browsestoreview.addproofofrestockview', compact('item'));
     }

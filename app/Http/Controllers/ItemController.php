@@ -1,4 +1,5 @@
 <?php
+
 // app/Http/Controllers/ItemController.php
 // ibrahim amar alfanani 5026231195
 
@@ -13,16 +14,15 @@ use App\Http\Requests\Item\ItemUpdateRequest;
 
 class ItemController extends Controller
 {
-
     /**
      * Tampilkan form tambah item dan daftar item (Daftar Item Toko).
      * @param Store $store Menggunakan Route Model Binding
      */
-    public function createItemView(Store $store) 
+    public function createItemView(Store $store)
     {
         // 1. Otorisasi: Pastikan pengguna yang login adalah pemilik toko ini.
         $this->authorize('manage', $store);
-        
+
         return view('managemystore.additemstoreview', compact('store'));
     }
 
@@ -37,7 +37,7 @@ class ItemController extends Controller
         $this->authorize('manage', $store);
 
         // 2. Validasi sudah dilakukan oleh ItemStoreRequest, gunakan validated()
-        
+
         // 3. Simpan Item menggunakan relasi store
         $store->items()->create($request->validated());
 
@@ -53,7 +53,7 @@ class ItemController extends Controller
     {
         // 1. Otorisasi: Pastikan pengguna yang login adalah pemilik toko dari item ini.
         // Item memiliki relasi ke Store, sehingga saya cek kepemilikan di Store.
-        $this->authorize('manage', $item->store); 
+        $this->authorize('manage', $item->store);
 
         // 2. Update data
         $item->update($request->validated());
@@ -69,8 +69,8 @@ class ItemController extends Controller
     public function deleteItem(Item $item)
     {
         // 1. Otorisasi: Pastikan pengguna yang login adalah pemilik toko dari item ini.
-        $this->authorize('manage', $item->store); 
-        
+        $this->authorize('manage', $item->store);
+
         $storeId = $item->idStore;
         $item->delete();
 

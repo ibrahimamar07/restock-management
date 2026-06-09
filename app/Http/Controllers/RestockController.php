@@ -41,7 +41,7 @@ class RestockController extends Controller
     {
         // Ambil data item agar user tahu apa yang mereka restock
         $item = Item::findOrFail($itemId);
-        
+
         return view('managemystore.browsestoreview.addproofofrestockview', compact('item'));
     }
 }

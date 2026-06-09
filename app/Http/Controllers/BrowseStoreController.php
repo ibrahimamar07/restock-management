@@ -16,7 +16,7 @@ class BrowseStoreController extends Controller
     public function show($idStore)
     {
         $store = Store::with('items')->where('idStore', $idStore)->firstOrFail();
-        
+
         // PERBAIKAN: Arahkan ke 'selectitemtorestockview'
         // Ini adalah halaman "Store Detail" di mana user memilih barang
         return view('managemystore.browsestoreview.selectitemtorestockview', compact('store'));

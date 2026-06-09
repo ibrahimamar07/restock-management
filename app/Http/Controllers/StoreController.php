@@ -1,4 +1,5 @@
 <?php
+
 // ibrahim amar alfanani 5026231195
 // app/Http/Controllers/StoreController.php
 
@@ -23,11 +24,11 @@ class StoreController extends Controller
     {
         $this->imageService = $imageService;
     }
-    
-   
+
+
     private function getUserId()
-    {  
-        return Auth::id();  
+    {
+        return Auth::id();
     }
 
     // Display list of user's stores
@@ -48,18 +49,18 @@ class StoreController extends Controller
      * Store new store (Validasi dipindah ke StoreStoreRequest)
      * @param StoreStoreRequest $request
      */
-    public function addStore(StoreRequest $request) 
+    public function addStore(StoreRequest $request)
     {
         // 1. Ambil semua data yang sudah divalidasi
-        $data = $request->validated(); 
+        $data = $request->validated();
 
         // 2. Proses Gambar menggunakan Service dan simpan nama file
         $imageName = $this->imageService->saveImage($request->file('storePic'));
-        
+
         // 3. Siapkan data untuk dimasukkan ke database dengan penyederhanaan
-        $data['idUser'] = $this->getUserId(); 
+        $data['idUser'] = $this->getUserId();
         $data['storePic'] = $imageName;
-        
+
         // 4. Simpan Data ke Database menggunakan array $data lengkap
         Store::create($data);
 
@@ -70,7 +71,7 @@ class StoreController extends Controller
      * Show specific store with items (Menggunakan Route Model Binding)
      * @param Store $store
      */
-    public function showStore(Store $store) 
+    public function showStore(Store $store)
     {
          $this->authorize('manage', $store);
          $items = $store->items()->paginate(10);
@@ -83,9 +84,9 @@ class StoreController extends Controller
      */
     public function editStoreView(Store $store)
     {
-        
+
         $this->authorize('manage', $store);
-        
+
         return view('managemystore.editstoreview', compact('store'));
     }
 
@@ -99,14 +100,13 @@ class StoreController extends Controller
          $this->authorize('manage', $store);
 
         $data = $request->validated();
-        $imageName = $store->storePic; 
+        $imageName = $store->storePic;
 
         // 2. Logika Pengunggahan dan Penghapusan Gambar Baru
         if ($request->hasFile('storePic')) {
-            
             // A. Proses Penghapusan Gambar Lama (Menggunakan Service)
-            $this->imageService->deleteImage($store->storePic); 
-            
+            $this->imageService->deleteImage($store->storePic);
+
             // B. Unggah Gambar Baru (Menggunakan Service)
             $imageName = $this->imageService->saveImage($request->file('storePic'));
         }
@@ -127,8 +127,8 @@ class StoreController extends Controller
     public function deleteStore(Store $store)
     {
         $this->authorize('manage', $store);
-        
-        // 2. Hapus Gambar  Sebelum Menghapus Record Database 
+
+        // 2. Hapus Gambar  Sebelum Menghapus Record Database
         $this->imageService->deleteImage($store->storePic);
 
         $store->delete();

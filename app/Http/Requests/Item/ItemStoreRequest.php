@@ -1,4 +1,5 @@
 <?php
+
 //ibrahim amar alfanani 5026231195
 namespace App\Http\Requests\Item;
 
@@ -9,7 +10,7 @@ class ItemStoreRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      *
-     * Autorisasinya akan kita tangani di Controller/Policy, 
+     * Autorisasinya akan kita tangani di Controller/Policy,
      * jadi kita kembalikan true di sini.
      */
     public function authorize(): bool
@@ -25,7 +26,7 @@ class ItemStoreRequest extends FormRequest
         return [
             'itemName' => 'required|string|max:255',
             // Gunakan numeric jika input adalah angka, atau replace dengan decimal jika perlu
-            'itemPrice' => 'required|integer|min:0' 
+            'itemPrice' => 'required|integer|min:0'
         ];
     }
 

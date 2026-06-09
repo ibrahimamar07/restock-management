@@ -1,4 +1,5 @@
 <?php
+
 // app/Http/Requests/Item/ItemUpdateRequest.php
 // ibrahim amar alfanani 5026231195
 
@@ -36,7 +37,7 @@ class ItemUpdateRequest extends FormRequest
             'itemName.required' => 'Nama Item wajib diisi.',
             'itemName.string' => 'Nama Item harus berupa teks.',
             'itemName.max' => 'Nama Item tidak boleh lebih dari 255 karakter.',
-            
+
             'itemPrice.required' => 'Harga Item wajib diisi.',
             'itemPrice.integer' => 'Harga Item harus berupa angka bulat.',
             'itemPrice.min' => 'Harga Item tidak boleh negatif.'
