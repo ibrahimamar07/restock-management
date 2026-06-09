@@ -1,14 +1,33 @@
-name: CI/CD Pipeline
+name: Staging Pipeline
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - develop
 
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, pdo_mysql, zip, gd
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run Laravel Pint
+        run: ./vendor/bin/pint --test
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -27,10 +46,13 @@ jobs:
       - name: Generate key
         run: php artisan key:generate
 
+      - name: Run tests
+        run: php artisan test
+
   build-and-push:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+
     steps:
       - uses: actions/checkout@v4
 
@@ -46,15 +68,17 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/restock-management:latest
-  deploy:
+          tags: "${{ secrets.ACR_LOGIN_SERVER }}/restock-management:staging"
+
+  deploy-staging:
     needs: build-and-push
     runs-on: ubuntu-latest
-    environment: production
+    environment: staging
+
     steps:
-      - name: Deploy to Azure App Service
+      - name: Deploy to Staging
         uses: azure/webapps-deploy@v3
         with:
-          app-name: restockmanagementapp
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: ${{ secrets.ACR_LOGIN_SERVER }}/restock-management:latest
+          app-name: "restockmanagementstaging"
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_STAGING }}
+          images: "${{ secrets.ACR_LOGIN_SERVER }}/restock-management:staging"

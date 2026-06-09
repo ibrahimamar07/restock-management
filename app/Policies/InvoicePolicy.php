@@ -1,6 +1,7 @@
 <?php
 
-//ibrahim amar alfanani 5026231195
+// ibrahim amar alfanani 5026231195
+
 namespace App\Policies;
 
 use App\Models\Invoice;

@@ -2,12 +2,12 @@
 
 // app/Http/Controllers/InvoiceController.php
 // Nathaniel Lado Hadi Winata - 5026231019
-//ibrahim amar alfanani 5026231195
+// ibrahim amar alfanani 5026231195
 
 namespace App\Http\Controllers;
 
-use App\Models\Invoice;
 use App\Models\Cart;
+use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\UserPaymentType;
 use Illuminate\Http\Request;
@@ -48,7 +48,6 @@ class InvoiceController extends Controller
 
     /**
      * Show specific invoice detail
-     * @param Invoice $invoice
      */
     public function show(Invoice $invoice)
     {
@@ -61,7 +60,7 @@ class InvoiceController extends Controller
             'cart.store',
             'restocker',
             'storeOwner',
-            'payments.userPaymentType.paymentType'
+            'payments.userPaymentType.paymentType',
         ]);
 
         // Determine if current user is the payer (store owner)
@@ -80,7 +79,6 @@ class InvoiceController extends Controller
 
     /**
      * Show form to create invoice from cart
-     * @param Cart $cart
      */
     public function createInvoiceView(Cart $cart)
     {
@@ -102,8 +100,6 @@ class InvoiceController extends Controller
 
     /**
      * Store new invoice from cart
-     * @param Request $request
-     * @param Cart $cart
      */
     public function createInvoice(Request $request, Cart $cart)
     {
@@ -133,9 +129,9 @@ class InvoiceController extends Controller
                 'status' => 'unpaid',
             ]);
 
-             $cart->update([
+            $cart->update([
                 'status' => 'converted_to_invoice',
-             ]);
+            ]);
 
             DB::commit();
 
@@ -144,13 +140,13 @@ class InvoiceController extends Controller
                 ->with('success', 'Invoice created successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Failed to create invoice: ' . $e->getMessage());
+
+            return redirect()->back()->with('error', 'Failed to create invoice: '.$e->getMessage());
         }
     }
 
     /**
      * Show invoice created confirmation page
-     * @param Invoice $invoice
      */
     public function invoiceCreatedConfirmation(Invoice $invoice)
     {
@@ -161,7 +157,7 @@ class InvoiceController extends Controller
         $invoice->load([
             'cart.store',
             'restocker.userPaymentTypes.paymentType',
-            'storeOwner.userPaymentTypes.paymentType'
+            'storeOwner.userPaymentTypes.paymentType',
         ]);
 
         return view('managemystore.invoiceview.invoicecreatedconfirmation', compact('invoice'));
@@ -169,7 +165,6 @@ class InvoiceController extends Controller
 
     /**
      * Show payment form for invoice
-     * @param Invoice $invoice
      */
     public function payInvoiceView(Invoice $invoice)
     {
@@ -189,8 +184,6 @@ class InvoiceController extends Controller
 
     /**
      * Process payment for invoice
-     * @param Request $request
-     * @param Invoice $invoice
      */
     public function processPayment(Request $request, Invoice $invoice)
     {
@@ -207,7 +200,7 @@ class InvoiceController extends Controller
             ->where('idUser', $this->getUserId())
             ->first();
 
-        if (!$userPaymentType) {
+        if (! $userPaymentType) {
             return redirect()->back()->with('error', 'Invalid payment method.');
         }
 
@@ -234,13 +227,13 @@ class InvoiceController extends Controller
                 ->with('success', 'Payment successful!');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Payment failed: ' . $e->getMessage());
+
+            return redirect()->back()->with('error', 'Payment failed: '.$e->getMessage());
         }
     }
 
     /**
      * Show payment confirmation page
-     * @param Invoice $invoice
      */
     public function paymentConfirmation(Invoice $invoice)
     {
@@ -252,7 +245,7 @@ class InvoiceController extends Controller
             'cart.cartItems.item',
             'payments.userPaymentType.paymentType',
             'restocker.userPaymentTypes.paymentType',
-            'storeOwner'
+            'storeOwner',
         ]);
 
         return view('managemystore.invoiceview.paymentconfirmation', compact('invoice'));
@@ -260,7 +253,6 @@ class InvoiceController extends Controller
 
     /**
      * Cancel invoice (only if unpaid)
-     * @param Invoice $invoice
      */
     public function cancelInvoice(Invoice $invoice)
     {
@@ -273,7 +265,7 @@ class InvoiceController extends Controller
             return redirect()->route('invoices.index')
                 ->with('success', 'Invoice cancelled successfully.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to cancel invoice: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to cancel invoice: '.$e->getMessage());
         }
     }
 }

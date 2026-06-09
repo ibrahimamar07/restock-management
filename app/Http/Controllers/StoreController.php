@@ -5,26 +5,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Store;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Store\StoreRequest;
 use App\Http\Requests\Store\UpdateRequest;
+use App\Models\Store;
 use App\Services\StoreImageService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StoreController extends Controller
 
-//kalau mau ubah controller ini lihat dulu validasi di StoreRequest dan UpdateRequest jangan tambah validasi langsung disini!!!
+    // kalau mau ubah controller ini lihat dulu validasi di StoreRequest dan UpdateRequest jangan tambah validasi langsung disini!!!
 {
     protected $imageService;
 
-    //Dependency Injection
+    // Dependency Injection
     public function __construct(StoreImageService $imageService)
     {
         $this->imageService = $imageService;
     }
-
 
     private function getUserId()
     {
@@ -36,6 +34,7 @@ class StoreController extends Controller
     {
         $userId = $this->getUserId();
         $stores = Store::where('idUser', $userId)->paginate(10);
+
         return view('managemystore.mystoreview', compact('stores'));
     }
 
@@ -47,7 +46,8 @@ class StoreController extends Controller
 
     /**
      * Store new store (Validasi dipindah ke StoreStoreRequest)
-     * @param StoreStoreRequest $request
+     *
+     * @param  StoreStoreRequest  $request
      */
     public function addStore(StoreRequest $request)
     {
@@ -69,18 +69,17 @@ class StoreController extends Controller
 
     /**
      * Show specific store with items (Menggunakan Route Model Binding)
-     * @param Store $store
      */
     public function showStore(Store $store)
     {
-         $this->authorize('manage', $store);
-         $items = $store->items()->paginate(10);
+        $this->authorize('manage', $store);
+        $items = $store->items()->paginate(10);
+
         return view('managemystore.storedetailview', compact('store', 'items'));
     }
 
     /**
      * Show edit store form (Menggunakan Route Model Binding)
-     * @param Store $store
      */
     public function editStoreView(Store $store)
     {
@@ -92,12 +91,12 @@ class StoreController extends Controller
 
     /**
      * Update store ( Route Model Binding dan Form Request)
-     * @param StoreUpdateRequest $request
-     * @param Store $store
+     *
+     * @param  StoreUpdateRequest  $request
      */
     public function updateStore(UpdateRequest $request, Store $store)
     {
-         $this->authorize('manage', $store);
+        $this->authorize('manage', $store);
 
         $data = $request->validated();
         $imageName = $store->storePic;
@@ -122,7 +121,6 @@ class StoreController extends Controller
 
     /**
      * Delete store (Menggunakan Route Model Binding)
-     * @param Store $store
      */
     public function deleteStore(Store $store)
     {

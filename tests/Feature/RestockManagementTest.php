@@ -96,10 +96,10 @@ class RestockManagementTest extends TestCase
             'reg_profilepic' => null,
             'reg_payment_type' => 3,
         ])
-        ->post('/finalize-registration', [
-            'payment_number' => 12345678,
-        ])
-        ->assertRedirect('/onboarding');
+            ->post('/finalize-registration', [
+                'payment_number' => 12345678,
+            ])
+            ->assertRedirect('/onboarding');
 
         $this->assertDatabaseHas('users', [
             'email' => 'charlie@example.com',

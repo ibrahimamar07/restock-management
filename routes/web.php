@@ -1,13 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StoreController;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\InvoiceController;
-// PENTING: Import Controller Baru
 use App\Http\Controllers\BrowseStoreController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\RestockSubmissionController;
+use App\Http\Controllers\StoreController;
+// PENTING: Import Controller Baru
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,7 +63,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/restock/submit', [RestockSubmissionController::class, 'store'])
         ->name('restock.store');
 
-
     Route::get('/stores', [StoreController::class, 'listStore'])->name('stores.listStore');
     Route::get('/stores/create', [StoreController::class, 'createStoreView'])->name('stores.createStoreView');
     Route::post('/stores', [StoreController::class, 'addStore'])->name('stores.addStore');
@@ -73,7 +72,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/stores/{store}/edit', [StoreController::class, 'editStoreView'])->name('stores.editStoreView');
     Route::put('/stores/{store}', [StoreController::class, 'updateStore'])->name('stores.updateStore');
     Route::delete('/stores/{store}', [StoreController::class, 'deleteStore'])->name('stores.deleteStore');
-
 
     // Item Routes
     Route::get('/stores/{store}/items/create', [ItemController::class, 'createItemView'])->name('items.createItemView');
@@ -94,9 +92,7 @@ Route::middleware('auth')->group(function () {
 
     // Duplicate/alternate routes removed — browse/restock routes consolidated above
 
-
-
-    //Komang Alit Pujangga - 5026231115
+    // Komang Alit Pujangga - 5026231115
     Route::get('/profile', [UserController::class, 'manageprofile'])->name('profile');
     Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('editProfile');
     Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('updateProfile');
