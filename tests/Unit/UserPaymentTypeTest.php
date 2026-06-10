@@ -2,11 +2,14 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\PaymentType;
-use App\Models\UserPaymentType;
+use App\Models\Cart;
+use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\PaymentType;
+use App\Models\Store;
+use App\Models\User;
+use App\Models\UserPaymentType;
+use Tests\TestCase;
 
 class UserPaymentTypeTest extends TestCase
 {
@@ -39,18 +42,18 @@ class UserPaymentTypeTest extends TestCase
             'password' => 'pw',
         ]);
 
-        $store = \App\Models\Store::create([
+        $store = Store::create([
             'idUser' => $owner->idUser,
             'storeName' => 'S2',
             'storeAddress' => 'Addr',
         ]);
 
-        $cart = \App\Models\Cart::create([
+        $cart = Cart::create([
             'idUser' => $restocker->idUser,
             'idStore' => $store->idStore,
         ]);
 
-        $invoice = \App\Models\Invoice::create([
+        $invoice = Invoice::create([
             'idCart' => $cart->idCart,
             'idRestocker' => $restocker->idUser,
             'idStoreOwner' => $owner->idUser,

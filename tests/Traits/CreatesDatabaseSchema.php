@@ -16,17 +16,19 @@ trait CreatesDatabaseSchema
 
         Schema::disableForeignKeyConstraints();
 
-        foreach ([
-            'payments',
-            'user_payment_types',
-            'payment_types',
-            'invoices',
-            'cart_items',
-            'carts',
-            'items',
-            'stores',
-            'users',
-        ] as $table) {
+        foreach (
+            [
+                'payments',
+                'user_payment_types',
+                'payment_types',
+                'invoices',
+                'cart_items',
+                'carts',
+                'items',
+                'stores',
+                'users',
+            ] as $table
+        ) {
             Schema::dropIfExists($table);
         }
 

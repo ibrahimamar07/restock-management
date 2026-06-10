@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Store;
+use App\Models\User;
+use Tests\TestCase;
 
 class ItemControllerTest extends TestCase
 {

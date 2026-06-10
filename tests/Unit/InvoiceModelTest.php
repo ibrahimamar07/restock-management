@@ -2,12 +2,15 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Store;
 use App\Models\Cart;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\PaymentType;
+use App\Models\Store;
+use App\Models\User;
+use App\Models\UserPaymentType;
+use Illuminate\Support\Carbon;
+use Tests\TestCase;
 
 class InvoiceModelTest extends TestCase
 {
@@ -45,10 +48,10 @@ class InvoiceModelTest extends TestCase
 
         $this->assertEquals('12.50', (string) $invoice->totalAmount);
         $invoice = $invoice->fresh();
-        $this->assertInstanceOf(\Illuminate\Support\Carbon::class, $invoice->invoiceDate);
+        $this->assertInstanceOf(Carbon::class, $invoice->invoiceDate);
 
-        $pt = \App\Models\PaymentType::create(['paymentName' => 'PTX']);
-        $upt = \App\Models\UserPaymentType::create([
+        $pt = PaymentType::create(['paymentName' => 'PTX']);
+        $upt = UserPaymentType::create([
             'idUser' => $restocker->idUser,
             'idPaymentType' => $pt->idPaymentType,
             'paymentDetails' => 'd',

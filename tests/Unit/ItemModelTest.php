@@ -2,15 +2,16 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use App\Models\Item;
 use App\Models\Store;
+use App\Models\User;
+use Tests\TestCase;
 
 class ItemModelTest extends TestCase
 {
     public function test_fillable_and_casts()
     {
-        $item = new Item();
+        $item = new Item;
 
         $expectedFillable = ['idStore', 'itemName', 'itemPrice'];
         $this->assertEqualsCanonicalizing($expectedFillable, $item->getFillable());
@@ -22,7 +23,7 @@ class ItemModelTest extends TestCase
 
     public function test_relationship_with_store_and_price_casting()
     {
-        $user = \App\Models\User::create([
+        $user = User::create([
             'email' => 'u@example.test',
             'username' => 'u1',
             'password' => 'secret',

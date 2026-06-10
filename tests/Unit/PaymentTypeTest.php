@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use App\Models\PaymentType;
 use App\Models\User;
 use App\Models\UserPaymentType;
+use Tests\TestCase;
 
 class PaymentTypeTest extends TestCase
 {

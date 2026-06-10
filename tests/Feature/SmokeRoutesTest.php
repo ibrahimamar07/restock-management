@@ -8,7 +8,7 @@ class SmokeRoutesTest extends TestCase
 {
     public function test_root_route_exists_in_routes_file()
     {
-        $routesPath = __DIR__ . '/../../routes/web.php';
+        $routesPath = __DIR__.'/../../routes/web.php';
         $this->assertFileExists($routesPath, 'routes/web.php must exist for the smoke test');
 
         $contents = file_get_contents($routesPath);

@@ -2,14 +2,17 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Store;
-use App\Models\Item;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Invoice;
+use App\Models\Item;
 use App\Models\Payment;
+use App\Models\PaymentType;
+use App\Models\Store;
+use App\Models\User;
+use App\Models\UserPaymentType;
+use Illuminate\Support\Carbon;
+use Tests\TestCase;
 
 class ModelBehaviorTest extends TestCase
 {
@@ -88,7 +91,7 @@ class ModelBehaviorTest extends TestCase
 
         $cart = $cart->fresh();
 
-        $this->assertInstanceOf(\Illuminate\Support\Carbon::class, $cart->cartDate);
+        $this->assertInstanceOf(Carbon::class, $cart->cartDate);
     }
 
     public function test_invoice_and_payment_default_statuses()
@@ -140,8 +143,8 @@ class ModelBehaviorTest extends TestCase
 
         $this->assertEquals('unpaid', $invoice->status);
 
-        $pt = \App\Models\PaymentType::create(['paymentName' => 'Cash']);
-        $upt = \App\Models\UserPaymentType::create([
+        $pt = PaymentType::create(['paymentName' => 'Cash']);
+        $upt = UserPaymentType::create([
             'idUser' => $restocker->idUser,
             'idPaymentType' => $pt->idPaymentType,
             'paymentDetails' => 'detail',

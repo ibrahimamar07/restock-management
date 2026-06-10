@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Store;
+use App\Models\User;
 use App\Policies\StorePolicy;
+use Tests\TestCase;
 
 class StorePolicyTest extends TestCase
 {
@@ -29,7 +29,7 @@ class StorePolicyTest extends TestCase
             'storeAddress' => 'Addr',
         ]);
 
-        $policy = new StorePolicy();
+        $policy = new StorePolicy;
 
         $this->assertTrue($policy->manage($owner, $store));
         $this->assertFalse($policy->manage($other, $store));
