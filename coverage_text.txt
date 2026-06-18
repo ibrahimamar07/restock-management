@@ -1,0 +1,80 @@
+﻿PHPUnit 10.5.63 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.2.12 with Xdebug 3.5.3
+Configuration: C:\xampp\htdocs\restock-management\phpunit.xml
+
+........................................................          56 / 56 (100%)
+
+Time: 00:13.467, Memory: 50.00 MB
+
+OK (56 tests, 187 assertions)
+
+
+Code Coverage Report:
+  2026-06-18 21:27:06
+
+ Summary:
+  Classes: 50.00% (18/36)
+  Methods: 65.87% (83/126)
+  Lines:   68.87% (458/665)
+
+App\Console\Kernel
+  Methods:  50.00% ( 1/ 2)   Lines:  66.67% (  2/  3)
+App\Exceptions\Handler
+  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  2/  2)
+App\Http\Controllers\BrowseStoreController
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  4/  4)
+App\Http\Controllers\InvoiceController
+  Methods:  50.00% ( 5/10)   Lines:  85.19% ( 92/108)
+App\Http\Controllers\ItemController
+  Methods: 100.00% ( 4/ 4)   Lines: 100.00% ( 12/ 12)
+App\Http\Controllers\RestockSubmissionController
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  3/  3)
+App\Http\Controllers\StoreController
+  Methods:  88.89% ( 8/ 9)   Lines:  93.33% ( 28/ 30)
+App\Http\Controllers\UserController
+  Methods:  37.50% ( 6/16)   Lines:  93.96% (171/182)
+App\Http\Middleware\RedirectIfAuthenticated
+  Methods:   0.00% ( 0/ 1)   Lines:  80.00% (  4/  5)
+App\Http\Requests\Item\ItemStoreRequest
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 11/ 11)
+App\Http\Requests\Item\ItemUpdateRequest
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 13/ 13)
+App\Http\Requests\Store\StoreRequest
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  7/  7)
+App\Http\Requests\Store\UpdateRequest
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 11/ 11)
+App\Models\Cart
+  Methods:  75.00% ( 3/ 4)   Lines:  75.00% (  3/  4)
+App\Models\CartItem
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  2/  2)
+App\Models\Invoice
+  Methods: 100.00% ( 4/ 4)   Lines: 100.00% (  4/  4)
+App\Models\Item
+  Methods:  50.00% ( 1/ 2)   Lines:  50.00% (  1/  2)
+App\Models\Payment
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  2/  2)
+App\Models\PaymentType
+  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  1/  1)
+App\Models\Store
+  Methods:  75.00% ( 3/ 4)   Lines:  38.46% (  5/ 13)
+App\Models\User
+  Methods:  83.33% ( 5/ 6)   Lines:  46.67% (  7/ 15)
+App\Models\UserPaymentType
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% (  3/  3)
+App\Policies\InvoicePolicy
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% (  7/  7)
+App\Policies\StorePolicy
+  Methods: 100.00% ( 8/ 8)   Lines: 100.00% (  8/  8)
+App\Providers\AppServiceProvider
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  3/  3)
+App\Providers\AuthServiceProvider
+  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  1/  1)
+App\Providers\EventServiceProvider
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  2/  2)
+App\Providers\RouteServiceProvider
+  Methods:   0.00% ( 0/ 1)   Lines:  90.00% (  9/ 10)
+App\Services\StoreImageService
+  Methods:  28.57% ( 2/ 7)   Lines:  36.96% ( 17/ 46)
+App\Services\SupabaseService
+  Methods:  12.50% ( 1/ 8)   Lines:  47.92% ( 23/ 48)
