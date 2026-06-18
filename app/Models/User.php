@@ -4,11 +4,11 @@
 
 namespace App\Models;
 
+use App\Services\SupabaseService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
-use App\Services\SupabaseService;
 
 class User extends Authenticatable
 {
@@ -73,6 +73,7 @@ class User extends Authenticatable
 
         if ($bucket) {
             $supabase = app(SupabaseService::class);
+
             return $supabase->getPublicUrl($bucket, $path);
         }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\UserPaymentType;
+use App\Services\StoreImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,9 +17,9 @@ class UserController extends Controller
     // Muhammad Kevin Checa Satrio - 5026221083
     protected $imageService;
 
-    public function __construct(\App\Services\StoreImageService $imageService = null)
+    public function __construct(?StoreImageService $imageService = null)
     {
-        $this->imageService = $imageService ?: app(\App\Services\StoreImageService::class);
+        $this->imageService = $imageService ?: app(StoreImageService::class);
     }
 
     public function newUser(Request $request)
@@ -258,7 +259,7 @@ class UserController extends Controller
             // Use imageService to save to Supabase or local storage and get stored path
             $stored = $this->imageService->saveImageToFolder($request->file('profilepic'), 'profile_pics');
             // saveImageToFolder returns basename; store as folder/basename for consistency
-            $user->profilepic = 'profile_pics/' . $stored;
+            $user->profilepic = 'profile_pics/'.$stored;
         }
 
         // 4. Update data lainnya

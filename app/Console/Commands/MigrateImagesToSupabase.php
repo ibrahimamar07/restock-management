@@ -2,16 +2,17 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\Store;
 use App\Models\User;
-use App\Services\SupabaseService;
 use App\Services\StoreImageService;
+use App\Services\SupabaseService;
 use GuzzleHttp\Client as HttpClient;
+use Illuminate\Console\Command;
 
 class MigrateImagesToSupabase extends Command
 {
     protected $signature = 'migrate:images-to-supabase {--dry-run}';
+
     protected $description = 'Migrate existing images (store & user) to Supabase Storage and update DB paths.';
 
     public function handle()
@@ -21,10 +22,11 @@ class MigrateImagesToSupabase extends Command
 
         if (! $bucket) {
             $this->error('SUPABASE_BUCKET not configured in environment.');
+
             return 1;
         }
 
-        $this->info('Starting migration to Supabase bucket: ' . $bucket);
+        $this->info('Starting migration to Supabase bucket: '.$bucket);
 
         $supabase = app(SupabaseService::class);
         $imageService = app(StoreImageService::class);
@@ -60,11 +62,12 @@ class MigrateImagesToSupabase extends Command
 
                 if (! $contents) {
                     $this->warn("Could not read contents for store {$store->idStore}: {$val}");
+
                     continue;
                 }
 
                 $basename = uniqid().'_'.basename($val);
-                $targetPath = 'storepic/' . $basename;
+                $targetPath = 'storepic/'.$basename;
 
                 $this->info("Uploading to {$targetPath}...");
                 if (! $dry) {
@@ -107,11 +110,12 @@ class MigrateImagesToSupabase extends Command
 
                 if (! $contents) {
                     $this->warn("Could not read contents for user {$user->idUser}: {$val}");
+
                     continue;
                 }
 
                 $basename = uniqid().'_'.basename($val);
-                $targetPath = 'profile_pics/' . date('Y/m/d') . '/' . $basename;
+                $targetPath = 'profile_pics/'.date('Y/m/d').'/'.$basename;
 
                 $this->info("Uploading to {$targetPath}...");
                 if (! $dry) {
@@ -129,6 +133,7 @@ class MigrateImagesToSupabase extends Command
         }
 
         $this->info('Migration completed.');
+
         return 0;
     }
 }

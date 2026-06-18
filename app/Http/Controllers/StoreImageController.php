@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\StoreImageService;
+use Illuminate\Http\Request;
 
 class StoreImageController extends Controller
 {
@@ -23,6 +23,7 @@ class StoreImageController extends Controller
     public function destroy($name, StoreImageService $svc)
     {
         $svc->deleteImage($name);
+
         return response()->noContent();
     }
 }

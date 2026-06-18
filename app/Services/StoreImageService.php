@@ -6,7 +6,6 @@ namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use App\Services\SupabaseService;
 
 class StoreImageService
 {
@@ -30,7 +29,7 @@ class StoreImageService
             return null;
         }
 
-        $path = $this->folder . '/' . $imageName;
+        $path = $this->folder.'/'.$imageName;
         $bucket = env('SUPABASE_BUCKET');
 
         if ($bucket) {
@@ -60,7 +59,7 @@ class StoreImageService
         $imageName = time().'_'.uniqid().'.'.$file->extension();
         $bucket = env('SUPABASE_BUCKET');
 
-        $path = trim($folder, '/') . '/' . $imageName;
+        $path = trim($folder, '/').'/'.$imageName;
 
         $contents = file_get_contents($file->getRealPath());
         $contentType = $file->getClientMimeType() ?? 'application/octet-stream';
@@ -85,7 +84,7 @@ class StoreImageService
     public function uploadContents(string $contents, string $folder, string $filename, string $contentType = 'application/octet-stream'): bool
     {
         $bucket = env('SUPABASE_BUCKET');
-        $path = trim($folder, '/') . '/' . ltrim($filename, '/');
+        $path = trim($folder, '/').'/'.ltrim($filename, '/');
 
         if ($bucket) {
             return $this->supabase->uploadFile($bucket, $path, $contents, $contentType);
@@ -93,6 +92,7 @@ class StoreImageService
 
         // Save to local storage
         Storage::disk($this->disk)->put($path, $contents);
+
         return true;
     }
 
@@ -110,7 +110,7 @@ class StoreImageService
         $contentType = Storage::disk($this->disk)->mimeType($storagePath) ?? 'application/octet-stream';
         $basename = uniqid().'_'.basename($storagePath);
         $targetFilename = $basename;
-        $targetPath = trim($folder, '/') . '/' . $targetFilename;
+        $targetPath = trim($folder, '/').'/'.$targetFilename;
 
         $ok = $this->uploadContents($contents, $folder, $targetFilename, $contentType);
 
@@ -133,7 +133,7 @@ class StoreImageService
     public function deleteImage(?string $imageName): bool
     {
         if ($imageName) {
-            $path = $this->folder . '/' . $imageName;
+            $path = $this->folder.'/'.$imageName;
 
             $bucket = env('SUPABASE_BUCKET');
             if ($bucket) {

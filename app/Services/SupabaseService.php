@@ -2,16 +2,20 @@
 
 namespace App\Services;
 
-use Supabase\CreateClient;
 use GuzzleHttp\Client as HttpClient;
 use Psr\Http\Message\ResponseInterface;
+use Supabase\CreateClient;
 
 class SupabaseService
 {
     private CreateClient $client;
+
     private HttpClient $http;
+
     private string $url;
+
     private ?string $serviceKey;
+
     private ?string $anonKey;
 
     public function __construct()
@@ -37,7 +41,7 @@ class SupabaseService
         $this->anonKey = env('SUPABASE_ANON_KEY');
 
         $this->http = new HttpClient([
-            'base_uri' => $this->url . '/storage/v1/',
+            'base_uri' => $this->url.'/storage/v1/',
             'headers' => [
                 'apikey' => $this->anonKey,
             ],
@@ -47,22 +51,16 @@ class SupabaseService
 
     /**
      * Upload a file to a Supabase Storage bucket.
-     *
-     * @param string $bucket
-     * @param string $path
-     * @param string $contents
-     * @param string $contentType
-     * @return bool
      */
     public function uploadFile(string $bucket, string $path, string $contents, string $contentType = 'application/octet-stream'): bool
     {
         $headers = [
-            'Authorization' => 'Bearer ' . ($this->serviceKey ?? ''),
+            'Authorization' => 'Bearer '.($this->serviceKey ?? ''),
             'Content-Type' => $contentType,
             'apikey' => $this->anonKey,
         ];
 
-        $response = $this->http->request('PUT', "object/{$bucket}/" . ltrim($path, '/'), [
+        $response = $this->http->request('PUT', "object/{$bucket}/".ltrim($path, '/'), [
             'headers' => $headers,
             'body' => $contents,
             'query' => ['upsert' => 'true'],
@@ -76,7 +74,7 @@ class SupabaseService
      */
     public function getPublicUrl(string $bucket, string $path): string
     {
-        return $this->url . '/storage/v1/object/public/' . $bucket . '/' . ltrim($path, '/');
+        return $this->url.'/storage/v1/object/public/'.$bucket.'/'.ltrim($path, '/');
     }
 
     /**
@@ -85,11 +83,11 @@ class SupabaseService
     public function deleteFile(string $bucket, string $path): bool
     {
         $headers = [
-            'Authorization' => 'Bearer ' . ($this->serviceKey ?? ''),
+            'Authorization' => 'Bearer '.($this->serviceKey ?? ''),
             'apikey' => $this->anonKey,
         ];
 
-        $response = $this->http->request('DELETE', "object/{$bucket}/" . ltrim($path, '/'), [
+        $response = $this->http->request('DELETE', "object/{$bucket}/".ltrim($path, '/'), [
             'headers' => $headers,
         ]);
 
@@ -99,6 +97,7 @@ class SupabaseService
     private function isSuccess(ResponseInterface $response): bool
     {
         $code = $response->getStatusCode();
+
         return $code >= 200 && $code < 300;
     }
 
