@@ -100,6 +100,22 @@
             @endif
         </div>
 
+        <!-- Add public note form -->
+        <div style="margin:20px;">
+            @if(session('status'))
+                <div class="alert alert-success">{{ session('status') }}</div>
+            @endif
+            <form method="POST" action="{{ route('notes.public') }}">
+                @csrf
+                <div>
+                    <textarea name="content" rows="3" style="width:100%; padding:10px; border-radius:8px;" placeholder="Tulis catatan publik di sini..."></textarea>
+                </div>
+                <div style="text-align:right; margin-top:8px;">
+                    <button class="btn btn-primary" type="submit">Tambahkan Catatan</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 </body>
 </html>

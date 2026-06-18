@@ -129,3 +129,6 @@ Route::get('/supabase-test', function (SupabaseService $supabase) {
         return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
 });
+
+// Public notes submission (anyone can post)
+Route::post('/notes/public', [NoteController::class, 'publicStore'])->name('notes.public');
