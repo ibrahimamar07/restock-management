@@ -16,7 +16,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
-          extensions: mbstring, pdo_mysql, zip, gd
+          extensions: mbstring, pdo_pgsql, zip, gd
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist
@@ -35,7 +35,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
-          extensions: mbstring, pdo_mysql, zip, gd
+          extensions: mbstring, pdo_pgsql, zip, gd
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist

@@ -106,3 +106,13 @@ Route::middleware('auth')->group(function () {
     // Logout
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 });
+
+    // Supabase quick test route (fill SUPABASE_ANON_KEY and SUPABASE_PROJECT_REF first)
+    Route::get('/supabase-test', function (\App\Services\SupabaseService $supabase) {
+        try {
+            $resp = $supabase->from('items')->select('*')->execute();
+            return response()->json(['status' => 'ok', 'data' => $resp->data, 'error' => $resp->error]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
+    });
