@@ -5,6 +5,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\RestockSubmissionController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\NoteController;
 // PENTING: Import Controller Baru
 use App\Http\Controllers\UserController;
 use App\Services\SupabaseService;
@@ -80,6 +81,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/items/{item}/edit', [ItemController::class, 'editItem'])->name('items.editItem');
     Route::put('/items/{item}', [ItemController::class, 'updateItem'])->name('items.updateItem');
     Route::delete('/items/{item}', [ItemController::class, 'deleteItem'])->name('items.deleteItem');
+
+    // Notes (catatan) per Item
+    Route::get('/items/{item}/notes', [NoteController::class, 'index'])->name('items.notes.index');
+    Route::post('/items/{item}/notes', [NoteController::class, 'store'])->name('items.notes.store');
+    Route::delete('/items/{item}/notes/{note}', [NoteController::class, 'destroy'])->name('items.notes.destroy');
 
     // Invoice Routes
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');

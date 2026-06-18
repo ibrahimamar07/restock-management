@@ -34,4 +34,9 @@ class Item extends Model
     {
         return $this->hasMany(CartItem::class, 'idItem', 'idItem');
     }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class, 'item_id', 'idItem');
+    }
 }
