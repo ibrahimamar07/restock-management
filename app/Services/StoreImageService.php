@@ -13,9 +13,9 @@ class StoreImageService
 
     protected $folder = 'storepic';
 
-    protected SupabaseService $supabase;
+    protected ?SupabaseService $supabase = null;
 
-    public function __construct(SupabaseService $supabase)
+    public function __construct(?SupabaseService $supabase = null)
     {
         $this->supabase = $supabase;
     }
@@ -32,7 +32,7 @@ class StoreImageService
         $path = $this->folder.'/'.$imageName;
         $bucket = env('SUPABASE_BUCKET');
 
-        if ($bucket) {
+        if ($bucket && $this->supabase) {
             return $this->supabase->getPublicUrl($bucket, $path);
         }
 
@@ -64,7 +64,7 @@ class StoreImageService
         $contents = file_get_contents($file->getRealPath());
         $contentType = $file->getClientMimeType() ?? 'application/octet-stream';
 
-        if ($bucket) {
+        if ($bucket && $this->supabase) {
             $ok = $this->supabase->uploadFile($bucket, $path, $contents, $contentType);
             if ($ok) {
                 return $imageName;
@@ -86,7 +86,7 @@ class StoreImageService
         $bucket = env('SUPABASE_BUCKET');
         $path = trim($folder, '/').'/'.ltrim($filename, '/');
 
-        if ($bucket) {
+        if ($bucket && $this->supabase) {
             return $this->supabase->uploadFile($bucket, $path, $contents, $contentType);
         }
 
@@ -136,7 +136,7 @@ class StoreImageService
             $path = $this->folder.'/'.$imageName;
 
             $bucket = env('SUPABASE_BUCKET');
-            if ($bucket) {
+            if ($bucket && $this->supabase) {
                 return $this->supabase->deleteFile($bucket, $path);
             }
 

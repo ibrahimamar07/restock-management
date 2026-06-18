@@ -20,7 +20,7 @@ class StorePolicy
 
     public function viewAny(User $user): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -28,7 +28,7 @@ class StorePolicy
      */
     public function view(User $user, Store $store): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -36,7 +36,7 @@ class StorePolicy
      */
     public function create(User $user): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -44,7 +44,7 @@ class StorePolicy
      */
     public function update(User $user, Store $store): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -52,7 +52,7 @@ class StorePolicy
      */
     public function delete(User $user, Store $store): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -60,7 +60,7 @@ class StorePolicy
      */
     public function restore(User $user, Store $store): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -68,6 +68,6 @@ class StorePolicy
      */
     public function forceDelete(User $user, Store $store): bool
     {
-        //
+        return false;
     }
 }
