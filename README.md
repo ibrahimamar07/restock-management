@@ -68,7 +68,7 @@ Mengembangkan perangkat lunak yang mampu:
 
 -   **Frontend:** HTML, CSS, Bootstrap, JavaScript
 -   **Backend:** PHP / Laravel
--   **Database:** MySQL
+-   **Database:** PostgreSQL
 -   **Version Control:** Git & GitHub
 -   **Tools:** XAMPP, VS Code, Figma
 
