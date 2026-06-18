@@ -117,6 +117,7 @@ trait CreatesDatabaseSchema
             $table->unsignedBigInteger('idUser');
             $table->unsignedBigInteger('idPaymentType');
             $table->text('paymentDetails')->nullable();
+            $table->boolean('is_default')->default(0);
             $table->timestamps();
             $table->foreign('idUser')->references('idUser')->on('users')->onDelete('cascade');
             $table->foreign('idPaymentType')->references('idPaymentType')->on('payment_types')->onDelete('cascade');

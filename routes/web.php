@@ -87,6 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/carts/{cart}/create-invoice', [InvoiceController::class, 'createInvoiceView'])->name('invoices.createInvoiceView');
     Route::post('/carts/{cart}/create-invoice', [InvoiceController::class, 'createInvoice'])->name('invoices.createInvoice');
     Route::get('/invoices/{invoice}/created', [InvoiceController::class, 'invoiceCreatedConfirmation'])->name('invoices.createdConfirmation');
+    Route::get('/invoices/{invoice}/pay', [InvoiceController::class, 'payInvoiceView'])->name('invoices.payInvoiceView');
     Route::post('/invoices/{invoice}/pay', [InvoiceController::class, 'processPayment'])->name('invoices.processPayment');
     Route::get('/invoices/{invoice}/confirmation', [InvoiceController::class, 'paymentConfirmation'])->name('invoices.paymentConfirmation');
     Route::delete('/invoices/{invoice}', [InvoiceController::class, 'cancelInvoice'])->name('invoices.cancel');
