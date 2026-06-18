@@ -1,12 +1,12 @@
 FROM php:8.2-fpm
 
-# Install system dependencies
+# Install system dependencies (Ditambahkan libpq-dev untuk PostgreSQL)
 RUN apt-get update && apt-get install -y \
     git curl libpng-dev libonig-dev libxml2-dev \
-    libzip-dev zip unzip nginx supervisor
+    libzip-dev zip unzip nginx supervisor libpq-dev
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif \
+# Install PHP extensions (Mengganti/menambahkan pdo_pgsql dan pgsql)
+RUN docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif \
     pcntl bcmath gd zip
 
 # Install Composer
