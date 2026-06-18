@@ -4,6 +4,7 @@ namespace App\Services;
 
 use GuzzleHttp\Client as HttpClient;
 use Psr\Http\Message\ResponseInterface;
+use Illuminate\Support\Facades\Log;
 use Supabase\CreateClient;
 
 class SupabaseService
@@ -54,10 +55,13 @@ class SupabaseService
      */
     public function uploadFile(string $bucket, string $path, string $contents, string $contentType = 'application/octet-stream'): bool
     {
+        // Prefer using service role key for server-side storage operations when available
+        $apikeyHeader = $this->serviceKey ?: $this->anonKey;
+
         $headers = [
             'Authorization' => 'Bearer '.($this->serviceKey ?? ''),
             'Content-Type' => $contentType,
-            'apikey' => $this->anonKey,
+            'apikey' => $apikeyHeader,
         ];
 
         $response = $this->http->request('PUT', "object/{$bucket}/".ltrim($path, '/'), [
@@ -66,7 +70,13 @@ class SupabaseService
             'query' => ['upsert' => 'true'],
         ]);
 
-        return $this->isSuccess($response);
+        if (! $this->isSuccess($response)) {
+            $body = (string) $response->getBody();
+            Log::error('Supabase upload failed', ['bucket' => $bucket, 'path' => $path, 'status' => $response->getStatusCode(), 'body' => $body]);
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -82,16 +92,24 @@ class SupabaseService
      */
     public function deleteFile(string $bucket, string $path): bool
     {
+        $apikeyHeader = $this->serviceKey ?: $this->anonKey;
+
         $headers = [
             'Authorization' => 'Bearer '.($this->serviceKey ?? ''),
-            'apikey' => $this->anonKey,
+            'apikey' => $apikeyHeader,
         ];
 
         $response = $this->http->request('DELETE', "object/{$bucket}/".ltrim($path, '/'), [
             'headers' => $headers,
         ]);
 
-        return $this->isSuccess($response);
+        if (! $this->isSuccess($response)) {
+            $body = (string) $response->getBody();
+            Log::error('Supabase delete failed', ['bucket' => $bucket, 'path' => $path, 'status' => $response->getStatusCode(), 'body' => $body]);
+            return false;
+        }
+
+        return true;
     }
 
     private function isSuccess(ResponseInterface $response): bool
