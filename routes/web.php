@@ -3,9 +3,9 @@
 use App\Http\Controllers\BrowseStoreController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\RestockSubmissionController;
 use App\Http\Controllers\StoreController;
-use App\Http\Controllers\NoteController;
 // PENTING: Import Controller Baru
 use App\Http\Controllers\UserController;
 use App\Services\SupabaseService;

@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use GuzzleHttp\Client as HttpClient;
-use Psr\Http\Message\ResponseInterface;
 use Illuminate\Support\Facades\Log;
+use Psr\Http\Message\ResponseInterface;
 use Supabase\CreateClient;
 
 class SupabaseService
@@ -73,6 +73,7 @@ class SupabaseService
         if (! $this->isSuccess($response)) {
             $body = (string) $response->getBody();
             Log::error('Supabase upload failed', ['bucket' => $bucket, 'path' => $path, 'status' => $response->getStatusCode(), 'body' => $body]);
+
             return false;
         }
 
@@ -106,6 +107,7 @@ class SupabaseService
         if (! $this->isSuccess($response)) {
             $body = (string) $response->getBody();
             Log::error('Supabase delete failed', ['bucket' => $bucket, 'path' => $path, 'status' => $response->getStatusCode(), 'body' => $body]);
+
             return false;
         }
 
