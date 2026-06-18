@@ -79,6 +79,27 @@
 
         </div>
 
+        <!-- Public Notes -->
+        <h2 class="section-title">Notes</h2>
+
+        <div class="activities">
+            @if(isset($notes) && $notes->count())
+                @foreach($notes as $note)
+                    <div class="activity-row">
+                        <span>
+                            <strong>{{ optional($note->user)->nickname ?? optional($note->user)->username ?? 'User' }}</strong>
+                            on <em>{{ optional($note->item)->itemName ?? 'Item' }}</em>: {{ Str::limit($note->content, 120) }}
+                        </span>
+                        <span class="time">{{ $note->created_at->format('H:i d/m/Y') }}</span>
+                    </div>
+                @endforeach
+            @else
+                <div class="activity-row">
+                    <span>No notes yet.</span>
+                </div>
+            @endif
+        </div>
+
     </div>
 </body>
 </html>

@@ -47,8 +47,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/onboarding', function () {
         return view('Main.onboarding');
     })->name('onboarding');
+    use App\Models\Note;
+
     Route::get('/home', function () {
-        return view('Main.home');
+        $notes = Note::with('item', 'user')->latest()->take(5)->get();
+        return view('Main.home', compact('notes'));
     })->name('home');
 
     // List Toko
