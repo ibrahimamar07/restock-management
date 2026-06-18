@@ -13,7 +13,7 @@ class StoreImageServiceTest extends TestCase
     {
         Storage::fake('public');
 
-        $service = new StoreImageService();
+        $service = new StoreImageService;
         $file = UploadedFile::fake()->image('store.jpg');
 
         $fileName = $service->saveImage($file);
@@ -29,7 +29,7 @@ class StoreImageServiceTest extends TestCase
         $filename = 'existing.jpg';
         Storage::disk('public')->put('storepic/'.$filename, 'data');
 
-        $service = new StoreImageService();
+        $service = new StoreImageService;
         $result = $service->deleteImage($filename);
 
         $this->assertTrue($result);
@@ -40,7 +40,7 @@ class StoreImageServiceTest extends TestCase
     {
         Storage::fake('public');
 
-        $service = new StoreImageService();
+        $service = new StoreImageService;
         $result = $service->deleteImage('missing.jpg');
 
         $this->assertFalse($result);
@@ -50,7 +50,7 @@ class StoreImageServiceTest extends TestCase
     {
         Storage::fake('public');
 
-        $service = new StoreImageService();
+        $service = new StoreImageService;
         $result = $service->uploadContents('hello world', 'storepic', 'upload-test.txt', 'text/plain');
 
         $this->assertTrue($result);
@@ -62,7 +62,7 @@ class StoreImageServiceTest extends TestCase
         Storage::fake('public');
         Storage::disk('public')->put('temp/temp-file.txt', 'content');
 
-        $service = new StoreImageService();
+        $service = new StoreImageService;
         $storedPath = $service->moveFromStoragePath('temp/temp-file.txt', 'storepic', true);
 
         $this->assertStringContainsString('temp-file.txt', $storedPath);

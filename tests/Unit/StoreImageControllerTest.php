@@ -4,8 +4,8 @@ namespace Tests\Unit;
 
 use App\Http\Controllers\StoreImageController;
 use App\Services\StoreImageService;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class StoreImageControllerTest extends TestCase
@@ -17,10 +17,9 @@ class StoreImageControllerTest extends TestCase
         $request->files->set('image', $file);
         $request->setLaravelSession(session());
 
-        $service = new class extends StoreImageService {
-            public function __construct()
-            {
-            }
+        $service = new class extends StoreImageService
+        {
+            public function __construct() {}
 
             public function saveImage(UploadedFile $file): string
             {
@@ -33,7 +32,7 @@ class StoreImageControllerTest extends TestCase
             }
         };
 
-        $controller = new StoreImageController();
+        $controller = new StoreImageController;
         $response = $controller->store($request, $service);
 
         $this->assertSame(201, $response->getStatusCode());
@@ -43,10 +42,9 @@ class StoreImageControllerTest extends TestCase
 
     public function test_destroy_returns_no_content()
     {
-        $service = new class extends StoreImageService {
-            public function __construct()
-            {
-            }
+        $service = new class extends StoreImageService
+        {
+            public function __construct() {}
 
             public function deleteImage(?string $imageName): bool
             {
@@ -54,7 +52,7 @@ class StoreImageControllerTest extends TestCase
             }
         };
 
-        $controller = new StoreImageController();
+        $controller = new StoreImageController;
         $response = $controller->destroy('store.jpg', $service);
 
         $this->assertSame(204, $response->getStatusCode());

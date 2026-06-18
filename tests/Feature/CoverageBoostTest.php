@@ -6,8 +6,6 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Invoice;
 use App\Models\Item;
-use App\Models\Payment;
-use App\Models\PaymentType;
 use App\Models\Store;
 use App\Models\User;
 use App\Models\UserPaymentType;

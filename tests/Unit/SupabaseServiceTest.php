@@ -13,7 +13,7 @@ class SupabaseServiceTest extends TestCase
         putenv('SUPABASE_ANON_KEY=testkey');
         putenv('SUPABASE_PROJECT_REF=testref');
 
-        $service = new SupabaseService();
+        $service = new SupabaseService;
 
         $this->assertInstanceOf(SupabaseService::class, $service);
     }
@@ -25,7 +25,7 @@ class SupabaseServiceTest extends TestCase
         putenv('SUPABASE_PROJECT_REF=testref');
         putenv('SUPABASE_SERVICE_KEY=testservicekey');
 
-        $service = new SupabaseService();
+        $service = new SupabaseService;
 
         $publicUrl = $service->getPublicUrl('my-bucket', 'images/example.jpg');
 

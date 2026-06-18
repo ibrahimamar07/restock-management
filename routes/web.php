@@ -8,6 +8,7 @@ use App\Http\Controllers\RestockSubmissionController;
 use App\Http\Controllers\StoreController;
 // PENTING: Import Controller Baru
 use App\Http\Controllers\UserController;
+use App\Models\Note;
 use App\Services\SupabaseService;
 use Illuminate\Support\Facades\Route;
 
@@ -47,10 +48,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/onboarding', function () {
         return view('Main.onboarding');
     })->name('onboarding');
-    use App\Models\Note;
 
     Route::get('/home', function () {
         $notes = Note::with('item', 'user')->latest()->take(5)->get();
+
         return view('Main.home', compact('notes'));
     })->name('home');
 
