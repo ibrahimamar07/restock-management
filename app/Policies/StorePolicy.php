@@ -1,23 +1,23 @@
 <?php
 
 // ibrahim amar alfanani 5026231195
+
 namespace App\Policies;
 
 use App\Models\Store;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class StorePolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-
     public function manage(User $user, Store $store): bool
     {
         // Logika : Cek apakah ID pengguna yang terautentikasi sama dengan ID pemilik toko.
         return $user->idUser === $store->idUser;
     }
+
     public function viewAny(User $user): bool
     {
         //

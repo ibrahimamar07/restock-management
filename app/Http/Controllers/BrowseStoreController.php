@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Store;
-use Illuminate\Http\Request;
 
 class BrowseStoreController extends Controller
 {
     public function index()
     {
         $stores = Store::paginate(10);
+
         return view('managemystore.browsestoreview.storelistview', compact('stores'));
     }
 

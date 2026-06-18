@@ -24,7 +24,7 @@ class ItemUpdateRequest extends FormRequest
     {
         return [
             'itemName' => 'required|string|max:255',
-            'itemPrice' => 'required|numeric|min:0'
+            'itemPrice' => 'required|numeric|min:0',
         ];
     }
 
@@ -40,7 +40,7 @@ class ItemUpdateRequest extends FormRequest
 
             'itemPrice.required' => 'Harga Item wajib diisi.',
             'itemPrice.integer' => 'Harga Item harus berupa angka bulat.',
-            'itemPrice.min' => 'Harga Item tidak boleh negatif.'
+            'itemPrice.min' => 'Harga Item tidak boleh negatif.',
         ];
     }
 

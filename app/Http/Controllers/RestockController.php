@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use App\Models\Item;
 use Illuminate\Http\Request;
-use App\Models\Invoice;
 
 class RestockController extends Controller
 {

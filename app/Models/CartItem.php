@@ -1,6 +1,7 @@
 <?php
 
 // ibrahim amar alfanani 5026231195
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +12,7 @@ class CartItem extends Model
     use HasFactory;
 
     protected $table = 'cart_items';
+
     protected $primaryKey = 'idCartItem';
 
     protected $fillable = [

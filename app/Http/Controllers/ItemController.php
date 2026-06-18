@@ -5,18 +5,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Item\ItemStoreRequest;
+use App\Http\Requests\Item\ItemUpdateRequest;
 use App\Models\Item;
 use App\Models\Store;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Item\ItemStoreRequest;
-use App\Http\Requests\Item\ItemUpdateRequest;
 
 class ItemController extends Controller
 {
     /**
      * Tampilkan form tambah item dan daftar item (Daftar Item Toko).
-     * @param Store $store Menggunakan Route Model Binding
+     *
+     * @param  Store  $store  Menggunakan Route Model Binding
      */
     public function createItemView(Store $store)
     {
@@ -28,8 +28,9 @@ class ItemController extends Controller
 
     /**
      * Simpan item baru ke toko.
-     * @param ItemStoreRequest $request Menggunakan Form Request untuk validasi
-     * @param Store $store Menggunakan Route Model Binding
+     *
+     * @param  ItemStoreRequest  $request  Menggunakan Form Request untuk validasi
+     * @param  Store  $store  Menggunakan Route Model Binding
      */
     public function addItem(ItemStoreRequest $request, Store $store)
     {
@@ -46,8 +47,9 @@ class ItemController extends Controller
 
     /**
      * Update item yang sudah ada.
-     * @param ItemStoreRequest $request Menggunakan Form Request untuk validasi
-     * @param Item $item Menggunakan Route Model Binding
+     *
+     * @param  ItemStoreRequest  $request  Menggunakan Form Request untuk validasi
+     * @param  Item  $item  Menggunakan Route Model Binding
      */
     public function updateItem(ItemUpdateRequest $request, Item $item)
     {
@@ -64,7 +66,8 @@ class ItemController extends Controller
 
     /**
      * Hapus item.
-     * @param Item $item Menggunakan Route Model Binding
+     *
+     * @param  Item  $item  Menggunakan Route Model Binding
      */
     public function deleteItem(Item $item)
     {
