@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\UserPaymentType;
+use App\Services\StoreImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,13 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
     // Muhammad Kevin Checa Satrio - 5026221083
+    protected $imageService;
+
+    public function __construct(?StoreImageService $imageService = null)
+    {
+        $this->imageService = $imageService ?: app(StoreImageService::class);
+    }
+
     public function newUser(Request $request)
     {
         // Validate fields
@@ -142,11 +150,8 @@ class UserController extends Controller
             $finalProfilePath = null;
 
             if ($profilepic) {
-                $folder = 'profile_pics/'.date('Y/m/d');
-                $filename = uniqid().'_'.basename($profilepic);
-                $finalProfilePath = $folder.'/'.$filename;
-
-                Storage::disk('public')->move($profilepic, $finalProfilePath);
+                // Move temp profile pic into final location and upload to Supabase if configured
+                $finalProfilePath = $this->imageService->moveFromStoragePath($profilepic, 'profile_pics');
             }
 
             $user = User::create([
@@ -246,14 +251,15 @@ class UserController extends Controller
 
         // 3. Handle File Upload (Profile Picture)
         if ($request->hasFile('profilepic')) {
-            // Hapus foto lama jika ada
+            // Hapus foto lama jika ada (local)
             if ($user->profilepic && Storage::disk('public')->exists($user->profilepic)) {
                 Storage::disk('public')->delete($user->profilepic);
             }
 
-            // Simpan file baru ke folder 'profile_pics' di storage/app/public
-            $path = $request->file('profilepic')->store('profile_pics', 'public');
-            $user->profilepic = $path;
+            // Use imageService to save to Supabase or local storage and get stored path
+            $stored = $this->imageService->saveImageToFolder($request->file('profilepic'), 'profile_pics');
+            // saveImageToFolder returns basename; store as folder/basename for consistency
+            $user->profilepic = 'profile_pics/'.$stored;
         }
 
         // 4. Update data lainnya

@@ -45,4 +45,29 @@ class StoreImageServiceTest extends TestCase
 
         $this->assertFalse($result);
     }
+
+    public function test_upload_contents_saves_file_and_returns_true()
+    {
+        Storage::fake('public');
+
+        $service = new StoreImageService();
+        $result = $service->uploadContents('hello world', 'storepic', 'upload-test.txt', 'text/plain');
+
+        $this->assertTrue($result);
+        Storage::disk('public')->assertExists('storepic/upload-test.txt');
+    }
+
+    public function test_move_from_storage_path_moves_temp_file_to_destination()
+    {
+        Storage::fake('public');
+        Storage::disk('public')->put('temp/temp-file.txt', 'content');
+
+        $service = new StoreImageService();
+        $storedPath = $service->moveFromStoragePath('temp/temp-file.txt', 'storepic', true);
+
+        $this->assertStringContainsString('temp-file.txt', $storedPath);
+        $this->assertStringEndsWith('temp-file.txt', $storedPath);
+        Storage::disk('public')->assertMissing('temp/temp-file.txt');
+        Storage::disk('public')->assertExists('storepic/'.$storedPath);
+    }
 }

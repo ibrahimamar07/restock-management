@@ -24,7 +24,13 @@
             <div class="px-3 profile-edit-header mb-5">
                 <label for="profileImageInput" class="profile-img-container">
                     <img
-                        src="{{ $user->profilepic ? asset('storage/' . $user->profilepic) : asset('img/avatardefault.png') }}"
+                        @if($user->profile_pic_url)
+                            src="{{ $user->profile_pic_url }}"
+                        @elseif($user->profilepic)
+                            src="{{ asset('storage/' . $user->profilepic) }}"
+                        @else
+                            src="{{ asset('img/avatardefault.png') }}"
+                        @endif
                         alt="User Profile"
                         class="profile-img"
                         id="profileImagePreview"

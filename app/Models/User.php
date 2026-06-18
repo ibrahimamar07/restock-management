@@ -4,9 +4,11 @@
 
 namespace App\Models;
 
+use App\Services\SupabaseService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -53,5 +55,28 @@ class User extends Authenticatable
     public function storeOwnerInvoices()
     {
         return $this->hasMany(Invoice::class, 'idStoreOwner', 'idUser');
+    }
+
+    public function getProfilePicUrlAttribute()
+    {
+        if (! $this->profilepic) {
+            return null;
+        }
+
+        // If already a full URL (e.g., external or Azure), return it
+        if (preg_match('#^https?://#i', $this->profilepic)) {
+            return $this->profilepic;
+        }
+
+        $path = ltrim($this->profilepic, '/');
+        $bucket = env('SUPABASE_BUCKET');
+
+        if ($bucket) {
+            $supabase = app(SupabaseService::class);
+
+            return $supabase->getPublicUrl($bucket, $path);
+        }
+
+        return Storage::disk('public')->url($path);
     }
 }

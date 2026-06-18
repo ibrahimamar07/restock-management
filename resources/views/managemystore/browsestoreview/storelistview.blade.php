@@ -146,7 +146,11 @@
                     
                     <div class="store-logo">
                         @if($store->storePic)
-                            <img src="{{ asset('storage/' . $store->storePic) }}" alt="{{ $store->storeName }}">
+                            @if($store->store_pic_url)
+                                <img src="{{ $store->store_pic_url }}" alt="{{ $store->storeName }}">
+                            @elseif($store->storePic)
+                                <img src="{{ asset('storage/' . $store->storePic) }}" alt="{{ $store->storeName }}">
+                            @endif
                         @else
                             <i class="bi bi-shop" style="color: #1a7a8a;"></i>
                         @endif

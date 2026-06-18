@@ -25,7 +25,11 @@
             @endif
 
             <div class="store-header">
-                <img src="{{ asset('storage/storepic/' .$store->storePic) }}" alt="storepic" class="store-img">
+                @if($store->store_pic_url)
+                    <img src="{{ $store->store_pic_url }}" alt="storepic" class="store-img">
+                @elseif($store->storePic)
+                    <img src="{{ asset('storage/storepic/' .$store->storePic) }}" alt="storepic" class="store-img">
+                @endif
                 <div class="store-info">
                     <h1>{{ $store->storeName }}</h1>
                     <p><i class="bi bi-geo-alt-fill"></i> {{ $store->storeAddress }}</p>

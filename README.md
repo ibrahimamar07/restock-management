@@ -71,5 +71,12 @@ Mengembangkan perangkat lunak yang mampu:
 -   **Database:** PostgreSQL
 -   **Version Control:** Git & GitHub
 -   **Tools:** XAMPP, VS Code, Figma
+-   **Storage:** Supabase Storage (buckets) for user-uploaded images
+
+Environment variables for Supabase storage:
+
+- `SUPABASE_URL`, `SUPABASE_PROJECT_REF`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_KEY`, `SUPABASE_BUCKET`
+
+Make sure to set `SUPABASE_SERVICE_KEY` in your local `.env` or CI secrets (do not commit it).
 
 ---
