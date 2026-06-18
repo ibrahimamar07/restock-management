@@ -18,7 +18,13 @@
 
         <div class="header">
             <img
-                src="{{ $currentUser && $currentUser->profilepic ? asset('storage/' . $currentUser->profilepic) : asset('img/profile.jpg') }}"
+                @if($currentUser && $currentUser->profile_pic_url)
+                    src="{{ $currentUser->profile_pic_url }}"
+                @elseif($currentUser && $currentUser->profilepic)
+                    src="{{ asset('storage/' . $currentUser->profilepic) }}"
+                @else
+                    src="{{ asset('img/profile.jpg') }}"
+                @endif
                 class="avatar"
                 alt="Profile"
             >

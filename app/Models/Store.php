@@ -6,6 +6,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use App\Services\SupabaseService;
 
 class Store extends Model
 {
@@ -36,5 +38,28 @@ class Store extends Model
     public function carts()
     {
         return $this->hasMany(Cart::class, 'idStore', 'idStore');
+    }
+
+    public function getStorePicUrlAttribute()
+    {
+        if (! $this->storePic) {
+            return null;
+        }
+
+        // If the stored value is already a full URL (e.g., Azure blob URL), return it directly
+        if (preg_match('#^https?://#i', $this->storePic)) {
+            return $this->storePic;
+        }
+
+        // If the stored value already contains a path, use it as-is, otherwise prefix with storepic/
+        $path = strpos($this->storePic, '/') !== false ? ltrim($this->storePic, '/') : 'storepic/' . ltrim($this->storePic, '/');
+        $bucket = env('SUPABASE_BUCKET');
+
+        if ($bucket) {
+            $supabase = app(SupabaseService::class);
+            return $supabase->getPublicUrl($bucket, $path);
+        }
+
+        return Storage::disk('public')->url($path);
     }
 }

@@ -28,7 +28,11 @@
 
             @forelse($stores as $store)
             <a href="{{ route('stores.showStore', $store->idStore) }}" class="store-card">
-                <img src="{{ asset('storage/storepic/' .$store->storePic) }}" alt="Storepic" class="store-img">
+                @if($store->store_pic_url)
+                    <img src="{{ $store->store_pic_url }}" alt="Storepic" class="store-img">
+                @elseif($store->storePic)
+                    <img src="{{ asset('storage/storepic/' .$store->storePic) }}" alt="Storepic" class="store-img">
+                @endif
                 <div class="store-info flex-grow-1">
                     <h3>{{ $store->storeName }}</h3>
                     <p><i class="bi bi-geo-alt-fill"></i> {{ $store->storeAddress }}</p>

@@ -37,9 +37,13 @@
         @endif
 
         <div class="px-3 profile-header mb-5">
-            <img src="{{ $user->profilepic ? asset('storage/' . $user->profilepic) : asset('img/avatardefault.png') }}"
-                alt="{{ $user->nickname ?? $user->username }}"
-                class="profile-img">
+            @if($user->profile_pic_url)
+                <img src="{{ $user->profile_pic_url }}" alt="{{ $user->nickname ?? $user->username }}" class="profile-img">
+            @elseif($user->profilepic)
+                <img src="{{ asset('storage/' . $user->profilepic) }}" alt="{{ $user->nickname ?? $user->username }}" class="profile-img">
+            @else
+                <img src="{{ asset('img/avatardefault.png') }}" alt="{{ $user->nickname ?? $user->username }}" class="profile-img">
+            @endif
 
             <div class="profile-info">
                 <h1 class="user-name">{{ $user->nickname ?? $user->username }}</h1>

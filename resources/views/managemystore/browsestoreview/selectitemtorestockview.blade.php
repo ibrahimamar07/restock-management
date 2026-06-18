@@ -44,7 +44,9 @@
         </div>
 
         <div class="store-info-card">
-            @if($store->storePic)
+            @if($store->store_pic_url)
+                <img src="{{ $store->store_pic_url }}" alt="Logo" style="width:60px; height:60px; border-radius:50%; object-fit:cover; margin-bottom:10px;">
+            @elseif($store->storePic)
                 <img src="{{ asset('storage/' . $store->storePic) }}" alt="Logo" style="width:60px; height:60px; border-radius:50%; object-fit:cover; margin-bottom:10px;">
             @else
                 <i class="bi bi-shop" style="font-size: 40px; color: #1a7a8a;"></i>
