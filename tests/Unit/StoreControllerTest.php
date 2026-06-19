@@ -3,11 +3,12 @@
 namespace Tests\Unit;
 
 use App\Http\Controllers\StoreController;
+use App\Http\Requests\Store\StoreRequest;
+use App\Http\Requests\Store\UpdateRequest;
 use App\Models\Store;
 use App\Models\User;
 use App\Services\StoreImageService;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -30,10 +31,9 @@ class StoreControllerTest extends TestCase
 
         Auth::login($user);
 
-        $controller = new StoreController(new class extends StoreImageService {
-            public function __construct()
-            {
-            }
+        $controller = new StoreController(new class extends StoreImageService
+        {
+            public function __construct() {}
         });
 
         $response = $controller->listStore();
@@ -44,10 +44,9 @@ class StoreControllerTest extends TestCase
 
     public function test_create_store_view_returns_view()
     {
-        $controller = new StoreController(new class extends StoreImageService {
-            public function __construct()
-            {
-            }
+        $controller = new StoreController(new class extends StoreImageService
+        {
+            public function __construct() {}
         });
 
         $response = $controller->createStoreView();
@@ -68,10 +67,9 @@ class StoreControllerTest extends TestCase
         Auth::login($user);
 
         $file = UploadedFile::fake()->image('store.jpg');
-        $request = new class($file) extends \App\Http\Requests\Store\StoreRequest {
-            public function __construct(private UploadedFile $file)
-            {
-            }
+        $request = new class($file) extends StoreRequest
+        {
+            public function __construct(private UploadedFile $file) {}
 
             public function validated($key = null, $default = null)
             {
@@ -92,10 +90,9 @@ class StoreControllerTest extends TestCase
             }
         };
 
-        $controller = new StoreController(new class extends StoreImageService {
-            public function __construct()
-            {
-            }
+        $controller = new StoreController(new class extends StoreImageService
+        {
+            public function __construct() {}
 
             public function saveImage(UploadedFile $file): string
             {
@@ -128,10 +125,9 @@ class StoreControllerTest extends TestCase
 
         Auth::login($user);
 
-        $controller = new StoreController(new class extends StoreImageService {
-            public function __construct()
-            {
-            }
+        $controller = new StoreController(new class extends StoreImageService
+        {
+            public function __construct() {}
         });
 
         $showResponse = $controller->showStore($store);
@@ -158,7 +154,8 @@ class StoreControllerTest extends TestCase
 
         Auth::login($user);
 
-        $request = new class extends \App\Http\Requests\Store\UpdateRequest {
+        $request = new class extends UpdateRequest
+        {
             public function validated($key = null, $default = null)
             {
                 return [
@@ -173,10 +170,9 @@ class StoreControllerTest extends TestCase
             }
         };
 
-        $controller = new StoreController(new class extends StoreImageService {
-            public function __construct()
-            {
-            }
+        $controller = new StoreController(new class extends StoreImageService
+        {
+            public function __construct() {}
         });
 
         $response = $controller->updateStore($request, $store);
@@ -202,10 +198,9 @@ class StoreControllerTest extends TestCase
 
         Auth::login($user);
 
-        $controller = new StoreController(new class extends StoreImageService {
-            public function __construct()
-            {
-            }
+        $controller = new StoreController(new class extends StoreImageService
+        {
+            public function __construct() {}
 
             public function deleteImage(?string $imageName): bool
             {

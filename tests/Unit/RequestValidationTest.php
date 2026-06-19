@@ -12,7 +12,7 @@ class RequestValidationTest extends TestCase
 {
     public function test_item_store_request_rules_and_messages()
     {
-        $request = new ItemStoreRequest();
+        $request = new ItemStoreRequest;
 
         $rules = $request->rules();
         $this->assertArrayHasKey('itemName', $rules);
@@ -23,7 +23,7 @@ class RequestValidationTest extends TestCase
 
     public function test_item_update_request_rules_and_messages()
     {
-        $request = new ItemUpdateRequest();
+        $request = new ItemUpdateRequest;
 
         $rules = $request->rules();
         $this->assertSame('required|string|max:255', $rules['itemName']);
@@ -32,7 +32,7 @@ class RequestValidationTest extends TestCase
 
     public function test_store_request_requires_store_pic()
     {
-        $request = new StoreRequest();
+        $request = new StoreRequest;
 
         $rules = $request->rules();
         $this->assertStringContainsString('required', $rules['storePic']);
@@ -41,7 +41,7 @@ class RequestValidationTest extends TestCase
 
     public function test_store_update_request_allows_optional_store_pic()
     {
-        $request = new UpdateRequest();
+        $request = new UpdateRequest;
 
         $rules = $request->rules();
         $this->assertStringContainsString('nullable', $rules['storePic']);

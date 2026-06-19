@@ -4,14 +4,12 @@ namespace Tests\Unit;
 
 use App\Http\Controllers\UserController;
 use App\Models\PaymentType;
-use App\Models\Store;
 use App\Models\User;
 use App\Models\UserPaymentType;
 use App\Services\StoreImageService;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -27,7 +25,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->newUser($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -47,7 +45,7 @@ class UserControllerTest extends TestCase
         $request->files->set('profilepic', $file);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->saveProfile($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -67,17 +65,16 @@ class UserControllerTest extends TestCase
             'reg_payment_type' => 1,
         ]);
 
-        \App\Models\PaymentType::create(['paymentName' => 'Bank Transfer']);
+        PaymentType::create(['paymentName' => 'Bank Transfer']);
 
         $request = Request::create('/finalize-registration', 'POST', [
             'payment_number' => '12345678',
         ]);
         $request->setLaravelSession(session());
 
-        $service = new class extends StoreImageService {
-            public function __construct()
-            {
-            }
+        $service = new class extends StoreImageService
+        {
+            public function __construct() {}
 
             public function moveFromStoragePath(string $storagePath, string $folder, bool $returnBasename = false): string
             {
@@ -109,7 +106,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->login($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -123,7 +120,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->newUserPayment($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -145,7 +142,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->newUser($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -167,7 +164,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->newUser($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -182,7 +179,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->saveProfile($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -204,7 +201,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->login($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -213,7 +210,7 @@ class UserControllerTest extends TestCase
 
     public function test_change_password_view_redirects_when_not_authenticated()
     {
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->changePasswordView();
 
         $this->assertSame(302, $response->getStatusCode());
@@ -228,7 +225,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->updatePassword($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -236,7 +233,7 @@ class UserControllerTest extends TestCase
 
     public function test_payment_methods_view_redirects_when_not_authenticated()
     {
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->paymentMethodsView();
 
         $this->assertSame(302, $response->getStatusCode());
@@ -244,7 +241,7 @@ class UserControllerTest extends TestCase
 
     public function test_add_new_payment_view_redirects_when_not_authenticated()
     {
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->addNewPaymentView();
 
         $this->assertSame(302, $response->getStatusCode());
@@ -258,7 +255,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->storePaymentMethod($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -274,7 +271,7 @@ class UserControllerTest extends TestCase
 
         Auth::login($user);
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->manageprofile();
 
         $this->assertSame('manageprofile.profilepageview', $response->getName());
@@ -291,7 +288,7 @@ class UserControllerTest extends TestCase
 
         Auth::login($user);
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->editProfile();
 
         $this->assertSame('manageprofile.editprofileview', $response->getName());
@@ -318,10 +315,9 @@ class UserControllerTest extends TestCase
         $request->files->set('profilepic', $file);
         $request->setLaravelSession(session());
 
-        $service = new class extends StoreImageService {
-            public function __construct()
-            {
-            }
+        $service = new class extends StoreImageService
+        {
+            public function __construct() {}
 
             public function saveImageToFolder(UploadedFile $file, string $folder): string
             {
@@ -358,7 +354,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->updatePassword($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -382,7 +378,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->updatePassword($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -406,7 +402,7 @@ class UserControllerTest extends TestCase
 
         Auth::login($user);
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->paymentMethodsView();
 
         $this->assertSame('manageprofile.paymentmethodsmenuview', $response->getName());
@@ -442,7 +438,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->setDefaultPaymentMethod($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -460,7 +456,7 @@ class UserControllerTest extends TestCase
 
         Auth::login($user);
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->addNewPaymentView();
 
         $this->assertSame('manageprofile.newpaymentmethod', $response->getName());
@@ -484,7 +480,7 @@ class UserControllerTest extends TestCase
         ]);
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->storePaymentMethod($request);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -505,7 +501,7 @@ class UserControllerTest extends TestCase
 
         Auth::login($user);
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->changePasswordView();
 
         $this->assertSame('manageprofile.changepasswordview', $response->getName());
@@ -524,7 +520,7 @@ class UserControllerTest extends TestCase
         $request = Request::create('/logout', 'POST');
         $request->setLaravelSession(session());
 
-        $controller = new UserController();
+        $controller = new UserController;
         $response = $controller->logout($request);
 
         $this->assertSame(302, $response->getStatusCode());

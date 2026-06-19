@@ -72,6 +72,20 @@
             background-color: #218838;
             color: white;
         }
+        .btn-notes {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            margin-left: 8px;
+        }
+        .btn-notes:hover {
+            background-color: #0b5ed7;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -106,9 +120,14 @@
                             Stock: {{ $item->itemQuantity }} | Price: Rp{{ number_format($item->itemPrice, 0, ',', '.') }}
                         </p>
                     </div>
-                    <a href="{{ route('restock.create', $item->idItem) }}" class="btn-restock">
-                        Select
-                    </a>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <a href="{{ route('restock.create', $item->idItem) }}" class="btn-restock">
+                            Select
+                        </a>
+                        <a href="{{ route('items.notes.index', $item->idItem) }}" class="btn-notes">
+                            Notes
+                        </a>
+                    </div>
                 </div>
             @empty
                 <p class="text-center" style="margin-top: 20px;">No items found in this store.</p>

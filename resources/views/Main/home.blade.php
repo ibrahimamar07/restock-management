@@ -79,6 +79,43 @@
 
         </div>
 
+        <!-- Public Notes -->
+        <h2 class="section-title">Notes</h2>
+
+        <div class="activities">
+            @if(isset($notes) && $notes->count())
+                @foreach($notes as $note)
+                    <div class="activity-row">
+                        <span>
+                            <strong>{{ optional($note->user)->nickname ?? optional($note->user)->username ?? 'User' }}</strong>
+                            on <em>{{ optional($note->item)->itemName ?? 'Item' }}</em>: {{ Str::limit($note->content, 120) }}
+                        </span>
+                        <span class="time">{{ $note->created_at->format('H:i d/m/Y') }}</span>
+                    </div>
+                @endforeach
+            @else
+                <div class="activity-row">
+                    <span>No notes yet.</span>
+                </div>
+            @endif
+        </div>
+
+        <!-- Add public note form -->
+        <div style="margin:20px;">
+            @if(session('status'))
+                <div class="alert alert-success">{{ session('status') }}</div>
+            @endif
+            <form method="POST" action="{{ route('notes.public') }}">
+                @csrf
+                <div>
+                    <textarea name="content" rows="3" style="width:100%; padding:10px; border-radius:8px;" placeholder="Tulis catatan publik di sini..."></textarea>
+                </div>
+                <div style="text-align:right; margin-top:8px;">
+                    <button class="btn btn-primary" type="submit">Tambahkan Catatan</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 </body>
 </html>

@@ -29,7 +29,7 @@ class ItemControllerTest extends TestCase
 
         Auth::login($user);
 
-        $controller = new ItemController();
+        $controller = new ItemController;
         $response = $controller->createItemView($store);
 
         $this->assertSame('managemystore.additemstoreview', $response->getName());
@@ -51,7 +51,8 @@ class ItemControllerTest extends TestCase
 
         Auth::login($user);
 
-        $request = new class extends ItemStoreRequest {
+        $request = new class extends ItemStoreRequest
+        {
             public function validated($key = null, $default = null)
             {
                 return [
@@ -61,7 +62,7 @@ class ItemControllerTest extends TestCase
             }
         };
 
-        $controller = new ItemController();
+        $controller = new ItemController;
         $response = $controller->addItem($request, $store);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -90,7 +91,8 @@ class ItemControllerTest extends TestCase
 
         Auth::login($user);
 
-        $request = new class extends ItemUpdateRequest {
+        $request = new class extends ItemUpdateRequest
+        {
             public function validated($key = null, $default = null)
             {
                 return [
@@ -100,7 +102,7 @@ class ItemControllerTest extends TestCase
             }
         };
 
-        $controller = new ItemController();
+        $controller = new ItemController;
         $response = $controller->updateItem($request, $item);
 
         $this->assertSame(302, $response->getStatusCode());
@@ -129,7 +131,7 @@ class ItemControllerTest extends TestCase
 
         Auth::login($user);
 
-        $controller = new ItemController();
+        $controller = new ItemController;
         $response = $controller->deleteItem($item);
 
         $this->assertSame(302, $response->getStatusCode());

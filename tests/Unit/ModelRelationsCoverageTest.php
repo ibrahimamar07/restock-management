@@ -9,8 +9,8 @@ use App\Models\PaymentType;
 use App\Models\Store;
 use App\Models\User;
 use App\Models\UserPaymentType;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
+use Tests\TestCase;
 
 class ModelRelationsCoverageTest extends TestCase
 {

@@ -3,11 +3,12 @@
 use App\Http\Controllers\BrowseStoreController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\RestockSubmissionController;
 use App\Http\Controllers\StoreController;
-use App\Http\Controllers\NoteController;
 // PENTING: Import Controller Baru
 use App\Http\Controllers\UserController;
+use App\Models\Note;
 use App\Services\SupabaseService;
 use Illuminate\Support\Facades\Route;
 
@@ -47,8 +48,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/onboarding', function () {
         return view('Main.onboarding');
     })->name('onboarding');
+
     Route::get('/home', function () {
-        return view('Main.home');
+        $notes = Note::with('item', 'user')->latest()->take(5)->get();
+
+        return view('Main.home', compact('notes'));
     })->name('home');
 
     // List Toko
@@ -125,3 +129,6 @@ Route::get('/supabase-test', function (SupabaseService $supabase) {
         return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
 });
+
+// Public notes submission (anyone can post)
+Route::post('/notes/public', [NoteController::class, 'publicStore'])->name('notes.public');

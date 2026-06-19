@@ -8,7 +8,7 @@ use App\Models\Invoice;
 use App\Models\Item;
 use App\Models\Store;
 use App\Models\User;
-use App\Models\UserPaymentType;
+use App\Policies\StorePolicy;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -89,13 +89,13 @@ class StoreAndRestockCoverageTest extends TestCase
             'storePic' => null,
         ]);
 
-        $this->assertFalse((new \App\Policies\StorePolicy)->viewAny($owner));
-        $this->assertFalse((new \App\Policies\StorePolicy)->view($owner, $store));
-        $this->assertFalse((new \App\Policies\StorePolicy)->create($owner));
-        $this->assertFalse((new \App\Policies\StorePolicy)->update($owner, $store));
-        $this->assertFalse((new \App\Policies\StorePolicy)->delete($owner, $store));
-        $this->assertFalse((new \App\Policies\StorePolicy)->restore($owner, $store));
-        $this->assertFalse((new \App\Policies\StorePolicy)->forceDelete($owner, $store));
+        $this->assertFalse((new StorePolicy)->viewAny($owner));
+        $this->assertFalse((new StorePolicy)->view($owner, $store));
+        $this->assertFalse((new StorePolicy)->create($owner));
+        $this->assertFalse((new StorePolicy)->update($owner, $store));
+        $this->assertFalse((new StorePolicy)->delete($owner, $store));
+        $this->assertFalse((new StorePolicy)->restore($owner, $store));
+        $this->assertFalse((new StorePolicy)->forceDelete($owner, $store));
     }
 
     public function test_invoice_pay_view_redirects_when_unpaid()
