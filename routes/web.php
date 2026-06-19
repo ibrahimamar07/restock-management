@@ -49,15 +49,15 @@ Route::middleware('auth')->group(function () {
         return view('Main.onboarding');
     })->name('onboarding');
 
-    // Route::get('/home', function () {
-    //     $notes = Note::with('item', 'user')->latest()->take(5)->get();
-
-    //     return view('Main.home', compact('notes'));
-    // })->name('home');
-
     Route::get('/home', function () {
-        return view('Main.home');
+        $notes = Note::with('item', 'user')->latest()->take(5)->get();
+
+        return view('Main.home', compact('notes'));
     })->name('home');
+
+    // Route::get('/home', function () {
+    //     return view('Main.home');
+    // })->name('home');
     // List Toko
     Route::get('/stores/browse', [BrowseStoreController::class, 'index'])
         ->name('browse.index');
@@ -89,10 +89,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/items/{item}', [ItemController::class, 'updateItem'])->name('items.updateItem');
     Route::delete('/items/{item}', [ItemController::class, 'deleteItem'])->name('items.deleteItem');
 
-    // Notes (catatan) per Item
-    // Route::get('/items/{item}/notes', [NoteController::class, 'index'])->name('items.notes.index');
-    // Route::post('/items/{item}/notes', [NoteController::class, 'store'])->name('items.notes.store');
-    // Route::delete('/items/{item}/notes/{note}', [NoteController::class, 'destroy'])->name('items.notes.destroy');
+    // Notes //(catatan) per Item
+    Route::get('/items/{item}/notes', [NoteController::class, 'index'])->name('items.notes.index');
+    Route::post('/items/{item}/notes', [NoteController::class, 'store'])->name('items.notes.store');
+    Route::delete('/items/{item}/notes/{note}', [NoteController::class, 'destroy'])->name('items.notes.destroy');
 
     // Invoice Routes
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
@@ -134,4 +134,4 @@ Route::get('/supabase-test', function (SupabaseService $supabase) {
 });
 
 // Public notes submission (anyone can post)
-// Route::post('/notes/public', [NoteController::class, 'publicStore'])->name('notes.public');
+Route::post('/notes/public', [NoteController::class, 'publicStore'])->name('notes.public');
