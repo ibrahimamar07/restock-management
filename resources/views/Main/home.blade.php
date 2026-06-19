@@ -80,7 +80,7 @@
         </div>
 
         <!-- Public Notes -->
-        <h2 class="section-title">Notes</h2>
+        {{-- <h2 class="section-title">Notes</h2>
 
         <div class="activities">
             @if(isset($notes) && $notes->count())
@@ -114,7 +114,7 @@
                     <button class="btn btn-primary" type="submit">Tambahkan Catatan</button>
                 </div>
             </form>
-        </div>
+        </div> --}}
 
     </div>
 </body>
